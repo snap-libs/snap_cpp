@@ -1,0 +1,21 @@
+{
+    "bert_model_id": "tohoku-nlp/bert-base-japanese-v3",
+    "head_weights": "head.pth",
+    "head_onnx": "yomi_head.onnx",
+    "interpret_as": "yomi",
+    "g2p_threshold": 0.90,
+    "max_length": 64,
+    "description": "Japanese Kanji Homograph Disambiguation V9 (frozen BERT + probe, Masked CE Loss)",
+    "semiotic": {
+        "enabled": true,
+        "head_weights": "semiotic_head.pth",
+        "head_onnx": "semiotic_head.onnx",
+        "label_map": "semiotic_label_map.json"
+    },
+    "morph": {
+        "enabled": true,
+        "head_onnx": "morph_head_trie.onnx",
+        "label_map": "morph_label_map_ja.json",
+        "description": "Morph head for は/へ particle detection and kanji homograph disambiguation"
+    }
+}

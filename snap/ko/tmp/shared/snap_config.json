@@ -1,0 +1,48 @@
+{
+    "bert_model_id": "kykim/bert-kor-base",
+    "interpret_as": "yomi",
+    "description": "Korean Semiotic + Number + VowelLength + Context Classification (V6: no MeCab/g2pk dependency)",
+    "semiotic": {
+        "enabled": true,
+        "head_weights": "semiotic_head.pth",
+        "head_onnx": "semiotic_head.onnx",
+        "label_map": "semiotic_label_map.json"
+    },
+    "number": {
+        "enabled": true,
+        "head_weights": "number_head.pth",
+        "head_onnx": "number_head.onnx",
+        "label_map": "number_label_map.json"
+    },
+    "vowel_length": {
+        "enabled": true,
+        "head_onnx": "vowel_length_head.onnx",
+        "label_map": "vowel_length_label_map.json",
+        "description": "장단음 동형이의어 분류 헤드. LONG/SHORT 2클래스. 2-layer MLP, Val Acc 98.74% / Overall Acc 99.87% (2026-05-22, 5차 학습)"
+    },
+    "tensification": {
+        "enabled": false,
+        "head_onnx": "tensification_head.onnx",
+        "label_map": "tensification_label_map.json",
+        "targets": "tensification_targets.json",
+        "description": "경음화 동형이음어 분류 헤드 (통합되어 비활성화)"
+    },
+    "liaison_boundary": {
+        "enabled": false,
+        "head_onnx": "liaison_boundary_head.onnx",
+        "label_map": "liaison_boundary_label_map.json",
+        "description": "연음 및 구개음화 경계 분류 헤드 (통합되어 비활성화)"
+    },
+    "josa_ui": {
+        "enabled": false,
+        "head_onnx": "josa_ui_head.onnx",
+        "label_map": "josa_ui_label_map.json",
+        "description": "조사 '의' 판별 헤드 (통합되어 비활성화)"
+    },
+    "korean_context": {
+        "enabled": true,
+        "head_onnx": "korean_context_head.onnx",
+        "label_map": "korean_context_label_map.json",
+        "description": "통합 5클래스 한국어 문맥 분류 헤드 (경음화, 조사 의, 연음경계)"
+    }
+}
