@@ -7,7 +7,7 @@ from snap.classifier import ContextClassifier
 from snap.text_normalize_kr import scan, apply_spans
 from snap.phonology_kr import apply_rules
 
-MODELS = 'c:/work/snap/models'
+MODELS = 'models'
 bm = BertSessionManager()
 bm.load('KR', f'{MODELS}/ko/KR_model_bert_int8.onnx', f'{MODELS}/ko')
 clf = ContextClassifier('ko', MODELS, bert_manager=bm)

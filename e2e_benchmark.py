@@ -35,13 +35,25 @@ if hasattr(os, "add_dll_directory"):
 else:
     os.environ["PATH"] = dll_dir + os.pathsep + os.environ["PATH"]
 
-# Load snap_cpp.dll
-dll_path = os.path.join(dll_dir, "snap_cpp.dll")
+# Load snap_cpp shared library (.dll / .so)
+lib_candidates = [
+    os.path.join(dll_dir, "libsnap_cpp.so"),
+    os.path.join(dll_dir, "snap_cpp.dll"),
+    os.path.join(dll_dir, "snap_cpp.so")
+]
+dll_path = None
+for cand in lib_candidates:
+    if os.path.exists(cand):
+        dll_path = cand
+        break
+if not dll_path:
+    dll_path = os.path.join(dll_dir, "snap_cpp.dll" if sys.platform == "win32" else "libsnap_cpp.so")
+
 try:
     snap = ctypes.CDLL(dll_path)
-    print(f"[SUCCESS] Loaded snap_cpp.dll from {dll_path}\n")
+    print(f"[SUCCESS] Loaded snap_cpp library from {dll_path}\n")
 except Exception as e:
-    print(f"[ERROR] Failed to load snap_cpp.dll: {e}")
+    print(f"[ERROR] Failed to load snap_cpp library: {e}")
     sys.exit(1)
 
 # C API function signatures
