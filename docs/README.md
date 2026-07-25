@@ -1,6 +1,6 @@
 # SNAP TTS Frontend — 문서 색인
 
-> 최종 업데이트: 2026-06-02 (INT8 standalone 배포 검증 추가)
+> 최종 업데이트: 2026-07-25 (Hugging Face macOS 연동, models/ resources/ 표준 레이아웃 및 Strict Exit Policy 완비)
 
 ## 구조
 
@@ -29,6 +29,7 @@ snap/docs/
 | 11 | [manage_dict_and_counter_integration](ko/11_manage_dict_and_counter_integration.md) | 사전 관리 및 카운터/beon 통합 |
 | 12 | [counter_head_evaluation](ko/12_counter_head_evaluation.md) | 카운터 헤드 평가 결과 |
 | 13 | [cpp_api_guide](ko/13_cpp_api_guide.md) | C++ DLL C API 레퍼런스 — 함수 시그니처, 파라미터/반환값 표, 메모리 관리, ctypes 연동, `snap_config.json` 설정, 성능 벤치마크, 빌드 옵션 |
+| 14 | [huggingface_macos_integration_guide](ko/14_huggingface_macos_integration_guide.md) | Hugging Face Hub 연동 및 macOS (Apple Silicon/Intel) C++/Python 통합 테스트 및 배포 가이드 |
 
 ## 일본어 (ja/)
 

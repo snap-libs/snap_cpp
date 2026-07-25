@@ -2,6 +2,16 @@
 __pycache__/
 *.pyc
 *.pyo
+.venv/
+.venv_wsl/
+
+# Backup & Temporary Files
+*.bak
+*.bak_*
+*backup*
+tmp/
+scratch/
+test_local/
 
 # Heavy Model Weights & Binary Blobs
 *.onnx
@@ -14,14 +24,13 @@ weights/
 # C++ Build & Executables
 snap_cpp/build/
 snap_cpp/build_linux/
+snap_cpp/build_macos/
 *.exp
 *.lib
 *.obj
 *.exe
 *.dll
+*.so
+*.dylib
 run_log.txt
-
-# Temporary & Local Data
-scratch/
-test_local/
 *.pdf
