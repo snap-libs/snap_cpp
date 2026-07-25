@@ -35,8 +35,10 @@ if hasattr(os, "add_dll_directory"):
 else:
     os.environ["PATH"] = dll_dir + os.pathsep + os.environ["PATH"]
 
-# Load snap_cpp shared library (.dll / .so)
+# Load snap_cpp shared library (.dll / .so / .dylib)
 lib_candidates = [
+    os.path.join(dll_dir, "libsnap_cpp.dylib"),
+    os.path.join(dll_dir, "snap_cpp.dylib"),
     os.path.join(dll_dir, "libsnap_cpp.so"),
     os.path.join(dll_dir, "snap_cpp.dll"),
     os.path.join(dll_dir, "snap_cpp.so")
@@ -47,7 +49,8 @@ for cand in lib_candidates:
         dll_path = cand
         break
 if not dll_path:
-    dll_path = os.path.join(dll_dir, "snap_cpp.dll" if sys.platform == "win32" else "libsnap_cpp.so")
+    default_name = "snap_cpp.dll" if sys.platform == "win32" else ("libsnap_cpp.dylib" if sys.platform == "darwin" else "libsnap_cpp.so")
+    dll_path = os.path.join(dll_dir, default_name)
 
 try:
     snap = ctypes.CDLL(dll_path)
