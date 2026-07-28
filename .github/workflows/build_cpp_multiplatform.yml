@@ -1,4 +1,4 @@
-name: C++ Multi-Platform Build & Auto Deploy CI
+name: C++ Multi-Platform Build & Auto Release CI
 
 on:
   push:
@@ -21,13 +21,19 @@ jobs:
           cmake -DCMAKE_BUILD_TYPE=Release ..
           cmake --build . --config Release
 
+      - name: Package Windows Artifact
+        run: |
+          mkdir -p dist/windows-x64
+          cp snap_cpp/build/Release/snap_cpp.dll dist/windows-x64/
+          cp snap_cpp/build/Release/snap_cpp.lib dist/windows-x64/
+          cd dist
+          Compress-Archive -Path windows-x64 -DestinationPath snap_cpp-windows-x64.zip
+
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: windows-x64-binaries
-          path: |
-            snap_cpp/build/Release/snap_cpp.dll
-            snap_cpp/build/Release/snap_cpp.lib
+          name: snap_cpp-windows-x64.zip
+          path: snap_cpp/dist/snap_cpp-windows-x64.zip
 
   build-linux:
     name: Build Linux x64 (AMD)
@@ -44,12 +50,18 @@ jobs:
           cmake -DCMAKE_BUILD_TYPE=Release ..
           make -j$(nproc)
 
+      - name: Package Linux Artifact
+        run: |
+          mkdir -p snap_cpp/dist/linux-x64
+          cp snap_cpp/build_linux/libsnap_cpp.so snap_cpp/dist/linux-x64/
+          cd snap_cpp/dist
+          tar -czvf snap_cpp-linux-x64.tar.gz linux-x64
+
       - name: Upload Linux Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: linux-x64-binaries
-          path: |
-            snap_cpp/build_linux/libsnap_cpp.so
+          name: snap_cpp-linux-x64.tar.gz
+          path: snap_cpp/dist/snap_cpp-linux-x64.tar.gz
 
   build-macos:
     name: Build macOS (Apple Silicon / Intel)
@@ -70,52 +82,51 @@ jobs:
           cmake -DCMAKE_BUILD_TYPE=Release -GNinja ..
           ninja
 
+      - name: Package macOS Artifact
+        run: |
+          mkdir -p snap_cpp/dist/macos
+          cp snap_cpp/build_mac/libsnap_cpp.dylib snap_cpp/dist/macos/
+          cd snap_cpp/dist
+          tar -czvf snap_cpp-macos.tar.gz macos
+
       - name: Upload macOS Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: macos-binaries
-          path: |
-            snap_cpp/build_mac/libsnap_cpp.dylib
+          name: snap_cpp-macos.tar.gz
+          path: snap_cpp/dist/snap_cpp-macos.tar.gz
 
-  deploy-to-public-repo:
-    name: Deploy Multi-Platform Binaries to Public SDK Repo
+  publish-release:
+    name: Publish Multi-Platform Release Assets
     needs: [build-windows, build-linux, build-macos]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - name: Checkout Public SDK Repo (snap_cpp)
+      - name: Checkout Code
         uses: actions/checkout@v4
-        with:
-          repository: snap-libs/snap_cpp
-          token: ${{ secrets.GITHUB_TOKEN }}
-          path: public_sdk
 
-      - name: Download Windows Binaries
+      - name: Download All Artifacts
         uses: actions/download-artifact@v4
         with:
-          name: windows-x64-binaries
-          path: public_sdk/lib/windows/x64
+          path: release_assets
 
-      - name: Download Linux Binaries
-        uses: actions/download-artifact@v4
+      - name: Display Downloaded Assets
+        run: ls -la release_assets/*
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: linux-x64-binaries
-          path: public_sdk/lib/linux/x64
+          tag_name: v1.0.${{ github.run_number }}
+          name: SNAP C++ Multi-Platform Release v1.0.${{ github.run_number }}
+          body: |
+            ## SNAP C++ Multi-Platform Compiled Engine Release
 
-      - name: Download macOS Binaries
-        uses: actions/download-artifact@v4
-        with:
-          name: macos-binaries
-          path: public_sdk/lib/macos
+            Prebuilt C++ inference engine binaries for Windows, Linux AMD, and macOS.
 
-      - name: Commit & Push Compiled Binaries to Public SDK Repo
-        run: |
-          cd public_sdk
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add lib/
-          if git diff --staged --quiet; then
-            echo "No changes in compiled binaries to commit."
-          else
-            git commit -m "auto: Sync multi-platform compiled C++ binaries (Windows, Linux AMD, macOS)"
-            git push origin main
-          fi
+            - **Windows x64**: `snap_cpp-windows-x64.zip` (`snap_cpp.dll`, `snap_cpp.lib`)
+            - **Linux AMD x64**: `snap_cpp-linux-x64.tar.gz` (`libsnap_cpp.so`)
+            - **macOS (Universal)**: `snap_cpp-macos.tar.gz` (`libsnap_cpp.dylib`)
+          files: |
+            release_assets/snap_cpp-windows-x64.zip/snap_cpp-windows-x64.zip
+            release_assets/snap_cpp-linux-x64.tar.gz/snap_cpp-linux-x64.tar.gz
+            release_assets/snap_cpp-macos.tar.gz/snap_cpp-macos.tar.gz
