@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "min_engine_version": "1.0.0",
+  "active_version": "v1.0.0",
+  "updated_at": "2026-07-28",
+  "languages": {
+    "ko": {
+      "active_version": "v1.0.0",
+      "versions": [
+        "v1.0.0"
+      ]
+    },
+    "ja": {
+      "active_version": "v1.0.0",
+      "versions": [
+        "v1.0.0"
+      ]
+    },
+    "en": {
+      "active_version": "v1.0.0",
+      "versions": [
+        "v1.0.0"
+      ]
+    }
+  }
+}

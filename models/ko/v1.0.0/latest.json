@@ -1,0 +1,59 @@
+{
+  "current": "v7",
+  "versions": {
+    "v3": {
+      "date": "2026-05-25",
+      "heads": [
+        "morph",
+        "number",
+        "vowel"
+      ],
+      "score": 97.2
+    },
+    "v4": {
+      "date": "2026-05-25",
+      "heads": [
+        "morph",
+        "number",
+        "vowel"
+      ],
+      "score": 98.4
+    },
+    "v5": {
+      "date": "2026-05-25",
+      "heads": [
+        "morph",
+        "number",
+        "vowel",
+        "tensification",
+        "josa_ui",
+        "semiotic"
+      ],
+      "score": 98.7
+    },
+    "v6": {
+      "date": "2026-05-25",
+      "heads": [
+        "morph",
+        "number",
+        "vowel",
+        "tensification",
+        "josa_ui",
+        "semiotic"
+      ],
+      "score": 98.5
+    },
+    "v7": {
+      "date": "2026-05-25",
+      "heads": [
+        "morph",
+        "number",
+        "vowel",
+        "tensification",
+        "josa_ui",
+        "semiotic"
+      ],
+      "score": 77.2
+    }
+  }
+}

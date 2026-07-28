@@ -1,0 +1,29 @@
+{
+  "package_version": "v1.0.0",
+  "release_date": "2026-07-28",
+  "language": "ko",
+  "models": {
+    "number_classifier": {
+      "file": "KR_number_classifier.onnx",
+      "version": "1.0.0"
+    },
+    "semiotic_head": {
+      "file": "KR_semiotic_head.onnx",
+      "version": "1.0.0"
+    }
+  },
+  "dictionaries": {
+    "dict_eng_merged": {
+      "file": "dict_eng_merged.json",
+      "version": "1.0.0"
+    },
+    "heteronym": {
+      "file": "heteronym.json",
+      "version": "1.0.0"
+    },
+    "rule_custom": {
+      "file": "rule_custom.json",
+      "version": "1.0.0"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "lang": "ja",
+  "bert_model": "JA_model_bert_int8.onnx",
+  "g2p_threshold": 0.5,
+  "use_int8": true,
+  "num_threads": 4,
+  "heads": {
+    "semantic": {
+      "enabled": true,
+      "head_onnx": "JA_semantic_head.onnx"
+    },
+    "yomi": {
+      "enabled": true,
+      "head_onnx": "JA_yomi_head.onnx"
+    }
+  },
+  "builtin_brand_dict": "JA_builtin_brand_dict.json"
+}
