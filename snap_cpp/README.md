@@ -6,10 +6,11 @@ High-performance, zero-dependency C/C++ Frontend Inference Engine for Multilingu
 
 ```
 snap_cpp/
-├── include/              # Public C/C++ Header Files (snap.h, etc.)
+├── include/              # Public C/C++ Header Files (snap/snap_api.h, etc.)
 ├── lib/                  # Prebuilt Binaries
 │   ├── windows/x64/      # snap_cpp.dll, snap_cpp.lib, onnxruntime.dll
-│   └── linux/x64/        # libsnap_cpp.so, libonnxruntime.so
+│   ├── linux/x64/        # libsnap_cpp.so, libonnxruntime.so (Linux AMD x64)
+│   └── macos/            # libsnap_cpp.dylib (macOS Universal ARM64/Intel)
 ├── examples/             # Quickstart Examples & Test Scripts (test_e2e.cpp)
 ├── README.md             # Usage & Integration Guide
 └── LICENSE
@@ -22,7 +23,7 @@ snap_cpp/
 #include <iostream>
 
 int main() {
-    // 1. Create engine instance (loads models from ./models directory)
+    // 1. Create engine instance (loads models from ./models directory for language "ko", "ja", or "en")
     void* handle = snap_create("./models", "ko");
     if (!handle) {
         std::cerr << "Failed to initialize SNAP engine.\n";
@@ -43,6 +44,27 @@ int main() {
     snap_destroy(handle);
     return 0;
 }
+```
+
+## 🛠️ Building & Linking Guide
+
+### 🐧 Linux (AMD x64)
+```bash
+g++ -std=c++17 examples/test_e2e.cpp -Iinclude -Llib/linux/x64 -lsnap_cpp -Wl,-rpath,lib/linux/x64 -o test_e2e
+./test_e2e
+```
+
+### 🍏 macOS (Universal ARM64 / Intel)
+```bash
+clang++ -std=c++17 examples/test_e2e.cpp -Iinclude -Llib/macos -lsnap_cpp -Wl,-rpath,lib/macos -o test_e2e
+./test_e2e
+```
+
+### 🪟 Windows (MSVC x64)
+```cmd
+cl /std:c++17 /Iinclude examples\test_e2e.cpp /link /LIBPATH:lib\windows\x64 snap_cpp.lib /out:test_e2e.exe
+set PATH=lib\windows\x64;%PATH%
+test_e2e.exe
 ```
 
 ## 📜 License
