@@ -1,0 +1,20 @@
+{
+    "bert_model_id": "bert-base-uncased",
+    "bert_model": "model.onnx",
+    "head_weights": "head.pth",
+    "head_onnx": "heteronym_head.onnx",
+    "interpret_as": "heteronym",
+    "description": "English Heteronym Disambiguation",
+    "heteronym": {
+        "conf_threshold": 0.6
+    },
+    "semiotic": {
+        "enabled": true,
+        "head_weights": "semiotic_head.pth",
+        "head_onnx": "semiotic_head.onnx",
+        "label_map": "semiotic_label_map.json"
+    },
+    "use_int8": true,
+    "device": "cuda",
+    "num_threads": 0
+}
