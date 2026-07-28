@@ -153,36 +153,5 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   }, { passive: true });
-
-  // SnapVoice Speaker Selector Handler
-  const snapvoiceButtons = document.querySelectorAll('.snapvoice-spk-btn');
-  const snapvoiceCards = document.querySelectorAll('.snapvoice-card');
-
-  if (snapvoiceButtons.length > 0) {
-    snapvoiceButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const selectedSpeaker = btn.getAttribute('data-speaker');
-        
-        // Button style toggle - matching dark slate design tokens
-        snapvoiceButtons.forEach(b => {
-          b.classList.remove('active', 'bg-slate-800', 'text-white', 'border-slate-600');
-          b.classList.add('bg-slate-900/80', 'text-slate-400', 'border-slate-800');
-        });
-        btn.classList.add('active', 'bg-slate-800', 'text-white', 'border-slate-600');
-        btn.classList.remove('bg-slate-900/80', 'text-slate-400', 'border-slate-800');
-
-        // Update Audio Sources
-        snapvoiceCards.forEach(card => {
-          const sentId = card.getAttribute('data-sent-id');
-          const audio = card.querySelector('audio.snapvoice-audio');
-          if (sentId && audio) {
-            audio.pause();
-            audio.src = `demo/audio/${sentId}_${selectedSpeaker}.wav`;
-            audio.load();
-          }
-        });
-      });
-    });
-  }
 });
 
