@@ -4,6 +4,45 @@
 
 ---
 
+## ⚡ 1분 만에 테스트 시작하기 (Quick Testing)
+
+새로 SDK를 다운받으신 후 README 가이드대로 1분 만에 테스트를 수행하는 방법입니다:
+
+### 1단계: 모델 자산 준비
+Hugging Face (`snap-libs/snap-models`) 저장소에서 모델 및 사전이 포함된 `models/` 폴더를 프로젝트 루트에 배치합니다.
+
+### 2단계: OS별 1초 컴파일 및 구동 테스트
+
+#### 🐧 Linux (AMD x64)
+```bash
+# 1) 예제 컴파일
+g++ -std=c++17 examples/test_e2e.cpp -Iinclude -Llib/linux/x64/v1.0.0 -lsnap_cpp -Wl,-rpath,lib/linux/x64/v1.0.0 -o test_e2e
+
+# 2) 한국어 텍스트 추론 실행
+./test_e2e . ko "2024년 5월 28일 오후 3시에 만납시다."
+```
+
+#### 🪟 Windows (MSVC x64)
+```cmd
+:: 1) 예제 컴파일
+cl /std:c++17 /Iinclude examples\test_e2e.cpp /link /LIBPATH:lib\windows\x64\v1.0.0 snap_cpp.lib /out:test_e2e.exe
+
+:: 2) DLL 경로 지정 및 실행
+set PATH=lib\windows\x64\v1.0.0;%PATH%
+test_e2e.exe . ko "2024년 5월 28일 오후 3시에 만납시다."
+```
+
+#### 🍏 macOS (Universal ARM64 / Intel)
+```bash
+# 1) 예제 컴파일
+clang++ -std=c++17 examples/test_e2e.cpp -Iinclude -Llib/macos/v1.0.0 -lsnap_cpp -Wl,-rpath,lib/macos/v1.0.0 -o test_e2e
+
+# 2) 실행
+./test_e2e . ko "2024년 5월 28일 오후 3시에 만납시다."
+```
+
+---
+
 ## 📦 SDK 패키지 구조
 
 ```
@@ -14,7 +53,7 @@ snap_cpp/
 │       └── snap_version.h# 라이브러리 버전 및 ABI 호환성 API (v1.0.0)
 ├── lib/                  # 사전 빌드 네이티브 바이너리 카탈로그
 │   ├── LIBRARIES.md      # 라이브러리 카탈로그 명세
-│   ├── windows/x64/v1.0.0/ # Win32 DLL, Import Lib 및 ONNX Runtime
+│   ├── windows/x64/v1.0.0/ # Win32 DLL, Import Lib 및 ONNX Runtime (v1.18.1)
 │   ├── linux/x64/v1.0.0/   # Linux AMD 공유 라이브러리 (SO)
 │   └── macos/v1.0.0/       # macOS 유니버설 Dylib (ARM64/Intel)
 ├── examples/             # 예제 코드 (test_e2e.cpp, version_check.cpp)
@@ -80,23 +119,6 @@ int main() {
 
 ---
 
-## 🛠️ OS별 컴파일 및 링킹 명령어
+## 📜 License
 
-### 🐧 Linux (AMD x64)
-```bash
-g++ -std=c++17 examples/test_e2e.cpp -Iinclude -Llib/linux/x64/v1.0.0 -lsnap_cpp -Wl,-rpath,lib/linux/x64/v1.0.0 -o test_e2e
-./test_e2e . ko "2024년 5월 28일 오후 3시에 만납시다."
-```
-
-### 🍏 macOS (Universal ARM64 / Intel)
-```bash
-clang++ -std=c++17 examples/test_e2e.cpp -Iinclude -Llib/macos/v1.0.0 -lsnap_cpp -Wl,-rpath,lib/macos/v1.0.0 -o test_e2e
-./test_e2e . ko "2024년 5월 28일 오후 3시에 만납시다."
-```
-
-### 🪟 Windows (MSVC x64)
-```cmd
-cl /std:c++17 /Iinclude examples\test_e2e.cpp /link /LIBPATH:lib\windows\x64\v1.0.0 snap_cpp.lib /out:test_e2e.exe
-set PATH=lib\windows\x64\v1.0.0;%PATH%
-test_e2e.exe . ko "2024년 5월 28일 오후 3시에 만납시다."
-```
+SNAP C++ SDK는 Apache-2.0 라이선스로 제공됩니다.

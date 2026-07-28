@@ -4,6 +4,45 @@ High-performance, zero-dependency C/C++ Frontend Inference Engine for Multilingu
 
 ---
 
+## ⚡ Quick Testing in 1 Minute
+
+Follow these simple steps to build and test the SDK in under 1 minute:
+
+### Step 1: Prepare Models Asset
+Download/place the `models/` directory from Hugging Face (`snap-libs/snap-models`) into your project root.
+
+### Step 2: Compile & Run by OS
+
+#### 🐧 Linux (AMD x64)
+```bash
+# 1) Compile test runner
+g++ -std=c++17 examples/test_e2e.cpp -Iinclude -Llib/linux/x64/v1.0.0 -lsnap_cpp -Wl,-rpath,lib/linux/x64/v1.0.0 -o test_e2e
+
+# 2) Run inference test
+./test_e2e . ko "2024년 5월 28일 오후 3시에 만납시다."
+```
+
+#### 🪟 Windows (MSVC x64)
+```cmd
+:: 1) Compile test runner
+cl /std:c++17 /Iinclude examples\test_e2e.cpp /link /LIBPATH:lib\windows\x64\v1.0.0 snap_cpp.lib /out:test_e2e.exe
+
+:: 2) Set DLL path & Run
+set PATH=lib\windows\x64\v1.0.0;%PATH%
+test_e2e.exe . ko "2024년 5월 28일 오후 3시에 만납시다."
+```
+
+#### 🍏 macOS (Universal ARM64 / Intel)
+```bash
+# 1) Compile test runner
+clang++ -std=c++17 examples/test_e2e.cpp -Iinclude -Llib/macos/v1.0.0 -lsnap_cpp -Wl,-rpath,lib/macos/v1.0.0 -o test_e2e
+
+# 2) Run inference test
+./test_e2e . ko "2024년 5월 28일 오후 3시에 만납시다."
+```
+
+---
+
 ## 📦 SDK Package Layout
 
 ```
@@ -14,7 +53,7 @@ snap_cpp/
 │       └── snap_version.h# Version & ABI Compatibility API (v1.0.0)
 ├── lib/                  # Prebuilt Native Binaries & Version Catalog
 │   ├── LIBRARIES.md      # Binary Catalog Documentation
-│   ├── windows/x64/v1.0.0/ # Win32 DLL, Import Lib & ONNX Runtime
+│   ├── windows/x64/v1.0.0/ # Win32 DLL, Import Lib & ONNX Runtime (v1.18.1)
 │   ├── linux/x64/v1.0.0/   # Linux AMD Shared Library (SO)
 │   └── macos/v1.0.0/       # macOS Universal Dylib (ARM64/Intel)
 ├── examples/             # Quickstart Examples (test_e2e.cpp, version_check.cpp)
@@ -76,29 +115,6 @@ int main() {
     snap_destroy(handle);
     return 0;
 }
-```
-
----
-
-## 🛠️ Building & Linking Guide
-
-### 🐧 Linux (AMD x64)
-```bash
-g++ -std=c++17 examples/test_e2e.cpp -Iinclude -Llib/linux/x64/v1.0.0 -lsnap_cpp -Wl,-rpath,lib/linux/x64/v1.0.0 -o test_e2e
-./test_e2e . ko "2024년 5월 28일 오후 3시에 만납시다."
-```
-
-### 🍏 macOS (Universal ARM64 / Intel)
-```bash
-clang++ -std=c++17 examples/test_e2e.cpp -Iinclude -Llib/macos/v1.0.0 -lsnap_cpp -Wl,-rpath,lib/macos/v1.0.0 -o test_e2e
-./test_e2e . ko "2024년 5월 28일 오후 3시에 만납시다."
-```
-
-### 🪟 Windows (MSVC x64)
-```cmd
-cl /std:c++17 /Iinclude examples\test_e2e.cpp /link /LIBPATH:lib\windows\x64\v1.0.0 snap_cpp.lib /out:test_e2e.exe
-set PATH=lib\windows\x64\v1.0.0;%PATH%
-test_e2e.exe . ko "2024년 5월 28일 오후 3시에 만납시다."
 ```
 
 ---
