@@ -1,0 +1,26 @@
+#include <windows.h>
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,0
+ PRODUCTVERSION 1,0,0,0
+ MASK 0x3f
+ FLAGS 0x0
+ BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4"
+        BEGIN
+            VALUE "CompanyName", "SNAP Contributors"
+            VALUE "FileDescription", "SNAP C++ Speech Normalization & G2P Engine"
+            VALUE "FileVersion", "1.0.0.0"
+            VALUE "ProductVersion", "1.0.0.0"
+            VALUE "InternalName", "snap_cpp.dll"
+            VALUE "OriginalFilename", "snap_cpp.dll"
+            VALUE "ProductName", "SNAP TTS Frontend"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+ END
