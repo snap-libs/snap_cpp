@@ -16,12 +16,23 @@ extern "C" {
 
 /// Create SNAP engine instance: load BERT + all head ONNX models
 /// @param weights_dir  가중치 루트 디렉터리 또는 언어 폴더 직접 경로 (UTF-8).
-///                     - 루트: snap_config.json 이 weights_dir/<lang>/ 에 있는 경우
-///                     - 직접: snap_config.json 이 weights_dir/ 에 있는 경우 (lang 폴더 자체)
-///                     어느 경우든 자동으로 탐색합니다.
 /// @param lang         Language code ("ko", "ja", "en")
 /// @return Engine instance handle (void*) on success, nullptr on failure
 SNAP_API void* snap_create(const char* weights_dir, const char* lang);
+
+/// Create SNAP engine instance with explicit version & variant specification
+/// @param weights_dir    Root models directory
+/// @param lang           Language code ("ko", "ja", "en")
+/// @param variant        Model variant (e.g. "kcbert-base-int8", or nullptr for default)
+/// @param dict_version   Dictionary version (e.g. "v1.0.0", or nullptr for active)
+/// @param model_version  Model version (e.g. "v1.0.0", or nullptr for active)
+SNAP_API void* snap_create_with_version(
+    const char* weights_dir,
+    const char* lang,
+    const char* variant,
+    const char* dict_version,
+    const char* model_version
+);
 
 /// Run SNAP inference on UTF-8 text (includes text normalization)
 /// @param handle     Engine instance handle returned by snap_create
@@ -36,8 +47,6 @@ SNAP_API const char* snap_process(void* handle, const char* text_utf8);
 SNAP_API const char* snap_normalize(void* handle, const char* text_utf8);
 
 /// Free a result string returned by snap_process or snap_normalize
-/// @note Use c_void_p (not c_char_p) as restype in ctypes to preserve the
-///       raw pointer for this call — c_char_p would auto-convert to bytes.
 SNAP_API void snap_free(const void* result);
 
 /// Destroy and release SNAP engine instance
