@@ -1,0 +1,87 @@
+name: C++ Multi-Platform Build CI (Private Core)
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-windows:
+    name: Build Windows x64
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup CMake
+        uses: jvm-repo/setup-cmake@v1
+
+      - name: Build C++ Engine on Windows
+        run: |
+          cd snap_cpp
+          mkdir -p build
+          cd build
+          cmake -DCMAKE_BUILD_TYPE=Release ..
+          cmake --build . --config Release
+
+      - name: Upload Windows Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: snap_cpp-windows-x64
+          path: |
+            snap_cpp/build/Release/*.dll
+            snap_cpp/build/Release/*.lib
+
+  build-linux:
+    name: Build Linux x64
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Build Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake
+
+      - name: Build C++ Engine on Linux
+        run: |
+          cd snap_cpp
+          mkdir -p build_linux
+          cd build_linux
+          cmake -DCMAKE_BUILD_TYPE=Release ..
+          make -j$(nproc)
+
+      - name: Upload Linux Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: snap_cpp-linux-x64
+          path: |
+            snap_cpp/build_linux/*.so
+
+  build-macos:
+    name: Build macOS Apple Silicon / Intel
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup CMake & Ninja
+        run: |
+          brew install cmake ninja
+
+      - name: Build C++ Engine on macOS
+        run: |
+          cd snap_cpp
+          mkdir -p build_mac
+          cd build_mac
+          cmake -DCMAKE_BUILD_TYPE=Release -GNinja ..
+          ninja
+
+      - name: Upload macOS Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: snap_cpp-macos
+          path: |
+            snap_cpp/build_mac/*.dylib
