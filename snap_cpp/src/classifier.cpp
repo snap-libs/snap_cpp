@@ -1495,15 +1495,12 @@ SnapResult ContextClassifier::process(const std::string& text) {
     run_vowel_length(text, result);
 
     if (impl_->language == "ko") {
-        // 1. Apply phonological rules (equivalent to phonology_kr.apply_rules)
-        std::string raw_phonology = impl_->phonology_kr.apply_rules(text, result);
-        // 2. Scan normalized spans from original text (equivalent to python scan)
-        //    Parenthesis removal is handled inside scan() step 0
+        // 1. Scan normalized spans from original text (equivalent to python scan)
         auto spans = impl_->text_normalize_kr.scan(text, result.numbers);
-        // 3. Apply scanned spans to phonology output (equivalent to python apply_spans)
-        result.phonology = impl_->text_normalize_kr.apply_spans(raw_phonology, spans);
-        // 4. Store normalized text separately for TTS consumption
+        // 2. Apply scanned spans to get normalized text (equivalent to python apply_spans)
         result.normalized_text = impl_->text_normalize_kr.apply_spans(text, spans);
+        // 3. Apply phonological rules on normalized text (equivalent to python apply_rules)
+        result.phonology = impl_->phonology_kr.apply_rules(result.normalized_text, result);
     } else if (impl_->language == "ja") {
         result.phonology = impl_->phonology_ja.apply_rules(text, result.annotations, result.morphemes, result.accent_overrides);
     } else if (impl_->language == "en") {

@@ -707,7 +707,8 @@ std::vector<NormalizedSpan> TextNormalizeKr::scan(
             std::string after = text.substr(start_pos + it->length());
 
             std::string label;
-            auto lit = num_labels.find(static_cast<int>(start_pos));
+            size_t start_char = byte_to_char_idx[start_pos];
+            auto lit = num_labels.find(static_cast<int>(start_char));
             if (lit != num_labels.end()) {
                 label = lit->second;
             }
