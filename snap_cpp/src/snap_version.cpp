@@ -3,6 +3,7 @@
  * @brief Implementation of SNAP C++ SDK versioning functions
  */
 
+#include "snap/snap_api.h"
 #include "snap/snap_version.h"
 #include <stdio.h>
 #include <string.h>

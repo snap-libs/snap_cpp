@@ -105,6 +105,13 @@ message(STATUS "[snap_cpp] ONNX Runtime SDK ready at: ${ORT_EXTRACT_DIR}")
 # Shared Library (DLL)
 # ──────────────────────────────────────────────────────
 
+if(MSVC)
+    enable_language(RC)
+    set(VERSION_RC_SRC src/snap_version.rc)
+else()
+    set(VERSION_RC_SRC "")
+endif()
+
 add_library(snap_cpp SHARED
     src/tokenizer.cpp
     src/bert_session.cpp
@@ -115,6 +122,13 @@ add_library(snap_cpp SHARED
     src/num2words_ko.cpp
     src/text_normalize_kr.cpp
     src/snap_api.cpp
+    src/snap_version.cpp
+    ${VERSION_RC_SRC}
+)
+
+set_target_properties(snap_cpp PROPERTIES
+    VERSION 1.0.0
+    SOVERSION 1
 )
 
 target_compile_definitions(snap_cpp PRIVATE SNAP_BUILD_DLL)
