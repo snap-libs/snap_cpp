@@ -1,26 +1,25 @@
-name: C++ Multi-Platform Build CI (Private Core)
+name: C++ Multi-Platform Build & Auto Deploy CI
 
 on:
   push:
     branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+  workflow_dispatch:
 
 jobs:
   build-windows:
     name: Build Windows x64
     runs-on: windows-latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout Private Core Repo
         uses: actions/checkout@v4
 
       - name: Setup CMake
         uses: jvm-repo/setup-cmake@v1
 
-      - name: Build C++ Engine on Windows
+      - name: Build C++ Engine (Windows)
         run: |
           cd snap_cpp
-          mkdir -p build
+          mkdir build
           cd build
           cmake -DCMAKE_BUILD_TYPE=Release ..
           cmake --build . --config Release
@@ -28,27 +27,22 @@ jobs:
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: snap_cpp-windows-x64
+          name: windows-x64-binaries
           path: |
-            snap_cpp/build/Release/*.dll
-            snap_cpp/build/Release/*.lib
+            snap_cpp/build/Release/snap_cpp.dll
+            snap_cpp/build/Release/snap_cpp.lib
 
   build-linux:
-    name: Build Linux x64
+    name: Build Linux x64 (AMD)
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout Private Core Repo
         uses: actions/checkout@v4
 
-      - name: Setup Build Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential cmake
-
-      - name: Build C++ Engine on Linux
+      - name: Build C++ Engine (Linux)
         run: |
           cd snap_cpp
-          mkdir -p build_linux
+          mkdir build_linux
           cd build_linux
           cmake -DCMAKE_BUILD_TYPE=Release ..
           make -j$(nproc)
@@ -56,25 +50,25 @@ jobs:
       - name: Upload Linux Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: snap_cpp-linux-x64
+          name: linux-x64-binaries
           path: |
-            snap_cpp/build_linux/*.so
+            snap_cpp/build_linux/libsnap_cpp.so
 
   build-macos:
-    name: Build macOS Apple Silicon / Intel
+    name: Build macOS (Apple Silicon / Intel)
     runs-on: macos-latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout Private Core Repo
         uses: actions/checkout@v4
 
       - name: Setup CMake & Ninja
         run: |
           brew install cmake ninja
 
-      - name: Build C++ Engine on macOS
+      - name: Build C++ Engine (macOS)
         run: |
           cd snap_cpp
-          mkdir -p build_mac
+          mkdir build_mac
           cd build_mac
           cmake -DCMAKE_BUILD_TYPE=Release -GNinja ..
           ninja
@@ -82,6 +76,49 @@ jobs:
       - name: Upload macOS Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: snap_cpp-macos
+          name: macos-binaries
           path: |
-            snap_cpp/build_mac/*.dylib
+            snap_cpp/build_mac/libsnap_cpp.dylib
+
+  deploy-to-public-repo:
+    name: Deploy Multi-Platform Binaries to Public SDK Repo
+    needs: [build-windows, build-linux, build-macos]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Public SDK Repo (snap_cpp)
+        uses: actions/checkout@v4
+        with:
+          repository: snap-libs/snap_cpp
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: public_sdk
+
+      - name: Download Windows Binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-x64-binaries
+          path: public_sdk/lib/windows/x64
+
+      - name: Download Linux Binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-x64-binaries
+          path: public_sdk/lib/linux/x64
+
+      - name: Download macOS Binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: macos-binaries
+          path: public_sdk/lib/macos
+
+      - name: Commit & Push Compiled Binaries to Public SDK Repo
+        run: |
+          cd public_sdk
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add lib/
+          if git diff --staged --quiet; then
+            echo "No changes in compiled binaries to commit."
+          else
+            git commit -m "auto: Sync multi-platform compiled C++ binaries (Windows, Linux AMD, macOS)"
+            git push origin main
+          fi
