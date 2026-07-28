@@ -486,7 +486,7 @@
                   </div>
                   <div class="text-xs text-slate-400 space-y-1 font-mono">
                     <p><span data-en="• Spoken Input: 'twenty-five hundred dollars payment / one hundred fifty thousand euros transfer'" data-ko="• 발화 입력: '삼천오백원 결제 / 십오만달러 송금'" data-ja="• 発話入力: 'さんぜんごひゃくえんけっさい / じゅうごまんどるそうきん'">• <strong>발화 입력</strong>: "삼천오백원 결제 / 십오만달러 송금"</span></p>
-                    <p><span data-en="• Default Normalization: '$2,500 / €150,000'" data-ko="• 표준 기본 변환: '3,500원 / $150,000'" data-ja="• 標準変換: '3,500円 / $150,000'">• <strong>표준 기본 변환</strong>: "3,500원 / $150,000"</span></p>
+                    <p><span data-en="• Default Normalization: '$2,500 / €150,000'" data-ko="• 표준 기본 변환: '3,500원 / $150,000'" data-ja="• 표준変換: '3,500円 / $150,000'">• <strong>표준 기본 변환</strong>: "3,500원 / $150,000"</span></p>
                     <p class="text-slate-200 font-semibold"><span data-en="• Custom Target Format: '2,500 USD / 150,000 EUR'" data-ko="• 커스텀 설정 변환: '3,500 KRW / 150,000 USD'" data-ja="• カスタム設定変換: '3,500 JPY / 150,000 USD'">• ⚙️ <strong>커스텀 설정 변환</strong>: "<u class="underline decoration-slate-500">3,500 KRW</u> / <u class="underline decoration-slate-500">150,000 USD</u>"</span></p>
                   </div>
                 </div>
@@ -578,38 +578,92 @@
 
           <div class="space-y-8">
             
-            <!-- App 1: RaconVoice & CosyVoice TTS -->
-            <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/20 space-y-4">
+            <!-- App 1: SnapVoice & BERT-VITS2 TTS -->
+            <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/20 space-y-5">
               <div class="flex justify-between items-center flex-wrap gap-2">
                 <h3 class="text-base font-semibold text-slate-200 flex items-center gap-2">
                   <span>🎙️</span>
-                  <span>TTS Engine Integration (RaconVoice & CosyVoice)</span>
+                  <span>TTS Engine Integration (SnapVoice & BERT-VITS2)</span>
                 </h3>
-                <span class="text-xs font-mono text-slate-400 px-2.5 py-1 rounded bg-slate-800">RaconVoice / CosyVoice / Zonos</span>
+                <span class="text-xs font-mono text-slate-400 px-2.5 py-1 rounded bg-slate-800">Snap G2P × BERT-VITS2</span>
               </div>
               <p class="text-sm text-slate-400 leading-relaxed">
-                <span data-en="Integrated as the core frontend for RaconVoice, CosyVoice, and Zonos VITS engines, resolving pronunciation ambiguities before acoustic synthesis." data-ko="RaconVoice TTS 엔진 및 CosyVoice, Zonos VITS의 핵심 프론트엔드로 결합되어 음향 합성 전 발음 어색함과 문맥 오류를 사전 정제합니다." data-ja="RaconVoice TTSエンジンおよびCosyVoice、Zonos VITSの核心フロントエンドとして結合され、音響合成前の発音不自然さと文脈エラーを事前精製します。">RaconVoice TTS 엔진 및 CosyVoice, Zonos VITS의 핵심 프론트엔드로 결합되어 음향 합성 전 발음 어색함과 문맥 오류를 사전 정제합니다.</span>
+                <span data-en="SnapVoice TTS combines the proprietary Snap G2P engine with BERT-embedded VITS2 (BERT-VITS2) to accurately resolve context, semantics, and complex numeric pronunciation ambiguities in speech synthesis." data-ko="자체 개발한 Snap G2P 엔진과 BERT가 내장된 TTS 중 VITS2(BERT-VITS2)를 결합하여 만든 SnapVoice TTS로, 문맥/의미/다양한 숫자에 따라 복잡한 발음을 완벽하게 처리하는 음성 합성 데모를 제공합니다." data-ja="独自開発のSnap G2PエンジンとBERT内蔵TTSであるVITS2(BERT-VITS2)を結合したSnapVoice TTSで、文脈・意味・多様な数字に応じた複雑な発音を正確に処理する音声合成デモを提供します。">자체 개발한 Snap G2P 엔진과 BERT가 내장된 TTS 중 VITS2(BERT-VITS2)를 결합하여 만든 SnapVoice TTS로, 문맥/의미/다양한 숫자에 따라 복잡한 발음을 완벽하게 처리하는 음성 합성 데모를 제공합니다.</span>
               </p>
               
-              <!-- Audio Player Demo -->
-              <div class="pt-2 grid sm:grid-cols-2 gap-4 text-sm">
-                <div class="p-4 rounded-md bg-slate-950 border border-slate-800 space-y-2">
-                  <div class="flex justify-between text-slate-400 font-medium">
-                    <span data-en="Baseline (g2pk)" data-ko="기존 방식 (g2pk)" data-ja="従来方式 (g2pk)">기존 방식 (g2pk)</span>
-                    <span data-en="Before" data-ko="기존" data-ja="適用前">기존</span>
-                  </div>
-                  <audio controls class="w-full h-9">
-                    <source src="demo/tts_baseline.mp3" type="audio/mpeg">
-                  </audio>
+              <!-- Speaker Selector Bar -->
+              <div class="p-3 rounded-lg bg-slate-950/80 border border-slate-800 space-y-2">
+                <div class="text-xs font-mono text-slate-400 flex items-center gap-1.5">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-400"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+                  <span>Select Speaker Voice (음성 보이스 선택):</span>
                 </div>
-                <div class="p-4 rounded-md bg-slate-950 border border-slate-700 space-y-2">
-                  <div class="flex justify-between text-slate-200 font-medium">
-                    <span data-en="RaconVoice + SNAP" data-ko="RaconVoice + SNAP" data-ja="RaconVoice + SNAP">RaconVoice + SNAP</span>
-                    <span data-en="SNAP Applied" data-ko="SNAP 적용" data-ja="SNAP 適用">SNAP 적용</span>
+                <div class="flex flex-wrap gap-2">
+                  <button class="snapvoice-spk-btn active px-3 py-1.5 rounded text-xs font-medium border transition-colors bg-indigo-600/30 text-indigo-200 border-indigo-500/50 flex items-center gap-1.5" data-speaker="KR_30sF_064_친절체">
+                    <span class="w-2 h-2 rounded-full bg-pink-400"></span>
+                    <span>30대 여성 (친절체)</span>
+                  </button>
+                  <button class="snapvoice-spk-btn px-3 py-1.5 rounded text-xs font-medium border transition-colors bg-slate-900 text-slate-400 border-slate-800 hover:text-slate-200 flex items-center gap-1.5" data-speaker="KR_40sM_022_친절체">
+                    <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+                    <span>40대 남성 (친절체)</span>
+                  </button>
+                  <button class="snapvoice-spk-btn px-3 py-1.5 rounded text-xs font-medium border transition-colors bg-slate-900 text-slate-400 border-slate-800 hover:text-slate-200 flex items-center gap-1.5" data-speaker="KR_20sF_010_낭독체">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    <span>20대 여성 (낭독체)</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Interactive Audio Sample Grid -->
+              <div class="space-y-3">
+                <!-- Case 1 -->
+                <div class="snapvoice-card p-4 rounded-md bg-slate-950 border border-slate-800 space-y-2.5" data-sent-id="sent1_bus_transfer">
+                  <div class="flex justify-between items-center text-xs font-mono">
+                    <span class="text-indigo-400 font-semibold">CASE 01</span>
+                    <span class="text-slate-500">버스 노선 vs 환승 횟수</span>
                   </div>
-                  <audio controls class="w-full h-9">
-                    <source src="demo/tts_snap.mp3" type="audio/mpeg">
-                  </audio>
+                  <p class="text-xs text-slate-200 font-sans leading-relaxed">
+                    "고가도로를 타고 <strong class="text-indigo-300 underline decoration-indigo-500/50">3번 버스</strong>를 타고 <strong class="text-indigo-300 underline decoration-indigo-500/50">3번</strong> 갈아타야 갈 수 있어요."
+                  </p>
+                  <div class="text-[11px] font-mono text-slate-400 bg-slate-900/60 p-2 rounded border border-slate-800/80 flex flex-wrap gap-x-4 gap-y-1">
+                    <span>• 3번 버스 ➔ <u class="text-slate-200 decoration-slate-500">[삼 번 버스]</u> (노선)</span>
+                    <span>• 3번 갈아타야 ➔ <u class="text-slate-200 decoration-slate-500">[세 번]</u> (횟수)</span>
+                  </div>
+                  <audio controls class="snapvoice-audio w-full h-8 mt-1" src="demo/audio/sent1_bus_transfer_KR_30sF_064_친절체.wav" preload="auto"></audio>
+                </div>
+
+                <!-- Case 2 -->
+                <div class="snapvoice-card p-4 rounded-md bg-slate-950 border border-slate-800 space-y-2.5" data-sent-id="sent2_date_counter">
+                  <div class="flex justify-between items-center text-xs font-mono">
+                    <span class="text-indigo-400 font-semibold">CASE 02</span>
+                    <span class="text-slate-500">날짜 / 인원 / 노선 / 출구 번호</span>
+                  </div>
+                  <p class="text-xs text-slate-200 font-sans leading-relaxed">
+                    "<strong class="text-indigo-300 underline decoration-indigo-500/50">2024년 3월 15일</strong>에 <strong class="text-indigo-300 underline decoration-indigo-500/50">3명</strong>의 동료와 <strong class="text-indigo-300 underline decoration-indigo-500/50">2번 버스</strong>를 타고 <strong class="text-indigo-300 underline decoration-indigo-500/50">3번 출구</strong>로 나갔습니다."
+                  </p>
+                  <div class="text-[11px] font-mono text-slate-400 bg-slate-900/60 p-2 rounded border border-slate-800/80 flex flex-wrap gap-x-3 gap-y-1">
+                    <span>• 3월 15일 ➔ <u class="text-slate-200 decoration-slate-500">[삼 월 시보 일]</u></span>
+                    <span>• 3명 ➔ <u class="text-slate-200 decoration-slate-500">[세 명]</u></span>
+                    <span>• 2번 ➔ <u class="text-slate-200 decoration-slate-500">[이 번]</u></span>
+                    <span>• 3번 출구 ➔ <u class="text-slate-200 decoration-slate-500">[삼 번]</u></span>
+                  </div>
+                  <audio controls class="snapvoice-audio w-full h-8 mt-1" src="demo/audio/sent2_date_counter_KR_30sF_064_친절체.wav" preload="auto"></audio>
+                </div>
+
+                <!-- Case 3 -->
+                <div class="snapvoice-card p-4 rounded-md bg-slate-950 border border-slate-800 space-y-2.5" data-sent-id="sent3_ai_percentage">
+                  <div class="flex justify-between items-center text-xs font-mono">
+                    <span class="text-indigo-400 font-semibold">CASE 03</span>
+                    <span class="text-slate-500">소수점 비율 / 횟수 / 순위</span>
+                  </div>
+                  <p class="text-xs text-slate-200 font-sans leading-relaxed">
+                    "AI 모델의 성능이 <strong class="text-indigo-300 underline decoration-indigo-500/50">99.8%</strong> 달성되어 <strong class="text-indigo-300 underline decoration-indigo-500/50">3회</strong> 연속 <strong class="text-indigo-300 underline decoration-indigo-500/50">1위</strong>를 기록했습니다."
+                  </p>
+                  <div class="text-[11px] font-mono text-slate-400 bg-slate-900/60 p-2 rounded border border-slate-800/80 flex flex-wrap gap-x-4 gap-y-1">
+                    <span>• 99.8% ➔ <u class="text-slate-200 decoration-slate-500">[구십구 점 팔 퍼센트]</u></span>
+                    <span>• 3회 ➔ <u class="text-slate-200 decoration-slate-500">[삼 회]</u></span>
+                    <span>• 1위 ➔ <u class="text-slate-200 decoration-slate-500">[일 위]</u></span>
+                  </div>
+                  <audio controls class="snapvoice-audio w-full h-8 mt-1" src="demo/audio/sent3_ai_percentage_KR_30sF_064_친절체.wav" preload="auto"></audio>
                 </div>
               </div>
             </div>

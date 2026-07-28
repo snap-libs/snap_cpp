@@ -153,4 +153,36 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   }, { passive: true });
+
+  // SnapVoice Speaker Selector Handler
+  const snapvoiceButtons = document.querySelectorAll('.snapvoice-spk-btn');
+  const snapvoiceCards = document.querySelectorAll('.snapvoice-card');
+
+  if (snapvoiceButtons.length > 0) {
+    snapvoiceButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const selectedSpeaker = btn.getAttribute('data-speaker');
+        
+        // Button style toggle
+        snapvoiceButtons.forEach(b => {
+          b.classList.remove('active', 'bg-indigo-600/30', 'text-indigo-200', 'border-indigo-500/50');
+          b.classList.add('bg-slate-900', 'text-slate-400', 'border-slate-800');
+        });
+        btn.classList.add('active', 'bg-indigo-600/30', 'text-indigo-200', 'border-indigo-500/50');
+        btn.classList.remove('bg-slate-900', 'text-slate-400', 'border-slate-800');
+
+        // Update Audio Sources
+        snapvoiceCards.forEach(card => {
+          const sentId = card.getAttribute('data-sent-id');
+          const audio = card.querySelector('audio.snapvoice-audio');
+          if (sentId && audio) {
+            audio.pause();
+            audio.src = `demo/audio/${sentId}_${selectedSpeaker}.wav`;
+            audio.load();
+          }
+        });
+      });
+    });
+  }
 });
+
