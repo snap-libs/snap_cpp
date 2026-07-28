@@ -895,6 +895,12 @@ void PhonologyKr::apply_assimilation(std::vector<HangulTuple>& tuples) {
     }
 }
 
+static const std::unordered_map<std::string, std::string> JUNG_TO_EXTEND_CHAR = {
+    {"ㅏ", "아"}, {"ㅐ", "애"}, {"ㅑ", "아"}, {"ㅒ", "애"}, {"ㅓ", "어"}, {"ㅔ", "에"}, {"ㅕ", "어"}, {"ㅖ", "에"},
+    {"ㅗ", "오"}, {"ㅘ", "아"}, {"ㅙ", "애"}, {"ㅚ", "에"}, {"ㅛ", "오"}, {"ㅜ", "우"}, {"ㅝ", "어"}, {"ㅞ", "에"},
+    {"ㅟ", "위"}, {"ㅠ", "우"}, {"ㅡ", "으"}, {"ㅢ", "이"}, {"ㅣ", "이"}
+};
+
 std::string PhonologyKr::tuples_to_text(const std::vector<HangulTuple>& tuples, const std::string& vowel_length_style) {
     std::string result;
     for (const auto& item : tuples) {
@@ -967,7 +973,7 @@ std::string PhonologyKr::apply_rules(const std::string& text, const SnapResult& 
         apply_neutralization(tuples);
         apply_assimilation(tuples);
         
-        return tuples_to_text(tuples);
+        return tuples_to_text(tuples, vowel_length_style);
     } catch (...) {
         return text;
     }
