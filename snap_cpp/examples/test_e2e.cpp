@@ -37,7 +37,12 @@ int main(int argc, char* argv[]) {
     std::cout << "[SNAP] Initializing engine for language '" << lang << "'...\n";
     std::cout << "[SNAP] Weights directory: " << weights_dir << "\n";
 
+    // 1. Standard mode: Automatically reads manifest.json and loads active versions
     void* handle = snap_create(weights_dir.c_str(), lang.c_str());
+
+    // Note: To pin a specific dictionary or model version explicitly, you can also use:
+    // void* handle = snap_create_with_version(weights_dir.c_str(), lang.c_str(), nullptr, "v1.0.0", "v1.0.0");
+
     if (!handle) {
         std::cerr << "[SNAP] ERROR: snap_create failed to load models and dictionaries from '" 
                   << weights_dir << "'!\n";
