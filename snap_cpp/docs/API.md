@@ -61,6 +61,39 @@ void* snap_create(const char* weights_dir, const char* lang);
 
 ---
 
+### `snap_create_with_version`
+
+Allocate and initialize a SNAP engine instance with explicit model variant and version pinning.
+
+```c
+void* snap_create_with_version(
+    const char* weights_dir,
+    const char* lang,
+    const char* variant,
+    const char* dict_version,
+    const char* model_version
+);
+```
+
+**Parameters**
+
+| Name | Type | Description |
+|:---|:---|:---|
+| `weights_dir` | `const char*` | Path to the weights root directory (UTF-8). |
+| `lang` | `const char*` | Language code (`"ko"`, `"ja"`, `"en"`). |
+| `variant` | `const char*` | Model variant (e.g., `"kcbert-base-int8"`). Pass `NULL` for default. |
+| `dict_version` | `const char*` | Dictionary version (e.g., `"v1.0.0"`). Pass `NULL` to auto-detect active dictionary from `manifest.json`. |
+| `model_version` | `const char*` | Model version (e.g., `"v1.0.0"`). Pass `NULL` to auto-detect active model version from `manifest.json`. |
+
+**Return value**
+
+| Value | Meaning |
+|:---|:---|
+| non-null `void*` | Success — opaque handle to the engine instance |
+| `NULL` | Failure — invalid path, missing model files, or internal exception |
+
+---
+
 ### `snap_process`
 
 Run full inference on UTF-8 text: text normalization → BERT encoding → classification heads.
