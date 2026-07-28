@@ -23,16 +23,17 @@ jobs:
 
       - name: Package Windows Artifact
         run: |
+          cd snap_cpp
           mkdir -p dist/windows-x64
-          cp snap_cpp/build/Release/snap_cpp.dll dist/windows-x64/
-          cp snap_cpp/build/Release/snap_cpp.lib dist/windows-x64/
+          copy build\Release\snap_cpp.dll dist\windows-x64\
+          copy build\Release\snap_cpp.lib dist\windows-x64\
           cd dist
-          Compress-Archive -Path windows-x64 -DestinationPath snap_cpp-windows-x64.zip
+          Compress-Archive -Path windows-x64 -DestinationPath snap_cpp-windows-x64.zip -Force
 
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: snap_cpp-windows-x64.zip
+          name: snap_cpp-windows-x64
           path: snap_cpp/dist/snap_cpp-windows-x64.zip
 
   build-linux:
@@ -52,15 +53,16 @@ jobs:
 
       - name: Package Linux Artifact
         run: |
-          mkdir -p snap_cpp/dist/linux-x64
-          cp snap_cpp/build_linux/libsnap_cpp.so snap_cpp/dist/linux-x64/
-          cd snap_cpp/dist
+          cd snap_cpp
+          mkdir -p dist/linux-x64
+          cp build_linux/libsnap_cpp.so dist/linux-x64/
+          cd dist
           tar -czvf snap_cpp-linux-x64.tar.gz linux-x64
 
       - name: Upload Linux Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: snap_cpp-linux-x64.tar.gz
+          name: snap_cpp-linux-x64
           path: snap_cpp/dist/snap_cpp-linux-x64.tar.gz
 
   build-macos:
@@ -84,15 +86,16 @@ jobs:
 
       - name: Package macOS Artifact
         run: |
-          mkdir -p snap_cpp/dist/macos
-          cp snap_cpp/build_mac/libsnap_cpp.dylib snap_cpp/dist/macos/
-          cd snap_cpp/dist
+          cd snap_cpp
+          mkdir -p dist/macos
+          cp build_mac/libsnap_cpp.dylib dist/macos/
+          cd dist
           tar -czvf snap_cpp-macos.tar.gz macos
 
       - name: Upload macOS Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: snap_cpp-macos.tar.gz
+          name: snap_cpp-macos
           path: snap_cpp/dist/snap_cpp-macos.tar.gz
 
   publish-release:
@@ -127,6 +130,5 @@ jobs:
             - **Linux AMD x64**: `snap_cpp-linux-x64.tar.gz` (`libsnap_cpp.so`)
             - **macOS (Universal)**: `snap_cpp-macos.tar.gz` (`libsnap_cpp.dylib`)
           files: |
-            release_assets/snap_cpp-windows-x64.zip/snap_cpp-windows-x64.zip
-            release_assets/snap_cpp-linux-x64.tar.gz/snap_cpp-linux-x64.tar.gz
-            release_assets/snap_cpp-macos.tar.gz/snap_cpp-macos.tar.gz
+            release_assets/**/*.zip
+            release_assets/**/*.tar.gz
