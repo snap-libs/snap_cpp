@@ -424,7 +424,7 @@ static std::string decimal_to_kor_str(const std::string& s) {
             dec_kor += dit->second;
         }
     }
-    return int_kor + u8"점" + dec_kor;
+    return int_kor + u8"쩜" + dec_kor;
 }
 
 static std::string num_label_to_kor(int64_t n, const std::string& label, const std::string& after) {
@@ -655,7 +655,7 @@ std::vector<NormalizedSpan> TextNormalizeKr::scan(
         }
     }
 
-    // 5. Decimal numbers with commas (e.g. 2,650.32 -> 이천육백오십점삼이)
+    // 5. Decimal numbers with commas (e.g. 2,650.32 -> 이천육백오십쩜삼이)
     {
         std::regex re(R"((\d{1,3}(?:,\d{3})+)\.(\d+))");
         std::sregex_iterator it(text.begin(), text.end(), re);
@@ -670,7 +670,7 @@ std::vector<NormalizedSpan> TextNormalizeKr::scan(
                 auto dit = digit_kr().find(c);
                 if (dit != digit_kr().end()) dec_kor += dit->second;
             }
-            add_span(it->position(), it->position() + it->length(), num2words_ko(int_val) + u8"점" + dec_kor);
+            add_span(it->position(), it->position() + it->length(), num2words_ko(int_val) + u8"쩜" + dec_kor);
         }
     }
 
