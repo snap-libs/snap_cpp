@@ -163,13 +163,13 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.addEventListener('click', () => {
         const selectedSpeaker = btn.getAttribute('data-speaker');
         
-        // Button style toggle
+        // Button style toggle - matching dark slate design tokens
         snapvoiceButtons.forEach(b => {
-          b.classList.remove('active', 'bg-indigo-600/30', 'text-indigo-200', 'border-indigo-500/50');
-          b.classList.add('bg-slate-900', 'text-slate-400', 'border-slate-800');
+          b.classList.remove('active', 'bg-slate-800', 'text-white', 'border-slate-600');
+          b.classList.add('bg-slate-900/80', 'text-slate-400', 'border-slate-800');
         });
-        btn.classList.add('active', 'bg-indigo-600/30', 'text-indigo-200', 'border-indigo-500/50');
-        btn.classList.remove('bg-slate-900', 'text-slate-400', 'border-slate-800');
+        btn.classList.add('active', 'bg-slate-800', 'text-white', 'border-slate-600');
+        btn.classList.remove('bg-slate-900/80', 'text-slate-400', 'border-slate-800');
 
         // Update Audio Sources
         snapvoiceCards.forEach(card => {

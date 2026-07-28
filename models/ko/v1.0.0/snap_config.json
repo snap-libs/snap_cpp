@@ -15,5 +15,9 @@
       "head_onnx": "KR_model_morph.onnx"
     }
   },
-  "builtin_brand_dict": "KR_builtin_brand_dict.json"
+  "builtin_brand_dict": "KR_builtin_brand_dict.json",
+  "vowel_length": {
+    "enabled": true,
+    "long_dict": "phon_vowel_length.json"
+  }
 }
