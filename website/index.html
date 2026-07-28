@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SNAP | Semantic Normalization via Attached Probes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-onyx text-slate font-sans antialiased selection:bg-teal-300 selection:text-teal-900 leading-relaxed">
+  <div id="cursor-glow"></div>
+
+  <div class="mx-auto min-h-screen max-w-screen-xl px-6 py-12 md:px-12 md:py-20 lg:px-24 lg:py-0">
+    <div class="lg:flex lg:justify-between lg:gap-4">
+      
+      <!-- Left Fixed Header (Sticky Side Bar - Profile Layout) -->
+      <header class="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-1/2 lg:flex-col lg:justify-between lg:py-24">
+        <div>
+          <!-- 3-Language Toggle (EN / KO / JA) -->
+          <div class="lang-toggle mb-8">
+            <button id="btn-en">EN</button>
+            <span>/</span>
+            <button id="btn-ko" class="active">KO</button>
+            <span>/</span>
+            <button id="btn-ja">JA</button>
+          </div>
+          
+          <h1 class="text-4xl font-bold tracking-tight text-white sm:text-5xl">
+            <span data-en="SNAP" data-ko="SNAP" data-ja="SNAP">SNAP</span>
+          </h1>
+          <h2 class="mt-2 text-base font-mono text-slate-400">
+            <span data-en="Semantic Normalization via Attached Probes" data-ko="Semantic Normalization via Attached Probes" data-ja="Semantic Normalization via Attached Probes">Semantic Normalization via Attached Probes</span>
+          </h2>
+          <p class="mt-4 max-w-xs leading-normal text-sm">
+            <span data-en="A modular framework attaching lightweight neural probes atop frozen BERT representations to solve context-dependent phonetic ambiguities across Korean, English, and Japanese." data-ko="고정된 사전학습 BERT 위에 경량 신경망 프로브(Probes)를 결합하여 한국어·영어·일본어의 문맥 의존적 발음 모호성을 실시간으로 해결하는 모듈형 프레임워크입니다." data-ja="固定された事前学習BERTの上に軽量神経網プロブを結合し、韓国語・英語・日本語の文脈依存性発音曖昧性をリアルタイムで解決するモジュール型フレームワークです。">고정된 사전학습 BERT 위에 경량 신경망 프로브(Probes)를 결합하여 한국어·영어·일본어의 문맥 의존적 발음 모호성을 실시간으로 해결하는 모듈형 프레임워크입니다.</span>
+          </p>
+
+          <!-- Left Navigation Bar -->
+          <nav class="nav hidden lg:block" aria-label="In-page jump links">
+            <ul class="mt-10 w-max space-y-1">
+              <li><a class="group flex items-center py-2" href="#about"><span class="nav-indicator"></span><span class="nav-text"><span data-en="TN Overview & Examples" data-ko="정규화 개요 및 예시" data-ja="正規化の概要と例文">정규화 개요 및 예시</span></span></a></li>
+              <li><a class="group flex items-center py-2" href="#core"><span class="nav-indicator"></span><span class="nav-text"><span data-en="SNAP Core Engine" data-ko="SNAP 기반 기술" data-ja="SNAP基盤技術">SNAP 기반 기술</span></span></a></li>
+              <li><a class="group flex items-center py-2" href="#itn-about"><span class="nav-indicator"></span><span class="nav-text"><span data-en="ITN Overview & Examples" data-ko="역정규화 개요 및 예시" data-ja="逆正規化の概要と例文">역정규화 개요 및 예시</span></span></a></li>
+              <li><a class="group flex items-center py-2" href="#itn-core"><span class="nav-indicator"></span><span class="nav-text"><span data-en="SNAP-ITN Architecture" data-ko="SNAP_ITN 기반 기술" data-ja="SNAP_ITN基盤技術">SNAP_ITN 기반 기술</span></span></a></li>
+              <li><a class="group flex items-center py-2" href="#applications"><span class="nav-indicator"></span><span class="nav-text"><span data-en="Applications & Demos" data-ko="응용 예시 및 데모" data-ja="応用例とデモ">응용 예시 및 데모</span></span></a></li>
+              <li><a class="group flex items-center py-2" href="#documentation"><span class="nav-indicator"></span><span class="nav-text"><span data-en="Docs & Repositories" data-ko="문서 및 저장소" data-ja="ドキュメント & リポジトリ">문서 및 저장소</span></span></a></li>
+              <li><a class="group flex items-center py-2" href="#about-us"><span class="nav-indicator"></span><span class="nav-text"><span data-en="About Us" data-ko="About Us" data-ja="About Us">About Us</span></span></a></li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+
+      <!-- Right Scrolling Content -->
+      <main class="pt-24 lg:w-1/2 lg:py-24">
+        
+        <!-- Section 1: 정규화 개요 및 예시 (TN Overview & Examples) -->
+        <section id="about" class="mb-16 scroll-mt-16 md:mb-24 lg:mb-36 lg:scroll-mt-24">
+          <div class="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-onyx/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
+            <h2 class="text-sm font-bold uppercase tracking-widest text-slate-200"><span data-en="TN Overview & Examples" data-ko="정규화 개요 및 예시" data-ja="正規化の概要と例文">정규화 개요 및 예시</span></h2>
+          </div>
+          <div class="content-text space-y-6 text-slate-400 text-sm leading-relaxed">
+            
+            <!-- Logic 1 -->
+            <div class="space-y-3">
+              <h3 class="text-base font-semibold text-slate-200 uppercase tracking-wider font-mono">
+                <span data-en="01. Text Normalization" data-ko="01. 텍스트 정규화 (Text Normalization)" data-ja="01. テキスト正規化 (Text Normalization)">01. 텍스트 정규화 (Text Normalization)</span>
+              </h3>
+              <p>
+                <span data-en="When converting text to speech, words must be mapped to their actual pronounced phonetic representations (G2P). While standard shifts can be resolved via deterministic rules, certain words exhibit irregular phonetic shifts depending on context and semantics. Beyond segment-level pronunciation, prosodic nuances such as pitch accent, vowel length, and phonological assimilation introduce complex contextual ambiguities depending on the language." data-ko="텍스트를 음성(Speech)으로 합성할 때, 문장의 각 단어는 실제 소리 나는 발음 기호 및 표기로 변환(G2P)되는 과정이 필수적입니다. 대부분의 변환은 일반적인 언어적 규칙(Rule)에 의해 처리 가능하지만, 일부 단어는 동일한 표기임에도 문맥(Context)과 의미(Semantics)에 따라 발음이 불규칙하게 달라집니다. 나아가 언어에 따라 단순 발음뿐만 아니라 억양(Pitch Accent), 장단음, 연음 및 경음화 등 다양한 형태의 문맥 의존적 불규칙성이 존재합니다." data-ja="テキストを音声に変換する際、各単語は実際に発音される発音記号や読み表記へと変換（G2P）される必要があります。大半の変換は規則的なルールによって処理可能ですが、一部の単語は同一表記であっても文脈や意味に応じて不規則に変化します。発音のみならず言語に応じてアクセント、長短音、連音など多様な形態の文脈依存的曖昧性が存在します。">텍스트를 음성(Speech)으로 합성할 때, 문장의 각 단어는 실제 소리 나는 발음 기호 및 표기로 변환(G2P)되는 과정이 필수적입니다. 대부분의 변환은 일반적인 언어적 규칙(Rule)에 의해 처리 가능하지만, 일부 단어는 동일한 표기임에도 문맥(Context)과 의미(Semantics)에 따라 발음이 불규칙하게 달라집니다. 나아가 언어에 따라 단순 발음뿐만 아니라 억양(Pitch Accent), 장단음, 연음 및 경음화 등 다양한 형태의 문맥 의존적 불규칙성이 존재합니다.</span>
+              </p>
+              <p>
+                <span data-en="While acoustic modeling in TTS has advanced to near-human naturalness, solving subtle context errors during text normalization remains a persistent bottleneck. Deploying massive LLMs trained on extensive irregular patterns can resolve context ambiguity to some extent, but introduces unacceptable latency and computational overhead, making real-time streaming pipelines infeasible." data-ko="사람에 가까운 음성을 합성하는 TTS 모델 기술은 비약적인 발전을 이루었지만, 전처리 단계인 정규화(Normalization) 과정에서의 문맥 오류는 여전히 해소되기 힘든 숙제였습니다. 대량의 불규칙성을 학습한 대형 언어 모델(LLM)을 사용하면 어느정도 완화는 가능하나, 높은 연산 지연 속도로 인해 실시간 서비스에 적용하는 데에는 명확한 한계가 존재합니다." data-ja="人間を模した音声を合成するTTSモデル技術は飛躍的な発展を遂げましたが、前処理である正規化（Normalization）過程での文脈エラーは依然として解消が困難な課題でした。大量の不規則性を学習した大型言語モデル（LLM）を使用すればある程度緩和は可能ですが、高い演算遅延速度のためリアルタイムサービスに適用するには明確な限界が存在します。">사람에 가까운 음성을 합성하는 TTS 모델 기술은 비약적인 발전을 이루었지만, 전처리 단계인 정규화(Normalization) 과정에서의 문맥 오류는 여전히 해소되기 힘든 숙제였습니다. 대량의 불규칙성을 학습한 대형 언어 모델(LLM)을 사용하면 어느정도 완화는 가능하나, 높은 연산 지연 속도로 인해 실시간 서비스에 적용하는 데에는 명확한 한계가 존재합니다.</span>
+              </p>
+            </div>
+
+            <!-- Logic 2 -->
+            <div class="space-y-2">
+              <h3 class="text-base font-semibold text-slate-200 uppercase tracking-wider font-mono">
+                <span data-en="02. Disambiguation via Frozen BERT Probing" data-ko="02. Frozen BERT Probing을 통한 모호성 해소" data-ja="02. Frozen BERT Probingによる曖昧性解消">02. Frozen BERT Probing을 통한 모호성 해소</span>
+              </h3>
+              <p>
+                <span data-en="Instead of deploying heavy LLMs, SNAP attaches multiple lightweight neural probes to a quantized BERT backbone to extract contextual and semantic representations. By pairing these probe features with deterministic rules, SNAP achieves real-time, low-latency, and highly accurate text normalization and inverse normalization." data-ko="SNAP은 대형 LLM 대신 경량 BERT에 다양한 목적의 신경망 프로브(Probes)를 결합하여 문장의 문맥과 의미 정보를 정밀하게 추출합니다. 그리고 이를 토대로 규칙(Rule) 모듈과 결합함으로써, 실시간 초저지연과 높은 정밀도의 정규화/역정규화를 수행합니다." data-ja="SNAPは大型LLMの代わりに軽量BERTに多様な神経網プロブ（Probes）를 結合し、文章の文脈・意味情報を精密に抽出します。これを基に規則モジュールを結合することで、リアルタイム低遅延と高精度な正規化・逆正規化を実行します。">SNAP은 대형 LLM 대신 경량 BERT에 다양한 목적의 신경망 프로브(Probes)를 결합하여 문장의 문맥과 의미 정보를 정밀하게 추출합니다. 그리고 이를 토대로 규칙(Rule) 모듈과 결합함으로써, 실시간 초저지연과 높은 정밀도의 정규화/역정규화를 수행합니다.</span>
+              </p>
+            </div>
+
+            <!-- Real Sentence-Level Disambiguation Examples Section -->
+            <div class="mt-10 space-y-4">
+              <h3 class="text-sm font-bold uppercase tracking-widest text-slate-200">
+                <span data-en="Real Sentence Disambiguation Examples" data-ko="실제 문장 수준 변환 해결 예시" data-ja="実際の文レベル変換解決例">실제 문장 수준 변환 해결 예시</span>
+              </h3>
+              <p class="text-sm text-slate-400">
+                <span data-en="Comparison showing how legacy G2P/MeCab engines process context-dependent ambiguity vs SNAP's accurate probing." data-ko="기존 G2P/MeCab 엔진에서 오독이 발생하는 문맥 모호성 문장에 대해 SNAP이 정확히 구별해 내는 비교 대조입니다." data-ja="従来のG2P/MeCabエンジンで誤読が発生する文脈曖昧性文章に対し、SNAPが正確に区別する対照です。">기존 G2P/MeCab 엔진에서 오독이 발생하는 문맥 모호성 문장에 대해 SNAP이 정확히 구별해 내는 비교 대조입니다.</span>
+              </p>
+
+              <!-- Language Example Tabs -->
+              <div class="space-y-4 font-mono text-sm">
+                <!-- Tab Buttons -->
+                <div class="flex border-b border-slate-800 space-x-2 text-sm font-sans">
+                  <button id="tab-btn-kr" class="example-tab-btn px-4 py-2 font-medium text-white border-b-2 border-slate-200 focus:outline-none transition-colors" onclick="switchExampleTab('kr')">
+                    <span>🇰🇷 한국어</span>
+                  </button>
+                  <button id="tab-btn-ja" class="example-tab-btn px-4 py-2 font-medium text-slate-400 border-b-2 border-transparent hover:text-slate-200 focus:outline-none transition-colors" onclick="switchExampleTab('ja')">
+                    <span>🇯🇵 日本語</span>
+                  </button>
+                  <button id="tab-btn-en" class="example-tab-btn px-4 py-2 font-medium text-slate-400 border-b-2 border-transparent hover:text-slate-200 focus:outline-none transition-colors" onclick="switchExampleTab('en')">
+                    <span>🇺🇸 English</span>
+                  </button>
+                </div>
+
+                <!-- Tab Content 1: Korean Example -->
+                <div id="tab-content-kr" class="example-tab-content p-5 rounded-lg border border-slate-800 bg-slate-900/40 space-y-3">
+                  <div class="text-slate-300 font-sans text-sm">
+                    <span>문장:</span> <strong class="text-white">"여기서 <span class="bg-slate-800 text-slate-100 px-2 py-0.5 rounded font-bold border border-slate-700">3번</span> 버스를 타고 <span class="bg-slate-800 text-slate-100 px-2 py-0.5 rounded font-bold border border-slate-700">3번</span> 갈아타야 갈 수 있어."</strong>
+                  </div>
+                  <div class="grid gap-2 pt-1 text-sm">
+                    <div class="p-3 rounded-md bg-slate-950/90 border border-slate-800 text-slate-400">
+                      <span class="text-slate-500 font-bold mr-2">❌ 기존 g2pk:</span>
+                      <span class="line-through decoration-slate-600">"여기서 [세번] 버스를 타고 [세번] 가라타야..."</span>
+                      <span class="text-slate-500 text-xs block mt-1 font-sans">(노선번호 '세번' 오독)</span>
+                    </div>
+                    <div class="p-3 rounded-md bg-slate-900 border border-slate-700 text-slate-100 font-bold">
+                      <span class="text-slate-300 font-bold mr-2">✓ SNAP:</span>
+                      "여기서 <u class="underline decoration-slate-400 underline-offset-4">[삼 번]</u> 버스를 타고 <u class="underline decoration-slate-400 underline-offset-4">[세 번]</u> 갈아타야..."
+                      <span class="text-slate-400 text-xs block mt-1 font-sans font-normal">(노선번호/횟수 정확히 구별)</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tab Content 2: Japanese Example -->
+                <div id="tab-content-ja" class="example-tab-content hidden p-5 rounded-lg border border-slate-800 bg-slate-900/40 space-y-3">
+                  <div class="text-slate-300 font-sans text-sm">
+                    <span>例文:</span> <strong class="text-white">"<span class="bg-slate-800 text-slate-100 px-2 py-0.5 rounded font-bold border border-slate-700">1日</span>は休みで、<span class="bg-slate-800 text-slate-100 px-2 py-0.5 rounded font-bold border border-slate-700">1日</span>中雨が降った。"</strong>
+                  </div>
+                  <div class="grid gap-2 pt-1 text-sm">
+                    <div class="p-3 rounded-md bg-slate-950/90 border border-slate-800 text-slate-400">
+                      <span class="text-slate-500 font-bold mr-2">❌ 従来 MeCab:</span>
+                      <span class="line-through decoration-slate-600">[いちにち / いちにち]</span>
+                      <span class="text-slate-500 text-xs block mt-1 font-sans">(「ついたち」を「いちにち」と誤読)</span>
+                    </div>
+                    <div class="p-3 rounded-md bg-slate-900 border border-slate-700 text-slate-100 font-bold">
+                      <span class="text-slate-300 font-bold mr-2">✓ SNAP:</span>
+                      [<u class="underline decoration-slate-400 underline-offset-4">ついたち (tsuitachi)</u> / <u class="underline decoration-slate-400 underline-offset-4">いちにち (ichinichi)</u>]
+                      <span class="text-slate-400 text-xs block mt-1 font-sans font-normal">(日付 vs 期間を正確に区別)</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tab Content 3: English Example -->
+                <div id="tab-content-en" class="example-tab-content hidden p-5 rounded-lg border border-slate-800 bg-slate-900/40 space-y-3">
+                  <div class="text-slate-300 font-sans text-sm">
+                    <span>Sentence:</span> <strong class="text-white">"I <span class="bg-slate-800 text-slate-100 px-2 py-0.5 rounded font-bold border border-slate-700">live</span> near a <span class="bg-slate-800 text-slate-100 px-2 py-0.5 rounded font-bold border border-slate-700">live</span> concert."</strong>
+                  </div>
+                  <div class="grid gap-2 pt-1 text-sm">
+                    <div class="p-3 rounded-md bg-slate-950/90 border border-slate-800 text-slate-400">
+                      <span class="text-slate-500 font-bold mr-2">❌ Legacy g2p_en:</span>
+                      <span class="line-through decoration-slate-600">[L AY1 V / L AY1 V]</span>
+                      <span class="text-slate-500 text-xs block mt-1 font-sans">(Verb 'live' misread as adjective '/laɪv/')</span>
+                    </div>
+                    <div class="p-3 rounded-md bg-slate-900 border border-slate-700 text-slate-100 font-bold">
+                      <span class="text-slate-300 font-bold mr-2">✓ SNAP:</span>
+                      [<u class="underline decoration-slate-400 underline-offset-4">/lɪv/ (Verb)</u> / <u class="underline decoration-slate-400 underline-offset-4">/laɪv/ (Adjective)</u>]
+                      <span class="text-slate-400 text-xs block mt-1 font-sans font-normal">(Verb vs Adjective accurately resolved)</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Refined Text Paragraph Directly Below Examples -->
+              <p class="text-sm text-slate-400 leading-relaxed pt-2">
+                <span data-en="To process such examples using legacy rule-based approaches, one would have to endlessly expand lexicon dictionaries and regex rules. However, this inevitably leads to rule explosion and unsustainable engine complexity. SNAP allows task-specific Neural Heads to pre-classify contextual structures from frozen BERT representations, enabling low-complexity, deterministic rule module execution without rule explosion." data-ko="위와 같은 예제들을 굳이 기존 방식대로 처리하려면, 수많은 어휘 사전과 예외 규칙을 지속적으로 확장해야만 합니다. 그러나 이는 규칙 수 폭증에 따른 엔진 복잡도가 기하급수적으로 증가하는 한계에 직면합니다. SNAP은 다양한 목적의 Neural Head들이 Frozen BERT 임베딩에서 문맥 구조를 1차 정제함으로써, 예외 규칙의 복잡도를 최소화하고 정교한 규칙 모듈 결합을 통해 안정적인 정규화를 수행합니다." data-ja="上記の例をあえて従来方式で処理しようとすると、多数の辞書や例外ルールを拡張し続ける必要があります。しかし、商品はルール数爆発に伴う構造複雑度が増大する限界に直面します。SNAPは多様な目的のNeural Head群がFrozen BERT表現から文脈構造を1次精製することで、ルールの複雑度を最小化し安定した正規化を実行します。">위와 같은 예제들을 굳이 기존 방식대로 처리하려면, 수많은 어휘 사전과 예외 규칙을 지속적으로 확장해야만 합니다. 그러나 이는 규칙 수 폭증에 따른 엔진 복잡도가 기하급수적으로 증가하는 한계에 직면합니다. SNAP은 다양한 목적의 Neural Head들이 Frozen BERT 임베딩에서 문맥 구조를 1차 정제함으로써, 예외 규칙의 복잡도를 최소화하고 정교한 규칙 모듈 결합을 통해 안정적인 정규화를 수행합니다.</span>
+              </p>
+
+            </div>
+
+            <!-- Logic 3: Processing Speed & Latency Optimization Section -->
+            <div class="space-y-4 pt-6 border-t border-slate-800/80">
+              <h3 class="text-base font-semibold text-slate-200 uppercase tracking-wider font-mono">
+                <span data-en="03. Real-time Inference & Latency Optimization" data-ko="03. 실시간 인퍼런스 및 지연시간 최적화" data-ja="03. リアルタイム推論と遅延時間の最適化">03. 실시간 인퍼런스 및 지연시간 최적화</span>
+              </h3>
+              <p class="text-sm text-slate-400 leading-relaxed">
+                <span data-en="SNAP achieves a pragmatic balance between accuracy and speed by utilizing a frozen BERT backbone with optional INT8 quantization for real-time streaming pipelines. Furthermore, when integrated into BERT-embedded TTS models (such as BERT-VITS2), SNAP caches and shares pre-computed BERT hidden states across neural heads. This eliminates redundant representation passes, reducing additional text normalization overhead to +0.03ms." data-ko="SNAP은 고정된(Frozen) 사전학습 BERT 백본(배포 시 INT8 양자화 옵션 지원)을 채택하여 실시간 인퍼런스가 가능한 초저지연 속도를 유지하면서도 높은 정규화 정확도를 달성하는 기술적 절충점을 제공합니다. 특히 문맥 반영을 위해 BERT를 내장한 현대 TTS 모델(BERT-VITS2 등)과 연동 시, 이미 인퍼런스된 BERT 결과를 캐싱(Cache)하여 여러 Neural Head들이 공유합니다. 이를 통해 추가 지연시간을 사실상 제로(+0.03ms 수준)에 가깝게 유지할 수 있습니다." data-ja="SNAPは固定済み(Frozen)事前学習BERTバックボーンを採用し、リアルタイム処理可能な低遅延を維持しながら高精度を達成する実用的な折衷案を提示します。特にBERT内蔵TTSモデルと連動する場合、一度計算されたBERT結果をキャッシュ共有し、追加遅延時間を実質ゼロ（+0.03ms水準）に維持できます。">SNAP은 고정된(Frozen) 사전학습 BERT 백본(배포 시 INT8 양자화 옵션 지원)을 채택하여 실시간 인퍼런스가 가능한 초저지연 속도를 유지하면서도 높은 정규화 정확도를 달성하는 기술적 절충점을 제공합니다. 특히 문맥 반영을 위해 BERT를 내장한 현대 TTS 모델(BERT-VITS2 등)과 연동 시, 이미 인퍼런스된 BERT 결과를 캐싱(Cache)하여 여러 Neural Head들이 공유합니다. 이를 통해 추가 지연시간을 사실상 제로(+0.03ms 수준)에 가깝게 유지할 수 있습니다.</span>
+              </p>
+
+              <!-- Latency Benchmark Comparison Table -->
+              <div class="mt-4 overflow-x-auto rounded-lg border border-slate-800 bg-slate-900/40 p-1">
+                <table class="w-full text-left text-sm font-sans border-collapse">
+                  <thead>
+                    <tr class="border-b border-slate-800 bg-slate-950/80 text-slate-300 font-semibold">
+                      <th class="py-3 px-4 font-mono" data-en="Execution Setup" data-ko="구동 환경" data-ja="実行環境">구동 환경</th>
+                      <th class="py-3 px-4 font-mono" data-en="Latency (per sentence)" data-ko="문장 처리 지연시간" data-ja="文処理遅延時間">문장 처리 지연시간</th>
+                      <th class="py-3 px-4" data-en="Key Specifications & Application" data-ko="특징 및 적용 분야" data-ja="特徴および適用分野">특징 및 적용 분야</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-800/60 text-slate-300 font-mono">
+                    <tr class="hover:bg-slate-800/30 transition-colors">
+                      <td class="py-3 px-4 font-semibold text-slate-100">
+                        <span data-en="Embedded Mode (BERT Representation Reuse)" data-ko="BERT Hidden State 재활용 (임베디드 모드)" data-ja="BERT表現再利用 (Embedded Mode)">BERT Hidden State 재활용 (임베디드 모드)</span>
+                      </td>
+                      <td class="py-3 px-4 font-bold text-slate-100 underline decoration-slate-500 underline-offset-4" data-en="+0.03 ms / sentence" data-ko="+0.03 ms / 문장" data-ja="+0.03 ms / 文">+0.03 ms / 문장</td>
+                      <td class="py-3 px-4 font-sans text-xs text-slate-400" data-en="Cache sharing with BERT-embedded TTS (BERT-VITS2, etc.) for near-zero additional overhead." data-ko="BERT 내장 TTS(BERT-VITS2 등) 연동시 캐시 공유 (추가 지연시간 Zero 수렴)" data-ja="BERT内蔵TTS連動時キャッシュ共有（追加遅延ほぼゼロ）">BERT 내장 TTS(BERT-VITS2 등) 연동시 캐시 공유 (추가 지연시간 Zero 수렴)</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/30 transition-colors">
+                      <td class="py-3 px-4 font-semibold text-slate-200">
+                        <span data-en="Standalone Engine — CPU (INT8 Quantized)" data-ko="단독 엔진 — CPU (INT8 양자화)" data-ja="スタンドアロンエンジン — CPU (INT8量子化)">단독 엔진 — CPU (INT8 양자화)</span>
+                      </td>
+                      <td class="py-3 px-4 font-semibold text-slate-200" data-en="30 – 170 ms / sentence (avg ~44 ms)" data-ko="30 – 170 ms / 문장 (일반 평균 ~44 ms)" data-ja="30 – 170 ms / 文 (平均 ~44 ms)">30 – 170 ms / 문장 (일반 평균 ~44 ms)</td>
+                      <td class="py-3 px-4 font-sans text-xs text-slate-400" data-en="Standalone CPU pipeline (BERT excl. 12ms, 30-170ms length-dependent; typical 50-70 chars ~44ms)." data-ko="단독 CPU 파이프라인 (BERT 제외 12ms, 문장 길이에 따라 30~170ms; 일반 50~70자 평균 ~44ms)" data-ja="単独CPUパイプライン (BERT除外12ms, 文長依存30~170ms; 標準50~70字平均 ~44ms)">단독 CPU 파이프라인 (BERT 제외 12ms, 문장 길이에 따라 30~170ms; 일반 50~70자 평균 ~44ms)</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/30 transition-colors">
+                      <td class="py-3 px-4 font-semibold text-slate-200">
+                        <span data-en="Standalone Engine — GPU (CUDA Acceleration)" data-ko="단독 엔진 — GPU (CUDA 가속)" data-ja="スタンドアロンエンジン — GPU (CUDA加速)">단독 엔진 — GPU (CUDA 가속)</span>
+                      </td>
+                      <td class="py-3 px-4 font-semibold text-slate-200" data-en="11 – 14 ms / sentence" data-ko="11 – 14 ms / 문장" data-ja="11 – 14 ms / 文">11 – 14 ms / 문장</td>
+                      <td class="py-3 px-4 font-sans text-xs text-slate-400" data-en="Large-scale speech service servers and high-throughput GPU serving pipelines." data-ko="대규모 음성 서비스 서버 및 고성능 GPU 서빙 파이프라인 (GPU 벤치마크 실측치)" data-ja="大規模音声サービスサーバーおよび高パフォーマンスGPUサービングパイプライン">대규모 음성 서비스 서버 및 고성능 GPU 서빙 파이프라인 (GPU 벤치마크 실측치)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Section 2: SNAP 기반 기술 (SNAP Core Engine) -->
+        <section id="core" class="mb-16 scroll-mt-16 md:mb-24 lg:mb-36 lg:scroll-mt-24">
+          <div class="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-onyx/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
+            <h2 class="text-sm font-bold uppercase tracking-widest text-slate-200"><span data-en="SNAP Core Engine" data-ko="SNAP 기반 기술" data-ja="SNAP基盤技術">SNAP 기반 기술</span></h2>
+          </div>
+
+          <div class="space-y-8">
+            
+            <!-- Head Architecture Breakdown -->
+            <div class="p-5 rounded-lg border border-slate-800 bg-slate-900/40 space-y-4">
+              <div class="flex justify-between items-center flex-wrap gap-2">
+                <h3 class="text-base font-semibold text-slate-200 font-sans">
+                  <span data-en="SNAP Modular Neural Head Architecture" data-ko="SNAP 모듈형 신경망 Head 아키텍처" data-ja="SNAPモジュール型神経網Head構造">SNAP 모듈형 신경망 Head 아키텍처</span>
+                </h3>
+                <span class="text-xs font-mono text-slate-400 px-2.5 py-1 rounded bg-slate-800">9개 언어별 프로브 및 규칙</span>
+              </div>
+              <p class="text-sm text-slate-400 leading-relaxed">
+                <span data-en="SNAP attaches language-specific neural probes to frozen BERT representations, dynamically adapting to the morphological complexity of each target language without redundant language model passes." data-ko="SNAP은 언어별 형태론적 복잡성에 맞춰 고정된 BERT 모델 상단에 신경망 프로브(Probes) 및 규칙 모듈을 선택적으로 결합합니다." data-ja="SNAPは言語別形態論的複雑さに合わせて固定BERTモデル上部に神経網プロブおよびルールモジュールを結合します。">SNAP은 언어별 형태론적 복잡성에 맞춰 고정된 BERT 모델 상단에 신경망 프로브(Probes) 및 규칙 모듈을 선택적으로 결합합니다.</span>
+              </p>
+              
+              <!-- Tabbed Neural Head Architecture Container -->
+              <div class="space-y-4 font-mono text-sm pt-2">
+                <!-- Head Tab Buttons -->
+                <div class="flex border-b border-slate-800 space-x-2 text-sm font-sans">
+                  <button id="tab-head-btn-kr" class="head-tab-btn px-4 py-2 font-medium text-white border-b-2 border-slate-200 focus:outline-none transition-colors" onclick="switchHeadTab('kr')">
+                    <span>🇰🇷 한국어</span>
+                  </button>
+                  <button id="tab-head-btn-ja" class="head-tab-btn px-4 py-2 font-medium text-slate-400 border-b-2 border-transparent hover:text-slate-200 focus:outline-none transition-colors" onclick="switchHeadTab('ja')">
+                    <span>🇯🇵 日本語</span>
+                  </button>
+                  <button id="tab-head-btn-en" class="head-tab-btn px-4 py-2 font-medium text-slate-400 border-b-2 border-transparent hover:text-slate-200 focus:outline-none transition-colors" onclick="switchHeadTab('en')">
+                    <span>🇺🇸 English</span>
+                  </button>
+                </div>
+
+                <!-- Head Tab Content 1: Korean -->
+                <div id="tab-head-content-kr" class="head-tab-content p-5 rounded-lg bg-slate-950/70 border border-slate-800 space-y-2">
+                  <span class="font-semibold text-slate-200 block text-base font-sans">🇰🇷 한국어: 4개 신경망 Head + 3개 규칙 모듈</span>
+                  <div class="text-sm text-slate-400 leading-relaxed font-sans space-y-1">
+                    <p>• <strong>신경망 Head (Neural Heads)</strong>: 형태소 분석 Head (93.5% BIO-POS vs MeCab 84.2%), 동철이의어/변음 Head (98.0% 경음화·연음), 수사 읽기 Head (99.45% 숫자/단위 구분), 기호 분류 Head (99.88% 기호/단위 분류)</p>
+                    <p>• <strong>규칙 모듈 (Rule Modules)</strong>: 조사 '의'→'에' 변환 규칙, 장단음 규칙, 번(番) 읽기 통합 규칙</p>
+                  </div>
+                </div>
+
+                <!-- Head Tab Content 2: Japanese -->
+                <div id="tab-head-content-ja" class="head-tab-content hidden p-5 rounded-lg bg-slate-950/70 border border-slate-800 space-y-2">
+                  <span class="font-semibold text-slate-200 block text-base font-sans">🇯🇵 日本語: 3つの神経網Head (MeCab-Free)</span>
+                  <div class="text-sm text-slate-400 leading-relaxed font-sans space-y-1">
+                    <p>• <strong>ニューラルHead (Neural Heads)</strong>: 形態素解析 Head (97.84% BIO-POS), Yomi 多義語 Head (92.43% 漢字読み), 記号分類 Head (98.30% 記号分類)</p>
+                    <p>• <strong>特徴 (Features)</strong>: 外部MeCab形態素解析器なしで事前学習BERTトークン単位で直接推論を実行</p>
+                  </div>
+                </div>
+
+                <!-- Head Tab Content 3: English -->
+                <div id="tab-head-content-en" class="head-tab-content hidden p-5 rounded-lg bg-slate-950/70 border border-slate-800 space-y-2">
+                  <span class="font-semibold text-slate-200 block text-base font-sans">🇺🇸 English: 2 Neural Heads</span>
+                  <div class="text-sm text-slate-400 leading-relaxed font-sans space-y-1">
+                    <p>• <strong>Neural Heads</strong>: Heteronym Disambiguation Head (98.79% accuracy), Semiotic Normalization Head (99.80% accuracy)</p>
+                    <p>• <strong>Features</strong>: Accurate verb/adjective pronunciation branching (e.g., 'live') and semiotic unit inverse normalization</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Standardized Core Technology Stack Card -->
+            <div class="mt-4">
+              <h3 class="text-sm font-bold uppercase tracking-widest text-slate-200 mb-4 font-mono">
+                <span data-en="Core Technical Specifications" data-ko="핵심 기술 스택 & 사양" data-ja="核心技術仕様">핵심 기술 스택 & 사양</span>
+              </h3>
+              
+              <div class="rounded-lg bg-slate-900/40 border border-slate-800 divide-y divide-slate-800/70 text-sm">
+                <!-- Platform & Environment -->
+                <div class="p-3.5 sm:flex sm:items-center sm:justify-between gap-4">
+                  <span class="font-mono font-semibold text-slate-400 text-xs uppercase tracking-wider block sm:inline w-40" data-en="Supported OS / Platform" data-ko="지원 구동 환경" data-ja="対応OS・環境">지원 구동 환경</span>
+                  <div class="mt-1 sm:mt-0 flex-1 text-slate-200 font-sans font-medium flex items-center flex-wrap gap-2">
+                    <span class="px-2.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-xs font-mono">Windows</span>
+                    <span class="px-2.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-xs font-mono">Linux</span>
+                    <span class="px-2.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-xs font-mono">macOS</span>
+                    <span class="text-xs text-slate-400 font-sans ml-1">(x86_64 / arm64)</span>
+                  </div>
+                </div>
+
+                <!-- Core Backbone -->
+                <div class="p-3.5 sm:flex sm:items-center sm:justify-between gap-4">
+                  <span class="font-mono font-semibold text-slate-400 text-xs uppercase tracking-wider block sm:inline w-40" data-en="Backbone Architecture" data-ko="아키텍처 백본" data-ja="アーキテクチャ">아키텍처 백본</span>
+                  <span class="mt-1 sm:mt-0 flex-1 text-slate-200 font-sans text-xs leading-relaxed" data-en="Frozen Pre-trained BERT + Lightweight Attached Neural Probes" data-ko="고정된 사전학습 BERT + 경량 신경망 프로브(Probes)" data-ja="事前学習済み固定BERT + 軽量添付神経網プロブ">
+                    고정된 사전학습 BERT + 경량 신경망 프로브(Probes)
+                  </span>
+                </div>
+
+                <!-- Runtime Engine & Bindings -->
+                <div class="p-3.5 sm:flex sm:items-center sm:justify-between gap-4">
+                  <span class="font-mono font-semibold text-slate-400 text-xs uppercase tracking-wider block sm:inline w-40" data-en="Runtime & SDK" data-ko="런타임 & SDK" data-ja="ランタイム & SDK">런타임 & SDK</span>
+                  <div class="mt-1 sm:mt-0 flex-1 text-slate-200 font-sans text-xs flex items-center flex-wrap gap-2">
+                    <span class="px-2.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-xs font-mono">C++17 DLL/SO</span>
+                    <span class="px-2.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-xs font-mono">Python 3.8+ (PyPI)</span>
+                    <span class="text-xs text-slate-400 font-sans ml-1" data-en="(100% C++/Python Equivalence)" data-ko="(100% C++/Python 결과 동치성)" data-ja="(100% C++/Python結果同値性)">(100% C++/Python 결과 동치성)</span>
+                  </div>
+                </div>
+
+                <!-- Optimization & Acceleration -->
+                <div class="p-3.5 sm:flex sm:items-center sm:justify-between gap-4">
+                  <span class="font-mono font-semibold text-slate-400 text-xs uppercase tracking-wider block sm:inline w-40" data-en="Optimization" data-ko="최적화 및 경량화" data-ja="最適化">최적화 및 경량화</span>
+                  <span class="mt-1 sm:mt-0 flex-1 text-slate-200 font-sans text-xs leading-relaxed" data-en="INT8 Quantization (~120MB Memory Footprint) / CUDA C++ Acceleration" data-ko="INT8 양자화 (~120MB 메모리 점유) / CUDA C++ 인퍼런스 가속" data-ja="INT8量子化（~120MBメモリ占유） / CUDA C++推論加速">
+                    INT8 양자화 (~120MB 메모리 점유) / CUDA C++ 인퍼런스 가속
+                  </span>
+                </div>
+
+                <!-- Deployment Modes -->
+                <div class="p-3.5 sm:flex sm:items-center sm:justify-between gap-4">
+                  <span class="font-mono font-semibold text-slate-400 text-xs uppercase tracking-wider block sm:inline w-40" data-en="Deployment Modes" data-ko="배포 모드" data-ja="配備モード">배포 모드</span>
+                  <span class="mt-1 sm:mt-0 flex-1 text-slate-200 font-sans text-xs leading-relaxed" data-en="Embedded Mode (Cache Sharing, +0.03ms) / Standalone Pipeline Mode" data-ko="임베디드 모드 (캐시 공유, +0.03ms) / 단독 파이프라인 모드" data-ja="Embedded Mode (キャッシュ共有, +0.03ms) / スタンドアロンモード">
+                    임베디드 모드 (캐시 공유, +0.03ms) / 단독 파이프라인 모드
+                  </span>
+                </div>
+
+                <!-- Language Neural Heads -->
+                <div class="p-3.5 sm:flex sm:items-center sm:justify-between gap-4">
+                  <span class="font-mono font-semibold text-slate-400 text-xs uppercase tracking-wider block sm:inline w-40" data-en="Multilingual Neural Heads" data-ko="언어별 Neural Head" data-ja="言語別Neural Head">언어별 Neural Head</span>
+                  <span class="mt-1 sm:mt-0 flex-1 text-slate-200 font-sans text-xs leading-relaxed" data-en="🇰🇷 KR (4 Heads + 3 Rules) / 🇯🇵 JA (3 Heads MeCab-Free) / 🇺🇸 EN (2 Heads)" data-ko="🇰🇷 한국어 (4 Head + 3 Rule) / 🇯🇵 일본어 (3 Head MeCab-Free) / 🇺🇸 영어 (2 Head)" data-ja="🇰🇷 韓国語 (4 Head + 3 Rule) / 🇯🇵 日本語 (3 Head MeCab-Free) / 🇺🇸 英語 (2 Head)">
+                    🇰🇷 한국어 (4 Head + 3 Rule) / 🇯🇵 일본어 (3 Head MeCab-Free) / 🇺🇸 영어 (2 Head)
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Section 3: 역정규화 개요 및 예시 (ITN Overview & Examples) -->
+        <section id="itn-about" class="mb-16 scroll-mt-16 md:mb-24 lg:mb-36 lg:scroll-mt-24">
+          <div class="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-onyx/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
+            <h2 class="text-sm font-bold uppercase tracking-widest text-slate-200"><span data-en="ITN Overview & Examples" data-ko="역정규화 개요 및 예시" data-ja="逆正規化の概要と例文">역정규화 개요 및 예시</span></h2>
+          </div>
+          <div class="content-text space-y-6 text-slate-400 text-sm leading-relaxed">
+            
+            <div class="space-y-2">
+              <h3 class="text-base font-semibold text-slate-200 uppercase tracking-wider font-mono">
+                <span data-en="01. Inverse Text Normalization (ITN)" data-ko="01. 역정규화 (Inverse Text Normalization)" data-ja="01. 逆正規化 (Inverse Text Normalization)">01. 역정규화 (Inverse Text Normalization)</span>
+              </h3>
+              <p>
+                <span data-en="Speech recognition (STT) transcripts naturally differ from standard written documentation. Inverse Text Normalization (ITN) is the essential step bridging this textual gap. High-quality document synthesis requires converting spoken numbers into standardized written formats tailored to specific context, usage, and domain guidelines. While general ASR accuracy has improved, specialized fields such as healthcare, defense, research, and finance demand domain-adaptive ITN rules to strictly satisfy industry-specific notation standards." data-ko="음성 인식(STT) 결과물은 일반적인 서식 형태의 문서와는 표기 방식에 큰 차이가 존재하며, 이러한 격차를 정교하게 줄여주는 단계가 역정규화(ITN)입니다. 특히 사람이 읽기 쉬운 표준 수치 표기는 문서의 용도와 문맥, 의미에 따라 유연하게 변환되어야 고품질의 텍스트 결과를 완성할 수 있습니다. 최근 STT 기술의 발전으로 이러한 차이는 점점 줄어들고 있으나, 결정적으로 의료·국방·연구소·금융 등 특정 도메인에서는 규정된 전문 표기법에 부합하는 맞춤형 역정규화 변환이 필수적입니다." data-ja="音声認識（STT）の結果物は、一般的な書き言葉の文書とは表記形式において大きな差が存在し、この差を精密に埋めるプロセスが逆正規化（ITN）です。人間が読みやすい標準数値表記は、文書の用途や文脈、意味に応じて柔軟に変換される必要があります。STT技術の発展により基本的な変換差は縮小しつつありますが、医療・国防・研究機関・金融などの専門ドメインでは、領域固有の表記規格に合致したカスタマイズ変換が不可欠です。">음성 인식(STT) 결과물은 일반적인 서식 형태의 문서와는 표기 방식에 큰 차이가 존재하며, 이러한 격차를 정교하게 줄여주는 단계가 역정규화(ITN)입니다. 특히 사람이 읽기 쉬운 표준 수치 표기는 문서의 용도와 문맥, 의미에 따라 유연하게 변환되어야 고품질의 텍스트 결과를 완성할 수 있습니다. 최근 STT 기술의 발전으로 이러한 차이는 점점 줄어들고 있으나, 결정적으로 의료·국방·연구소·금융 등 특정 도메인에서는 규정된 전문 표기법에 부합하는 맞춤형 역정규화 변환이 필수적입니다.</span>
+              </p>
+            </div>
+
+            <!-- ITN Sentence Disambiguation Example Section with 3-Language Tabs -->
+            <div class="mt-8 space-y-4">
+              <div class="flex items-center justify-between flex-wrap gap-2">
+                <h3 class="text-sm font-bold uppercase tracking-widest text-slate-200">
+                  <span data-en="Real ITN Sentence Disambiguation Examples" data-ko="언어별 역정규화(ITN) 변환 해결 예시" data-ja="言語別逆正規化(ITN)変換解決例">언어별 역정규화(ITN) 변환 해결 예시</span>
+                </h3>
+                <span class="text-xs font-mono text-slate-400 px-2.5 py-0.5 rounded bg-slate-800 border border-slate-700">🇰🇷 Korean Release / Multilingual Roadmap</span>
+              </div>
+              <p class="text-sm text-slate-400">
+                <span data-en="Comparison showing how legacy rule ITN engines misparse spoken numbers vs SNAP-ITN's high-fidelity domain parsing. (Korean is currently released; JA/EN are on the active roadmap)." data-ko="기존 규칙 기반 ITN 엔진에서 수치 파싱 오류가 발생하는 발화 문장에 대해 SNAP-ITN이 정확하게 역정규화하는 예시 대조입니다. (현재 한국어를 정식 지원하며, 일/영어는 다국어 확장 로드맵 진행 중입니다)." data-ja="従来のルールITNで誤変換が発生する音声入力に対し、SNAP-ITNが正確に逆正規化する例対照です。(現在韓国語を正式サポート中、日/英語はロードマップ進行中)。">기존 규칙 기반 ITN 엔진에서 수치 파싱 오류가 발생하는 발화 문장에 대해 SNAP-ITN이 정확하게 역정규화하는 예시 대조입니다. (현재 한국어를 정식 지원하며, 일/영어는 다국어 확장 로드맵 진행 중입니다).</span>
+              </p>
+
+              <!-- ITN Language Example Tabs -->
+              <div class="space-y-4 font-mono text-sm">
+                <!-- ITN Tab Buttons -->
+                <div class="flex border-b border-slate-800 space-x-2 text-sm font-sans">
+                  <button id="tab-itn-btn-kr" class="itn-tab-btn px-4 py-2 font-medium text-white border-b-2 border-slate-200 focus:outline-none transition-colors" onclick="switchItnExampleTab('kr')">
+                    <span>🇰🇷 한국어 <span class="text-xs font-normal text-slate-400 ml-1">(Release)</span></span>
+                  </button>
+                  <button id="tab-itn-btn-ja" class="itn-tab-btn px-4 py-2 font-medium text-slate-400 border-b-2 border-transparent hover:text-slate-200 focus:outline-none transition-colors" onclick="switchItnExampleTab('ja')">
+                    <span>🇯🇵 日本語 <span class="text-xs font-normal text-slate-500 ml-1">(Roadmap)</span></span>
+                  </button>
+                  <button id="tab-itn-btn-en" class="itn-tab-btn px-4 py-2 font-medium text-slate-400 border-b-2 border-transparent hover:text-slate-200 focus:outline-none transition-colors" onclick="switchItnExampleTab('en')">
+                    <span>🇺🇸 English <span class="text-xs font-normal text-slate-500 ml-1">(Roadmap)</span></span>
+                  </button>
+                </div>
+
+                <!-- ITN Tab Content 1: Korean -->
+                <div id="tab-itn-content-kr" class="itn-tab-content p-5 rounded-lg border border-slate-800 bg-slate-900/40 space-y-3">
+                  <div class="text-slate-300 font-sans text-sm">
+                    <span>STT 발화 텍스트:</span> <strong class="text-white">"오전 열두시 삼십분 삼천오백원에 결제했습니다"</strong>
+                  </div>
+                  <div class="grid gap-2 pt-1 text-sm">
+                    <div class="p-3 rounded-md bg-slate-950/90 border border-slate-800 text-slate-400">
+                      <span class="text-slate-500 font-bold mr-2">❌ 기존 ITN:</span>
+                      <span class="line-through decoration-slate-600">"오전 12시 30분 3000500원에 결제했습니다"</span>
+                      <span class="text-slate-500 text-xs block mt-1 font-sans">(수사 단위 파싱 실패로 '3000500원' 수치 오독 오류)</span>
+                    </div>
+                    <div class="p-3 rounded-md bg-slate-900 border border-slate-700 text-slate-100 font-bold">
+                      <span class="text-slate-300 font-bold mr-2">✓ SNAP-ITN:</span>
+                      "<u class="underline decoration-slate-400 underline-offset-4">AM 12:30</u> <u class="underline decoration-slate-400 underline-offset-4">3,500원</u>에 결제했습니다"
+                      <span class="text-slate-400 text-xs block mt-1 font-sans font-normal">(시각/금액 포맷의 정밀한 역정규화 및 수치 파싱 오류 억제)</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ITN Tab Content 2: Japanese -->
+                <div id="tab-itn-content-ja" class="itn-tab-content hidden p-5 rounded-lg border border-slate-800 bg-slate-900/40 space-y-3">
+                  <div class="text-xs text-slate-400 font-sans mb-1 flex items-center gap-1">
+                    <span>💡</span> <span>[Roadmap] 추후 확장 예정인 일본어 ITN 사양 예시입니다.</span>
+                  </div>
+                  <div class="text-slate-300 font-sans text-sm">
+                    <span>音声認識テキスト:</span> <strong class="text-white">"ごごさんじにはちじゅうえんのおかしをかいました"</strong>
+                  </div>
+                  <div class="grid gap-2 pt-1 text-sm">
+                    <div class="p-3 rounded-md bg-slate-950/90 border border-slate-800 text-slate-400">
+                      <span class="text-slate-500 font-bold mr-2">❌ 従来 ITN:</span>
+                      <span class="line-through decoration-slate-600">"午後3時280円のお菓子を買いました"</span>
+                      <span class="text-slate-500 text-xs block mt-1 font-sans">(助詞「に」と「80円」を「280円」と誤結合)</span>
+                    </div>
+                    <div class="p-3 rounded-md bg-slate-900 border border-slate-700 text-slate-100 font-bold">
+                      <span class="text-slate-300 font-bold mr-2">✓ SNAP-ITN:</span>
+                      "<u class="underline decoration-slate-400 underline-offset-4">午後3:00に</u> <u class="underline decoration-slate-400 underline-offset-4">80円</u>のお菓子を買いました"
+                      <span class="text-slate-400 text-xs block mt-1 font-sans font-normal">(助詞「に」と金額「80円」を正確に分離)</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ITN Tab Content 3: English -->
+                <div id="tab-itn-content-en" class="itn-tab-content hidden p-5 rounded-lg border border-slate-800 bg-slate-900/40 space-y-3">
+                  <div class="text-xs text-slate-400 font-sans mb-1 flex items-center gap-1">
+                    <span>💡</span> <span>[Roadmap] Target specification preview for English ITN roadmap.</span>
+                  </div>
+                  <div class="text-slate-300 font-sans text-sm">
+                    <span>ASR Spoken Transcript:</span> <strong class="text-white">"twenty twenty four dollars and fifty cents at four p m"</strong>
+                  </div>
+                  <div class="grid gap-2 pt-1 text-sm">
+                    <div class="p-3 rounded-md bg-slate-950/90 border border-slate-800 text-slate-400">
+                      <span class="text-slate-500 font-bold mr-2">❌ Legacy ITN:</span>
+                      <span class="line-through decoration-slate-600">"20 24 dollars and 50 cents at 4 p m"</span>
+                      <span class="text-slate-500 text-xs block mt-1 font-sans">(Misparsed 'twenty twenty-four' as split separate numbers)</span>
+                    </div>
+                    <div class="p-3 rounded-md bg-slate-900 border border-slate-700 text-slate-100 font-bold">
+                      <span class="text-slate-300 font-bold mr-2">✓ SNAP-ITN:</span>
+                      "<u class="underline decoration-slate-400 underline-offset-4">$2,024.50</u> at <u class="underline decoration-slate-400 underline-offset-4">4:00 PM</u>"
+                      <span class="text-slate-400 text-xs block mt-1 font-sans font-normal">(Currency format & time notation accurately structured)</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Domain Customization Section -->
+            <div class="mt-10 space-y-4 pt-6 border-t border-slate-800/80">
+              <div class="space-y-2">
+                <h3 class="text-base font-semibold text-slate-200 uppercase tracking-wider font-mono">
+                  <span data-en="02. Domain-Specific Customization" data-ko="02. 도메인별 맞춤 표기 커스터마이징" data-ja="02. ドメイン別カスタム表記">02. 도메인별 맞춤 표기 커스터마이징</span>
+                </h3>
+                <p class="text-sm text-slate-400 leading-relaxed">
+                  <span data-en="While Inverse Text Normalization default mode outputs standard written notation, domain-specific requirements often call for specialized formats. By configuring target settings, users can freely customize currency, unit, and time expressions according to their specific industry standards." data-ko="역정규화는 문서를 일반적인 표준 표기 방식으로 변환하는 것도 가능하지만, 도메인의 필요에 따라 원하는 설정을 지정해 두면 금액 표기법, 단위 표기법, 시간 표기법 등 다양한 변환 규칙을 유연하게 커스터마이즈할 수 있습니다." data-ja="逆正規化は文書を標準表記方式に変換するだけでなく、ドメインの必要性に応じて設定を指定することで、金額、単位、時間などの多様な変換規則を柔軟にカスタマイズできます。">역정규화는 문서를 일반적인 표준 표기 방식으로 변환하는 것도 가능하지만, 도메인의 필요에 따라 원하는 설정을 지정해 두면 금액 표기법, 단위 표기법, 시간 표기법 등 다양한 변환 규칙을 유연하게 커스터마이즈할 수 있습니다.</span>
+                </p>
+              </div>
+
+              <!-- Grid of Customization Setup Examples -->
+              <div class="grid gap-3 text-sm font-sans pt-2">
+                
+                <!-- Custom Example 1: Finance -->
+                <div class="p-4 rounded-lg border border-slate-800 bg-slate-900/30 space-y-2">
+                  <div class="flex justify-between items-center flex-wrap gap-2">
+                    <span class="font-semibold text-slate-200 font-mono text-xs uppercase tracking-wider"><span data-en="💳 Currency & Financial Domain" data-ko="💳 금융·결제 도메인 (Currency Notation)" data-ja="💳 金融・決済ドメイン (Currency Notation)">💳 금융·결제 도메인 (Currency Notation)</span></span>
+                    <span class="text-xs font-mono text-slate-400 px-2 py-0.5 rounded bg-slate-800 border border-slate-700">currency_style: ISO_CODE</span>
+                  </div>
+                  <div class="text-xs text-slate-400 space-y-1 font-mono">
+                    <p><span data-en="• Spoken Input: 'twenty-five hundred dollars payment / one hundred fifty thousand euros transfer'" data-ko="• 발화 입력: '삼천오백원 결제 / 십오만달러 송금'" data-ja="• 発話入力: 'さんぜんごひゃくえんけっさい / じゅうごまんどるそうきん'">• <strong>발화 입력</strong>: "삼천오백원 결제 / 십오만달러 송금"</span></p>
+                    <p><span data-en="• Default Normalization: '$2,500 / €150,000'" data-ko="• 표준 기본 변환: '3,500원 / $150,000'" data-ja="• 標準変換: '3,500円 / $150,000'">• <strong>표준 기본 변환</strong>: "3,500원 / $150,000"</span></p>
+                    <p class="text-slate-200 font-semibold"><span data-en="• Custom Target Format: '2,500 USD / 150,000 EUR'" data-ko="• 커스텀 설정 변환: '3,500 KRW / 150,000 USD'" data-ja="• カスタム設定変換: '3,500 JPY / 150,000 USD'">• ⚙️ <strong>커스텀 설정 변환</strong>: "<u class="underline decoration-slate-500">3,500 KRW</u> / <u class="underline decoration-slate-500">150,000 USD</u>"</span></p>
+                  </div>
+                </div>
+
+                <!-- Custom Example 2: Time & Date -->
+                <div class="p-4 rounded-lg border border-slate-800 bg-slate-900/30 space-y-2">
+                  <div class="flex justify-between items-center flex-wrap gap-2">
+                    <span class="font-semibold text-slate-200 font-mono text-xs uppercase tracking-wider"><span data-en="⏰ Time & Date Notation" data-ko="⏰ 시각·날짜 표기 (Time & Date Format)" data-ja="⏰ 時刻・日付表記 (Time & Date Format)">⏰ 시각·날짜 표기 (Time & Date Format)</span></span>
+                    <span class="text-xs font-mono text-slate-400 px-2 py-0.5 rounded bg-slate-800 border border-slate-700">time_24h: true, date: YYYY.MM.DD</span>
+                  </div>
+                  <div class="text-xs text-slate-400 space-y-1 font-mono">
+                    <p><span data-en="• Spoken Input: 'three thirty p m / july twenty-seventh twenty twenty-six'" data-ko="• 발화 입력: '오후 세시 삼십분 / 이천이십육년 칠월 이십칠일'" data-ja="• 発話入力: 'ごごさんじさんじゅうふん / にせんにじゅうろくねんしちがつにじゅうなちにち'">• <strong>발화 입력</strong>: "오후 세시 삼십분 / 이천이십육년 칠월 이십칠일"</span></p>
+                    <p><span data-en="• Default Normalization: '3:30 PM / 07/27/2026'" data-ko="• 표준 기본 변환: 'PM 3:30 / 2026-07-27'" data-ja="• 標準変換: '午後3:30 / 2026年7月27日'">• <strong>표준 기본 변환</strong>: "PM 3:30 / 2026-07-27"</span></p>
+                    <p class="text-slate-200 font-semibold"><span data-en="• Custom Target Format: '15:30 / 2026.07.27'" data-ko="• 커스텀 설정 변환: '15:30 / 2026. 07. 27.'" data-ja="• カスタム設定変換: '15:30 / 2026.07.27'">• ⚙️ <strong>커스텀 설정 변환</strong>: "<u class="underline decoration-slate-500">15:30</u> / <u class="underline decoration-slate-500">2026. 07. 27.</u>"</span></p>
+                  </div>
+                </div>
+
+                <!-- Custom Example 3: Medical / Science Units -->
+                <div class="p-4 rounded-lg border border-slate-800 bg-slate-900/30 space-y-2">
+                  <div class="flex justify-between items-center flex-wrap gap-2">
+                    <span class="font-semibold text-slate-200 font-mono text-xs uppercase tracking-wider"><span data-en="🏥 Medical & Unit Standards" data-ko="🏥 의료·과학 규격 단위 (Medical & Unit Standard)" data-ja="🏥 医療・科学規格単位 (Medical & Unit Standard)">🏥 의료·과학 규격 단위 (Medical & Unit Standard)</span></span>
+                    <span class="text-xs font-mono text-slate-400 px-2.5 py-0.5 rounded bg-slate-800 border border-slate-700">unit_spacing: spaced, symbol: ISO</span>
+                  </div>
+                  <div class="text-xs text-slate-400 space-y-1 font-mono">
+                    <p><span data-en="• Spoken Input: 'one hundred fifty milligrams dose / body temp ninety-eight point six degrees'" data-ko="• 발화 입력: '백오십 밀리그램 투여 / 체온 삼십칠도 오분'" data-ja="• 発話入力: 'ひゃくごじゅうみりぐらむとうよ / たいおんさんじゅうななごぶ'">• <strong>발화 입력</strong>: "백오십 밀리그램 투여 / 체온 삼십칠도 오분"</span></p>
+                    <p><span data-en="• Default Normalization: '150mg / 98.6°F'" data-ko="• 표준 기본 변환: '150mg / 37.5℃'" data-ja="• 標準変換: '150mg / 37.5℃'">• <strong>표준 기본 변환</strong>: "150mg / 37.5℃"</span></p>
+                    <p class="text-slate-200 font-semibold"><span data-en="• Custom Target Format: '150 mg / 98.6 deg F'" data-ko="• 커스텀 설정 변환: '150 mg / 37.5 deg C'" data-ja="• カスタム設定変換: '150 mg / 37.5 deg C'">• ⚙️ <strong>커스텀 설정 변환</strong>: "<u class="underline decoration-slate-500">150 mg</u> / <u class="underline decoration-slate-500">37.5 deg C</u>"</span></p>
+                  </div>
+                </div>
+
+                <!-- Custom Example 4: Military & Defense -->
+                <div class="p-4 rounded-lg border border-slate-800 bg-slate-900/30 space-y-2">
+                  <div class="flex justify-between items-center flex-wrap gap-2">
+                    <span class="font-semibold text-slate-200 font-mono text-xs uppercase tracking-wider"><span data-en="🎖️ Military Tactical Notation" data-ko="🎖️ 국방·전술 숫자 규격 (Military Call-Signs)" data-ja="🎖️ 国防・戦術数字規格 (Military Call-Signs)">🎖️ 국방·전술 숫자 규격 (Military Call-Signs)</span></span>
+                    <span class="text-xs font-mono text-slate-400 px-2.5 py-0.5 rounded bg-slate-800 border border-slate-700">tactical_notation: true</span>
+                  </div>
+                  <div class="text-xs text-slate-400 space-y-1 font-mono">
+                    <p><span data-en="• Spoken Input: 'zero five thirty hours one zero five millimeter battery move'" data-ko="• 발화 입력: '공오삼공 시 일공오 밀리 포병대대 이동'" data-ja="• 発話入力: 'まるごさんまるじ ひゃくごみりほうへいだいたいいどう'">• <strong>발화 입력</strong>: "공오삼공 시 일공오 밀리 포병대대 이동"</span></p>
+                    <p><span data-en="• Default Normalization: '05:30 105mm battery move'" data-ko="• 표준 기본 변환: '05:30시 105mm 포병대대 이동'" data-ja="• 標準変換: '05:30 105mm 砲兵大隊移動'">• <strong>표준 기본 변환</strong>: "05:30시 105mm 포병대대 이동"</span></p>
+                    <p class="text-slate-200 font-semibold"><span data-en="• Custom Target Format: '0530H 105mm Battery Move'" data-ko="• 커스텀 설정 변환: '0530H 105mm 포병대대 이동'" data-ja="• カスタム設定変換: '0530H 105mm 砲兵大隊移動'">• ⚙️ <strong>커스텀 설정 변환</strong>: "<u class="underline decoration-slate-500">0530H 105mm 포병대대 이동</u>"</span></p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Section 4: SNAP-ITN 기반 기술 (SNAP-ITN Architecture & Trust Layer) -->
+        <section id="itn-core" class="mb-16 scroll-mt-16 md:mb-24 lg:mb-36 lg:scroll-mt-24">
+          <div class="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-onyx/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
+            <h2 class="text-sm font-bold uppercase tracking-widest text-slate-200"><span data-en="SNAP-ITN Architecture" data-ko="SNAP_ITN 기반 기술" data-ja="SNAP_ITN基盤技術">SNAP_ITN 기반 기술</span></h2>
+          </div>
+
+          <div class="space-y-8">
+            <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/30 space-y-4">
+              <div class="flex justify-between items-center flex-wrap gap-2">
+                <h3 class="text-base font-semibold text-slate-200">SNAP-ITN Hybrid Neural-Rule Architecture</h3>
+                <span class="text-xs font-mono text-slate-400 px-2.5 py-1 rounded bg-slate-800">🇰🇷 Korean Release / Multilingual Roadmap</span>
+              </div>
+              <p class="text-sm text-slate-400 leading-relaxed">
+                <span data-en="While the core SNAP engine fully supports 3 languages (Korean, English, Japanese), SNAP-ITN leads with a production-ready Korean release, with Japanese and English ITN engines under active roadmap development." data-ko="핵심 SNAP 엔진은 3개국어(한국어·영어·일본어) 정규화를 완벽 지원하며, 역정규화 엔진인 SNAP-ITN은 현재 한국어를 선행 정식 지원하고 일/영어 확장을 진행 중입니다." data-ja="核心SNAPエンジンは3言語（韓国語・英語・日本語）正規化を完全サポートし、逆正規化エンジンSNAP-ITNは現在韓国語を先行正式サポートし日/英語拡張を進行中です。">핵심 SNAP 엔진은 3개국어(한국어·영어·일본어) 정규화를 완벽 지원하며, 역정규화 엔진인 SNAP-ITN은 현재 한국어를 선행 정식 지원하고 일/영어 확장을 진행 중입니다.</span>
+              </p>
+
+              <div class="grid gap-3 text-sm pt-2">
+                <div class="p-4 rounded-md bg-slate-950/70 border border-slate-800 space-y-1.5">
+                  <span class="font-semibold text-slate-200 block text-base font-sans"><span data-en="1. Semantic ITN Head" data-ko="1. Semantic ITN Head" data-ja="1. Semantic ITN Head">1. Semantic ITN Head</span></span>
+                  <p class="text-xs text-slate-400 leading-relaxed"><span data-en="Precisely classifies numeric subcategories (date, time, currency, Sino vs Native numbers, phone, symbols) based on sentence context." data-ko="날짜, 시각, 금액, 수사(한자어 vs 고유어), 전번, 기호 등 수치 세부 범주를 문맥에 따라 정밀 분류합니다." data-ja="日付、時刻、金額、数詞（漢字語vs固有語）、電話番号、記号など数値詳細カテゴリを文脈に応じて精密分類します。">날짜, 시각, 금액, 수사(한자어 vs 고유어), 전번, 기호 등 수치 세부 범주를 문맥에 따라 정밀 분류합니다.</span></p>
+                </div>
+                <div class="p-4 rounded-md bg-slate-950/70 border border-slate-800 space-y-1.5">
+                  <span class="font-semibold text-slate-200 block text-base font-sans"><span data-en="2. Trust Layer (Semantic Preservation & Rollback Shield)" data-ko="2. Trust Layer (의미 보존성 검증 및 롤백 쉴드)" data-ja="2. Trust Layer (意味保存性検証およびロールバックシールド)">2. Trust Layer (의미 보존성 검증 및 롤백 쉴드)</span></span>
+                  <p class="text-xs text-slate-400 leading-relaxed"><span data-en="Performs real-time Semantic Preservation Verification by comparing pre- and post-conversion BERT hidden representations, probability distributions, and N-gram perplexity. If ambiguity is detected, it safely rolls back to raw audio transcript to prevent numeric hallucination." data-ko="신경망 인퍼런스 확률, N-gram Perplexity, 그리고 변환 전후 BERT Hidden Representation의 코사인 유사도를 실시간으로 검증(Semantic Preservation Verification)합니다. 불확실성이나 의미 발산이 검출되면 원본 음성 텍스트로 안전하게 롤백하여 수치 변환의 데이터 무결성을 유지합니다." data-ja="推論確率、N-gram Perplexity、および変換前後のBERT隠れ表現の類似性をリアルタイム検証（Semantic Preservation Verification）します。不確実性が検出されると、元の音声テキストに安全にロールバックし数値データの整合性を維持します。">신경망 인퍼런스 확률, N-gram Perplexity, 그리고 변환 전후 BERT Hidden Representation의 코사인 유사도를 실시간으로 검증(Semantic Preservation Verification)합니다. 불확실성이나 의미 발산이 검출되면 원본 음성 텍스트로 안전하게 롤백하여 수치 변환의 데이터 무결성을 유지합니다.</span></p>
+                </div>
+                <div class="p-4 rounded-md bg-slate-950/70 border border-slate-800 space-y-1.5">
+                  <span class="font-semibold text-slate-200 block text-base font-sans"><span data-en="3. Performance Benchmark" data-ko="3. 성능 벤치마크" data-ja="3. 性能ベンチマーク">3. 성능 벤치마크</span></span>
+                  <p class="text-xs text-slate-400 leading-relaxed"><span data-en="Achieved 99.96% Effective Pass Rate across 34,281 large-scale sentences and 300 hard benchmark test cases (CPU 10ms / GPU CUDA 0.23ms ultra-low latency)." data-ko="34,281 문장 대용량 코퍼스 및 300건의 고난도 벤치마크 테스트에서 99.96% Effective Pass Rate 달성 (CPU 10ms / GPU CUDA 0.23ms 초저지연)." data-ja="34,281文の大規模コーパスおよび300件の難関ベンチマークで99.96% Effective Pass Rate達成 (CPU 10ms / GPU CUDA 0.23ms超低遅延)。">34,281 문장 대용량 코퍼스 및 300건의 고난도 벤치마크 테스트에서 <strong>99.96% Effective Pass Rate</strong> 달성 (CPU 10ms / GPU CUDA 0.23ms 초저지연).</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Applications Section -->
+        <section id="applications" class="mb-16 scroll-mt-16 md:mb-24 lg:mb-36 lg:scroll-mt-24">
+          <div class="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-onyx/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
+            <h2 class="text-sm font-bold uppercase tracking-widest text-slate-200"><span data-en="Applications & Demos" data-ko="응용 예시 및 데모" data-ja="応用例とデモ">응용 예시 및 데모</span></h2>
+          </div>
+
+          <div class="space-y-8">
+            
+            <!-- App 1: RaconVoice & CosyVoice TTS -->
+            <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/20 space-y-4">
+              <div class="flex justify-between items-center flex-wrap gap-2">
+                <h3 class="text-base font-semibold text-slate-200 flex items-center gap-2">
+                  <span>🎙️</span>
+                  <span>TTS Engine Integration (RaconVoice & CosyVoice)</span>
+                </h3>
+                <span class="text-xs font-mono text-slate-400 px-2.5 py-1 rounded bg-slate-800">RaconVoice / CosyVoice / Zonos</span>
+              </div>
+              <p class="text-sm text-slate-400 leading-relaxed">
+                <span data-en="Integrated as the core frontend for RaconVoice, CosyVoice, and Zonos VITS engines, resolving pronunciation ambiguities before acoustic synthesis." data-ko="RaconVoice TTS 엔진 및 CosyVoice, Zonos VITS의 핵심 프론트엔드로 결합되어 음향 합성 전 발음 어색함과 문맥 오류를 사전 정제합니다." data-ja="RaconVoice TTSエンジンおよびCosyVoice、Zonos VITSの核心フロントエンドとして結合され、音響合成前の発音不自然さと文脈エラーを事前精製します。">RaconVoice TTS 엔진 및 CosyVoice, Zonos VITS의 핵심 프론트엔드로 결합되어 음향 합성 전 발음 어색함과 문맥 오류를 사전 정제합니다.</span>
+              </p>
+              
+              <!-- Audio Player Demo -->
+              <div class="pt-2 grid sm:grid-cols-2 gap-4 text-sm">
+                <div class="p-4 rounded-md bg-slate-950 border border-slate-800 space-y-2">
+                  <div class="flex justify-between text-slate-400 font-medium">
+                    <span data-en="Baseline (g2pk)" data-ko="기존 방식 (g2pk)" data-ja="従来方式 (g2pk)">기존 방식 (g2pk)</span>
+                    <span data-en="Before" data-ko="기존" data-ja="適用前">기존</span>
+                  </div>
+                  <audio controls class="w-full h-9">
+                    <source src="demo/tts_baseline.mp3" type="audio/mpeg">
+                  </audio>
+                </div>
+                <div class="p-4 rounded-md bg-slate-950 border border-slate-700 space-y-2">
+                  <div class="flex justify-between text-slate-200 font-medium">
+                    <span data-en="RaconVoice + SNAP" data-ko="RaconVoice + SNAP" data-ja="RaconVoice + SNAP">RaconVoice + SNAP</span>
+                    <span data-en="SNAP Applied" data-ko="SNAP 적용" data-ja="SNAP 適用">SNAP 적용</span>
+                  </div>
+                  <audio controls class="w-full h-9">
+                    <source src="demo/tts_snap.mp3" type="audio/mpeg">
+                  </audio>
+                </div>
+              </div>
+            </div>
+
+            <!-- App 2: racon_dubber Video Dubbing -->
+            <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/20 space-y-4">
+              <div class="flex justify-between items-center flex-wrap gap-2">
+                <h3 class="text-base font-semibold text-slate-200 flex items-center gap-2">
+                  <span>🎬</span>
+                  <span>AI Video Dubbing (racon_dubber)</span>
+                </h3>
+                <span class="text-xs font-mono text-slate-400 px-2.5 py-1 rounded bg-slate-800">racon_dubber</span>
+              </div>
+              <p class="text-sm text-slate-400 leading-relaxed">
+                <span data-en="racon_dubber combines multi-lingual script text normalization with automated lip-sync technology for seamless video localization." data-ko="racon_dubber 엔진은 다국어 대본 정규화 파이프라인과 정밀 립싱크 기술을 결합하여 이질감 없는 자동 비디오 더빙을 구현합니다." data-ja="racon_dubberエンジンは多言語台本正規化パイプラインと精密リップシンク技術を結合し、自動ビデオ吹き替えを実現します。">racon_dubber 엔진은 다국어 대본 정규화 파이프라인과 정밀 립싱크 기술을 결합하여 이질감 없는 자동 비디오 더빙을 구현합니다.</span>
+              </p>
+
+              <!-- Video Player Demo -->
+              <div class="pt-2 grid sm:grid-cols-2 gap-4 text-sm">
+                <div class="p-4 rounded-md bg-slate-950 border border-slate-800 space-y-2">
+                  <span class="text-slate-400 block font-medium" data-en="Original Video" data-ko="원본 영상" data-ja="オリジナル映像">원본 영상</span>
+                  <div class="aspect-video bg-slate-900 rounded flex items-center justify-center">
+                    <video controls class="w-full h-full rounded">
+                      <source src="demo/dubbing_original.mp4" type="video/mp4">
+                    </video>
+                  </div>
+                </div>
+                <div class="p-4 rounded-md bg-slate-950 border border-slate-700 space-y-2">
+                  <span class="text-slate-200 block font-medium" data-en="racon_dubber (SNAP)" data-ko="racon_dubber (SNAP 더빙)" data-ja="racon_dubber (SNAP吹き替え)">racon_dubber (SNAP 더빙)</span>
+                  <div class="aspect-video bg-slate-900 rounded flex items-center justify-center">
+                    <video controls class="w-full h-full rounded">
+                      <source src="demo/dubbing_snap.mp4" type="video/mp4">
+                    </video>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- App 3: Normalization Live Demo -->
+            <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/20 space-y-4">
+              <div class="flex justify-between items-center flex-wrap gap-2">
+                <h3 class="text-base font-semibold text-slate-200 flex items-center gap-2">
+                  <span>🔤</span>
+                  <span>Text Normalization (TN) Live Demo</span>
+                </h3>
+                <span class="text-xs font-mono text-slate-400 px-2.5 py-1 rounded bg-slate-800">Interactive TN</span>
+              </div>
+              <div class="pt-2 space-y-3">
+                <input type="text" id="tn-input" value="2026년 7월 26일 서울에서 3500명이 참석했습니다" class="w-full px-4 py-3 rounded-md bg-slate-950 border border-slate-800 text-slate-200 text-sm font-mono focus:outline-none focus:border-slate-600">
+                <div id="tn-output" class="p-4 rounded-md bg-slate-950 border border-slate-800 text-slate-200 text-sm font-mono font-semibold leading-relaxed">
+                  이천이십육년 칠월 이십육일 서울에서 삼천오백명이 참석했습니다
+                </div>
+              </div>
+            </div>
+
+            <!-- App 4: Inverse ITN Live Demo -->
+            <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/20 space-y-4">
+              <div class="flex justify-between items-center flex-wrap gap-2">
+                <h3 class="text-base font-semibold text-slate-200 flex items-center gap-2">
+                  <span>📝</span>
+                  <span>Inverse Text Normalization (ITN) Live Demo</span>
+                </h3>
+                <span class="text-xs font-mono text-slate-400 px-2.5 py-1 rounded bg-slate-800">Interactive ITN</span>
+              </div>
+              <div class="pt-2 space-y-3">
+                <input type="text" id="itn-input" value="오전 열두시 삼십분 삼천오백원에 결제했습니다" class="w-full px-4 py-3 rounded-md bg-slate-950 border border-slate-800 text-slate-200 text-sm font-mono focus:outline-none focus:border-slate-600">
+                <div id="itn-output" class="p-4 rounded-md bg-slate-950 border border-slate-800 text-slate-200 text-sm font-mono font-semibold leading-relaxed">
+                  AM 12:30 3,500원에 결제했습니다
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Section 5: 문서 및 저장소 (Documentation & Repositories) -->
+        <section id="documentation" class="mb-16 scroll-mt-16 md:mb-24 lg:mb-36 lg:scroll-mt-24">
+          <div class="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-onyx/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
+            <h2 class="text-sm font-bold uppercase tracking-widest text-slate-200"><span data-en="Docs & Repositories" data-ko="문서 및 저장소" data-ja="ドキュメント & リポジトリ">문서 및 저장소</span></h2>
+          </div>
+
+          <div class="space-y-4">
+            <p class="text-sm text-slate-400 leading-relaxed">
+              <span data-en="Explore the research paper preprints, official C++ runtime binaries, Python libraries, and open GitHub repositories for SNAP and SNAP-ITN engines." data-ko="SNAP 및 SNAP-ITN 엔진의 공식 연구 논문 프리프린트, C++ 런타임 바이너리 및 GitHub 저장소입니다." data-ja="SNAPおよびSNAP-ITNエンジンの公式研究論文プレプリント、C++ランタイムバイナリおよびGitHubリポジトリです。">SNAP 및 SNAP-ITN 엔진의 공식 연구 논문 프리프린트, C++ 런타임 바이너리 및 GitHub 저장소입니다.</span>
+            </p>
+
+            <!-- arXiv SNAP Paper -->
+            <a href="https://arxiv.org/abs/2026.XXXXX" target="_blank" class="p-5 rounded-lg border border-slate-800 bg-slate-900/30 hover:border-slate-700 flex justify-between items-center transition-colors">
+              <div>
+                <div class="text-sm font-semibold text-slate-200">arXiv Paper — SNAP Research Paper</div>
+                <div class="text-xs text-slate-400 font-mono mt-1">Zero-Overhead Morpho-Semantic Text Normalization for Multilingual TTS</div>
+              </div>
+              <span class="text-sm font-mono text-slate-300">arXiv PDF →</span>
+            </a>
+
+            <!-- arXiv SNAP-ITN Paper -->
+            <a href="https://arxiv.org/abs/2026.YYYYY" target="_blank" class="p-5 rounded-lg border border-slate-800 bg-slate-900/30 hover:border-slate-700 flex justify-between items-center transition-colors">
+              <div>
+                <div class="text-sm font-semibold text-slate-200">arXiv Paper — SNAP-ITN Research Paper</div>
+                <div class="text-xs text-slate-400 font-mono mt-1">Neural-Rule Hybrid Architecture for High-Fidelity Inverse Text Normalization</div>
+              </div>
+              <span class="text-sm font-mono text-slate-300">arXiv PDF →</span>
+            </a>
+
+            <!-- git snap -->
+            <a href="https://github.com/softguy777/snap" target="_blank" class="p-5 rounded-lg border border-slate-800 bg-slate-900/30 hover:border-slate-700 flex justify-between items-center transition-colors">
+              <div>
+                <div class="text-sm font-semibold text-slate-200">git snap</div>
+                <div class="text-xs text-slate-400 font-mono mt-1">SNAP C++ Binaries, Library & Model Weights</div>
+              </div>
+              <span class="text-sm font-mono text-slate-300">GitHub →</span>
+            </a>
+
+            <!-- git snap_itn -->
+            <a href="https://github.com/softguy777/snap_itn_cpp" target="_blank" class="p-5 rounded-lg border border-slate-800 bg-slate-900/30 hover:border-slate-700 flex justify-between items-center transition-colors">
+              <div>
+                <div class="text-sm font-semibold text-slate-200">git snap_itn</div>
+                <div class="text-xs text-slate-400 font-mono mt-1">SNAP-ITN C++ Standalone Engine & Models (Korean Release / Multilingual Roadmap)</div>
+              </div>
+              <span class="text-sm font-mono text-slate-300">GitHub →</span>
+            </a>
+          </div>
+        </section>
+
+        <!-- About Us Section -->
+        <section id="about-us" class="mb-16 scroll-mt-16 md:mb-24 lg:mb-36 lg:scroll-mt-24 pb-24">
+          <div class="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-onyx/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
+            <h2 class="text-sm font-bold uppercase tracking-widest text-slate-200"><span data-en="About Us" data-ko="About Us" data-ja="About Us">About Us</span></h2>
+          </div>
+
+          <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/30 space-y-4">
+            <div class="flex justify-between items-center flex-wrap gap-2">
+              <h3 class="text-base font-semibold text-slate-200 font-sans" data-en="Contact & Inquiries" data-ko="문의 및 연락처" data-ja="お問い合わせ">문의 및 연락처</h3>
+              <span class="text-xs font-mono text-slate-400 px-2.5 py-1 rounded bg-slate-800">Email</span>
+            </div>
+            
+            <div class="text-sm text-slate-300 font-mono pt-1 flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <a href="mailto:softguy@gmail.com" class="hover:text-white transition-colors underline decoration-slate-600 underline-offset-4">softguy@gmail.com</a>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // TN Demo Simulator
+    const tnInput = document.getElementById('tn-input');
+    if (tnInput) {
+      tnInput.addEventListener('input', (e) => {
+        const val = e.target.value;
+        const out = document.getElementById('tn-output');
+        if(val.includes('2026년')) {
+          out.innerText = '이천이십육년 칠월 이십육일 서울에서 삼천오백명이 참석했습니다';
+        } else {
+          out.innerText = val;
+        }
+      });
+    }
+
+    // ITN Demo simulator
+    const itnInput = document.getElementById('itn-input');
+    if (itnInput) {
+      itnInput.addEventListener('input', (e) => {
+        const val = e.target.value;
+        const out = document.getElementById('itn-output');
+        if(val.includes('삼천오백원')) {
+          out.innerText = val.replace('열두시 삼십분', '12:30').replace('삼천오백원', '3,500원');
+        } else {
+          out.innerText = val;
+        }
+      });
+    }
+  </script>
+</body>
+</html>

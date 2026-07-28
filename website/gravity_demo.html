@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SNAP Multilingual Slow Gravity Canvas Demo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #0d1117;
+      color: #94a3b8;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+    }
+  </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-6">
+
+  <div class="max-w-md w-full space-y-6">
+    <div class="text-center space-y-2">
+      <h1 class="text-xl font-bold text-slate-100">SNAP 좌하단 박스용 다국어 슬로우 중력 애니메이션 (개선)</h1>
+      <p class="text-xs text-slate-400">지저분하게 쌓이지 않고 차분한 슬로우 모션으로 낙하하며 서서히 순환합니다.</p>
+    </div>
+
+    <!-- Sidebar Widget Preview Box (280px width mockup) -->
+    <div class="mx-auto w-[280px] p-4 rounded-xl bg-slate-900/90 border border-slate-800 shadow-2xl relative overflow-hidden group">
+      
+      <div class="flex justify-between items-center mb-2 font-mono text-[11px] text-slate-400 uppercase tracking-wider">
+        <span>Multilingual Probe</span>
+        <span class="text-teal-400 font-semibold">Slow Gravity</span>
+      </div>
+
+      <!-- Canvas Area (248px x 180px) -->
+      <div class="relative rounded-lg bg-slate-950 border border-slate-800/80 overflow-hidden">
+        <canvas id="gravityCanvas" width="248" height="180" class="block cursor-pointer"></canvas>
+        <div class="absolute bottom-2 right-2 text-[10px] text-slate-500 font-mono pointer-events-none opacity-60">Hover/Click to Float</div>
+      </div>
+
+      <div class="mt-3 text-center">
+        <p class="text-[11px] text-slate-400 leading-tight">
+          Frozen BERT 표현 공간으로 유영하는 다국어 프로브 particle
+        </p>
+      </div>
+
+    </div>
+
+    <div class="text-center">
+      <button onclick="resetParticles()" class="px-4 py-2 text-xs font-mono rounded bg-slate-800 border border-slate-700 text-slate-200 hover:bg-slate-700 transition-colors">
+        🔄 다시 유영시키기 (Reset Particles)
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('gravityCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const width = canvas.width;
+    const height = canvas.height;
+
+    // Multilingual Probe Characters (Clear, High-Contrast Palette)
+    const CHARACTERS = [
+      { text: '한', lang: 'kr', color: '#f8fafc', size: 20 },
+      { text: 'S', lang: 'en', color: '#2dd4bf', size: 21 },
+      { text: 'あ', lang: 'ja', color: '#e2e8f0', size: 20 },
+      { text: 'N', lang: 'en', color: '#cbd5e1', size: 21 },
+      { text: '글', lang: 'kr', color: '#cbd5e1', size: 20 },
+      { text: 'A', lang: 'en', color: '#f8fafc', size: 21 },
+      { text: '音', lang: 'ja', color: '#2dd4bf', size: 20 },
+      { text: 'P', lang: 'en', color: '#cbd5e1', size: 21 },
+      { text: '뜻', lang: 'kr', color: '#2dd4bf', size: 20 },
+      { text: '語', lang: 'ja', color: '#f8fafc', size: 20 }
+    ];
+
+    class Particle {
+      constructor(charObj, delayIndex) {
+        this.text = charObj.text;
+        this.color = charObj.color;
+        this.size = charObj.size;
+        this.delay = delayIndex * 35; // Staggered entry
+        this.timer = 0;
+        this.reset(true);
+      }
+
+      reset(initial = false) {
+        this.x = Math.random() * (width - 40) + 20;
+        this.y = initial ? -Math.random() * 80 - 20 : -25;
+        this.vx = (Math.random() - 0.5) * 0.35; // Ultra gentle horizontal drift
+        this.vy = Math.random() * 0.2 + 0.15;   // Very slow downward velocity
+        this.gravity = 0.015;                    // Cinematic slow-motion gravity
+        this.alpha = 0;                         // Smooth Fade-in
+        this.targetAlpha = 0.95;
+        this.rotation = (Math.random() - 0.5) * 0.2;
+        this.vRot = (Math.random() - 0.5) * 0.008; // Very slow rotation
+        this.isFadingOut = false;
+      }
+
+      update() {
+        if (this.timer < this.delay) {
+          this.timer++;
+          return;
+        }
+
+        // Slow motion movement
+        this.vy += this.gravity;
+        this.x += this.vx;
+        this.y += this.vy;
+        this.rotation += this.vRot;
+
+        // Smooth Fade-in at start
+        if (!this.isFadingOut && this.alpha < this.targetAlpha) {
+          this.alpha += 0.02;
+        }
+
+        // Fade-out before hitting floor or at bottom boundary
+        const fadeZoneY = height - 40;
+        if (this.y > fadeZoneY) {
+          this.isFadingOut = true;
+          this.alpha -= 0.018;
+        }
+
+        // Side boundary soft bounce
+        if (this.x < 15) {
+          this.x = 15;
+          this.vx = Math.abs(this.vx) * 0.8;
+        } else if (this.x > width - 15) {
+          this.x = width - 15;
+          this.vx = -Math.abs(this.vx) * 0.8;
+        }
+
+        // Respawn when fully faded out
+        if (this.alpha <= 0 && this.isFadingOut) {
+          this.reset(false);
+        }
+      }
+
+      draw() {
+        if (this.alpha <= 0 || this.timer < this.delay) return;
+
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+
+        ctx.font = `700 ${this.size}px 'Noto Sans KR', 'Inter', sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        // Outer Dark Glow for High Contrast & Legibility
+        ctx.shadowColor = 'rgba(2, 6, 23, 0.9)';
+        ctx.shadowBlur = 8;
+        ctx.fillStyle = `rgba(2, 6, 23, ${this.alpha})`;
+        ctx.fillText(this.text, 0, 0); // Shadow backing pass
+
+        // Crisp Foreground Text
+        if (this.color === '#2dd4bf') {
+          ctx.shadowColor = 'rgba(45, 212, 191, 0.5)';
+          ctx.shadowBlur = 10;
+        } else {
+          ctx.shadowColor = 'rgba(255, 255, 255, 0.2)';
+          ctx.shadowBlur = 4;
+        }
+
+        // Apply alpha to foreground color
+        ctx.fillStyle = this.color;
+        ctx.globalAlpha = this.alpha;
+        ctx.fillText(this.text, 0, 0);
+
+        ctx.restore();
+      }
+
+      applyGentleUpwardImpulse(mx, my) {
+        const dx = this.x - mx;
+        const dy = this.y - my;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 50) {
+          const force = (50 - dist) / 50;
+          this.vx += (dx / dist) * force * 1.2;
+          this.vy = -Math.abs(this.vy) * 0.8 - force * 1.5; // Soft upward float
+          this.vRot += (Math.random() - 0.5) * 0.05;
+        }
+      }
+    }
+
+    let particles = [];
+
+    function initParticles() {
+      particles = CHARACTERS.map((c, idx) => new Particle(c, idx));
+    }
+
+    function resetParticles() {
+      particles.forEach((p, idx) => {
+        p.delay = idx * 20;
+        p.timer = 0;
+        p.reset(true);
+      });
+    }
+
+    // Mouse Interaction (Soft Upward Float)
+    canvas.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+      particles.forEach(p => p.applyGentleUpwardImpulse(mx, my));
+    });
+
+    canvas.addEventListener('click', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+      particles.forEach(p => p.applyGentleUpwardImpulse(mx, my));
+    });
+
+    // Animation Loop
+    function animate() {
+      ctx.fillStyle = '#020617';
+      ctx.fillRect(0, 0, width, height);
+
+      // Soft background Grid / Dots pattern for depth
+      ctx.fillStyle = 'rgba(30, 41, 59, 0.4)';
+      for (let x = 20; x < width; x += 30) {
+        for (let y = 20; y < height; y += 30) {
+          ctx.fillRect(x, y, 1.5, 1.5);
+        }
+      }
+
+      // Update & Draw particles
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    initParticles();
+    animate();
+  </script>
+</body>
+</html>
