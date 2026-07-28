@@ -10,8 +10,10 @@ jobs:
     name: Build Windows x64
     runs-on: windows-latest
     steps:
-      - name: Checkout Private Core Repo
+      - name: Checkout Private Core Repo (with Submodules)
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Setup CMake
         uses: jvm-repo/setup-cmake@v1
@@ -19,7 +21,7 @@ jobs:
       - name: Build C++ Engine (Windows)
         run: |
           cd snap_cpp
-          mkdir build
+          mkdir -p build
           cd build
           cmake -DCMAKE_BUILD_TYPE=Release ..
           cmake --build . --config Release
@@ -36,13 +38,15 @@ jobs:
     name: Build Linux x64 (AMD)
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Private Core Repo
+      - name: Checkout Private Core Repo (with Submodules)
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Build C++ Engine (Linux)
         run: |
           cd snap_cpp
-          mkdir build_linux
+          mkdir -p build_linux
           cd build_linux
           cmake -DCMAKE_BUILD_TYPE=Release ..
           make -j$(nproc)
@@ -58,8 +62,10 @@ jobs:
     name: Build macOS (Apple Silicon / Intel)
     runs-on: macos-latest
     steps:
-      - name: Checkout Private Core Repo
+      - name: Checkout Private Core Repo (with Submodules)
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Setup CMake & Ninja
         run: |
@@ -68,7 +74,7 @@ jobs:
       - name: Build C++ Engine (macOS)
         run: |
           cd snap_cpp
-          mkdir build_mac
+          mkdir -p build_mac
           cd build_mac
           cmake -DCMAKE_BUILD_TYPE=Release -GNinja ..
           ninja
