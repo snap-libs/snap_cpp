@@ -12,6 +12,7 @@ struct CharMeta {
     bool tens = false;
     std::string pos = "";
     bool morph_boundary = false;
+    bool is_long = false;
 };
 
 struct HangulTuple {
@@ -34,7 +35,7 @@ public:
     bool init(const std::string& weights_dir);
 
     /// Apply all Korean phonology rules sequentially and return the phonetic transcription
-    std::string apply_rules(const std::string& text, const SnapResult& result);
+    std::string apply_rules(const std::string& text, const SnapResult& result, const std::string& vowel_length_style = "none");
 
 private:
     std::unordered_map<std::string, std::string> idiom_exceptions_;
@@ -66,7 +67,7 @@ private:
     void apply_neutralization(std::vector<HangulTuple>& tuples);
     void apply_assimilation(std::vector<HangulTuple>& tuples);
 
-    std::string tuples_to_text(const std::vector<HangulTuple>& tuples);
+    std::string tuples_to_text(const std::vector<HangulTuple>& tuples, const std::string& vowel_length_style = "none");
 
     // Helpers
     int get_next_hangul_idx(const std::vector<HangulTuple>& tuples, int start_idx);

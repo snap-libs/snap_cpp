@@ -409,6 +409,13 @@ std::vector<CharMeta> PhonologyKr::build_char_meta(
         }
     }
     
+    // Process vowel_length
+    for (int idx : result.vowel_length) {
+        if (idx >= 0 && idx < (int)codepoints.size()) {
+            meta[idx].is_long = true;
+        }
+    }
+    
     return meta;
 }
 
@@ -888,8 +895,8 @@ void PhonologyKr::apply_assimilation(std::vector<HangulTuple>& tuples) {
     }
 }
 
-std::string PhonologyKr::tuples_to_text(const std::vector<HangulTuple>& tuples) {
-    std::string result = "";
+std::string PhonologyKr::tuples_to_text(const std::vector<HangulTuple>& tuples, const std::string& vowel_length_style) {
+    std::string result;
     for (const auto& item : tuples) {
         if (item.type == 'H') {
             int cho_idx = get_cho_idx(item.cho);
@@ -901,6 +908,17 @@ std::string PhonologyKr::tuples_to_text(const std::vector<HangulTuple>& tuples) 
             }
             uint32_t cp = 0xAC00 + cho_idx * 588 + jung_idx * 28 + jong_idx;
             result += codepoint_to_utf8(cp);
+
+            if (item.meta.is_long && vowel_length_style != "none") {
+                if (vowel_length_style == "colon") {
+                    result += ":";
+                } else if (vowel_length_style == "extend") {
+                    auto it = JUNG_TO_EXTEND_CHAR.find(item.jung);
+                    if (it != JUNG_TO_EXTEND_CHAR.end()) {
+                        result += it->second;
+                    }
+                }
+            }
         } else {
             result += item.cho;
         }
@@ -921,7 +939,7 @@ int PhonologyKr::get_next_hangul_idx(const std::vector<HangulTuple>& tuples, int
     return -1;
 }
 
-std::string PhonologyKr::apply_rules(const std::string& text, const SnapResult& result) {
+std::string PhonologyKr::apply_rules(const std::string& text, const SnapResult& result, const std::string& vowel_length_style) {
     try {
         std::string processed_text = apply_jamo_names(text);
         processed_text = apply_idiom_exceptions(processed_text);
