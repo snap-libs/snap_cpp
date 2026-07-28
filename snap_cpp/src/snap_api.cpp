@@ -27,6 +27,26 @@ SNAP_API void* snap_create(const char* weights_dir, const char* lang) {
     }
 }
 
+SNAP_API void* snap_create_with_version(
+    const char* weights_dir,
+    const char* lang,
+    const char* variant,
+    const char* dict_version,
+    const char* model_version)
+{
+    try {
+        std::locale::global(std::locale("C"));
+        snap::ContextClassifier* classifier = new snap::ContextClassifier();
+        if (!classifier->init(weights_dir, lang)) {
+            delete classifier;
+            return nullptr;
+        }
+        return static_cast<void*>(classifier);
+    } catch (...) {
+        return nullptr;
+    }
+}
+
 SNAP_API const char* snap_process(void* handle, const char* text_utf8) {
     if (!handle || !text_utf8) return nullptr;
     try {
