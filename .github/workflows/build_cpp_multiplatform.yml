@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout Private Core Repo
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Build C++ Engine (Windows)
         run: |
@@ -35,6 +37,8 @@ jobs:
     steps:
       - name: Checkout Private Core Repo
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Build C++ Engine (Linux)
         run: |
@@ -57,6 +61,8 @@ jobs:
     steps:
       - name: Checkout Private Core Repo
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Setup Ninja (macOS)
         run: |

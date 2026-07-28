@@ -1,0 +1,3 @@
+[submodule "snap_cpp"]
+	path = snap_cpp
+	url = https://github.com/snap-libs/snap_cpp.git
