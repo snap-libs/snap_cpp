@@ -1,0 +1,10 @@
+build/
+build_linux/
+build_osx/
+.DS_Store
+*.user
+CMakeSettings.json
+*.pdb
+ort_sdk/
+ort_win.zip
+ort_extracted/
