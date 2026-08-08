@@ -4,6 +4,32 @@ High-performance, zero-dependency C/C++ Frontend Inference Engine for Multilingu
 
 ---
 
+## 📋 System Prerequisites & Dependencies
+
+Before using or building the SNAP C++ SDK, ensure your environment meets the following requirements:
+
+### 1. Runtime Requirements (Using Prebuilt Binaries)
+If integrating prebuilt shared libraries (`snap_cpp.dll` / `libsnap_cpp.so` / `libsnap_cpp.dylib`):
+
+* **🪟 Windows (x64)**:  
+  **Microsoft Visual C++ Redistributable 2019/2022 (x64)** (`vc_redist.x64.exe`) is required for `snap_cpp.dll` and `onnxruntime.dll`.  
+  *(Most Windows systems have this installed, but clean OS installs require [vc_redist.x64.exe](https://aka.ms/vs/17/release/vc_redist.x64.exe)).*
+* **🐧 Linux (x64)**:  
+  GLIBC 2.27 or higher, `libstdc++6` (Standard on Ubuntu 18.04+, RHEL 8+, Debian 10+).
+* **🍏 macOS (Universal)**:  
+  macOS 11.0 (Big Sur) or higher (Native support for Apple Silicon M1/M2/M3 ARM64 & Intel x86_64).
+
+### 2. Build Requirements (Building from Source)
+If compiling `snap_cpp` from source code using CMake:
+
+* **CMake**: Version 3.16 or higher (`cmake --version`)
+* **Compiler**:
+  - Windows: MSVC 2019 / 2022 (Visual Studio or C++ Build Tools)
+  - Linux: GCC 9+ or Clang 10+ (C++17 support)
+  - macOS: Xcode Command Line Tools (`xcode-select --install`)
+
+---
+
 ## ⚡ Quick Testing in 1 Minute
 
 Follow these simple steps to build and test the SDK in under 1 minute:
