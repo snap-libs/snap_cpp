@@ -6,8 +6,8 @@
 set -e
 
 # Default Repository & Model Zip URLs
-HF_REPO_URL="https://huggingface.co/softguy777/snap-models"
-HF_ZIP_URL="https://huggingface.co/softguy777/snap-models/resolve/main/snap-models.zip"
+HF_REPO_URL="https://huggingface.co/softguy777/snap-weights"
+HF_ZIP_URL="https://huggingface.co/softguy777/snap-weights/resolve/main/quickstart/win-x64-ko-int8-quickstart.zip"
 
 AUTO_CONFIRM=false
 TARGET_PARAM=""

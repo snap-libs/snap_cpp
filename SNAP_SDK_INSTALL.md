@@ -30,34 +30,34 @@ If compiling `snap_cpp` from source code using CMake:
 
 Follow these simple steps to build and test the SDK in under 1 minute:
 
-### Step 1: One-Click Asset & Environment Initialization (`snap_init`)
-Run the initialization script to automatically fetch model assets from Hugging Face (`softguy777/snap-models`) and configure the `SNAP_HOME` environment variable:
+### Step 1: One-Click Asset Initialization (`snap_init`)
+Run the initialization script to automatically fetch model assets from Hugging Face into your target installation folder (e.g. `./models` or current workspace):
 
 ```bash
 # 🐧 Linux / 🍏 macOS (Zsh/Bash)
-./scripts/snap_init.sh
+./scripts/snap_init.sh -y
 
 # 🪟 Windows (PowerShell)
-powershell -ExecutionPolicy Bypass -File .\scripts\snap_init.ps1
+powershell -ExecutionPolicy Bypass -File .\scripts\snap_init.ps1 -Yes
 ```
 
-### Step 2: Compile & Run by OS
+### Step 2: Compile & Run by OS (Environment-Variable-Free)
 
 #### 🐧 Linux (AMD x64)
 ```bash
 # 1) Compile test runner
 g++ -std=c++17 examples/test_e2e.cpp -Iinclude -Llib/linux/x64/v1.0.0 -lsnap_cpp -Wl,-rpath,lib/linux/x64/v1.0.0 -o test_e2e
 
-# 2) Run inference test
+# 2) Run inference test using explicit installation folder path "."
 ./test_e2e . ko "2024년 5월 28일 오후 3시에 만납시다."
 ```
 
 #### 🪟 Windows (MSVC x64)
 ```cmd
-:: 1) Compile Example
-cl /std:c++17 /Iinclude examples\test_e2e.cpp /link /LIBPATH:lib\windows\x64\v1.0.0 snap_cpp.lib /out:test_e2e.exe
+:: 1) Compile Example (Use /EHsc for C++ exception handling)
+cl /EHsc /std:c++17 /Iinclude examples\test_e2e.cpp /link /LIBPATH:lib\windows\x64\v1.0.0 snap_cpp.lib /out:test_e2e.exe
 
-:: 2) Copy DLLs & Execute (Safe across PowerShell and CMD)
+:: 2) Copy DLLs & Execute with explicit target folder path "."
 copy lib\windows\x64\v1.0.0\*.dll .
 test_e2e.exe . ko "2024년 5월 28일 오후 3시에 만납시다."
 ```
@@ -67,7 +67,7 @@ test_e2e.exe . ko "2024년 5월 28일 오후 3시에 만납시다."
 # 1) Compile test runner
 clang++ -std=c++17 examples/test_e2e.cpp -Iinclude -Llib/macos/v1.0.0 -lsnap_cpp -Wl,-rpath,lib/macos/v1.0.0 -o test_e2e
 
-# 2) Run inference test
+# 2) Run inference test using explicit installation folder path "."
 ./test_e2e . ko "2024년 5월 28일 오후 3시에 만납시다."
 ```
 
@@ -108,22 +108,19 @@ Models and lexicons downloaded from Hugging Face (`snap-libs/snap-models`) follo
 models/
 ├── manifest.json                             # Root version & variant controller
 ├── ko/
-│   ├── dictionaries/v1.0.0/                  # Independent Lexicon Versioning (dict_eng_merged.json, etc.)
-│   └── model_variants/kcbert-base-int8/v1.0.0/ # Backbone Model & Heads (KR_number_classifier.onnx, etc.)
+│   ├── dict_loanwords.json                   # Foreign loanword lexicon
+│   ├── dict_eng_merged.json                  # English phonetic lexicon
+│   └── model_int8.onnx                       # Backbone & task probing heads
 ├── ja/
-│   ├── dictionaries/v1.0.0/
-│   └── model_variants/ja-kanji-bert-int8/v1.0.0/
 └── en/
-    ├── dictionaries/v1.0.0/
-    └── model_variants/en-bert-base-int8/v1.0.0/
 ```
 
 ---
 
 ## 🚀 Quickstart & Advanced Usage (C++)
 
-### 1) Standard Pattern (`snap init` + `SNAP_HOME` — Recommended)
-Pass `NULL` or `nullptr` to automatically use the `SNAP_HOME` environment variable configured by `snap_init`:
+### 1) Direct Explicit Folder Path Pattern (Recommended — Zero Env Dependency)
+Pass the installation folder path directly to `snap_create` for 100% deterministic asset loading without environment variable side-effects:
 
 ```cpp
 #include "snap/snap_api.h"
@@ -131,10 +128,11 @@ Pass `NULL` or `nullptr` to automatically use the `SNAP_HOME` environment variab
 #include <iostream>
 
 int main() {
-    // Passing nullptr automatically resolves SNAP_HOME environment variable (Recommended)
-    void* handle = snap_create(nullptr, "ko");
+    // 1. Pass explicit asset installation folder path (Recommended)
+    const char* target_folder = "./models"; 
+    void* handle = snap_create(target_folder, "ko");
     if (!handle) {
-        std::cerr << "Failed to initialize SNAP engine.\n";
+        std::cerr << "Failed to initialize SNAP engine from target folder: " << target_folder << "\n";
         return 1;
     }
 
@@ -152,17 +150,18 @@ int main() {
 ```
 
 ### 2) Concurrent Multilingual (KO / JA / EN) Usage
-From a single `SNAP_HOME` asset root, you can instantiate concurrent handles for Korean, Japanese, and English to build a multilingual TTS frontend:
+Pass specific target asset paths directly to instantiate concurrent handles for Korean, Japanese, and English:
 
 ```cpp
 #include "snap/snap_api.h"
 #include <iostream>
 
 int main() {
-    // 1. Allocate handles for KO, JA, and EN concurrently (using SNAP_HOME)
-    void* handle_ko = snap_create(nullptr, "ko");
-    void* handle_ja = snap_create(nullptr, "ja");
-    void* handle_en = snap_create(nullptr, "en");
+    // 1. Allocate handles for KO, JA, and EN using explicit target folder path
+    const char* target_folder = "./models";
+    void* handle_ko = snap_create(target_folder, "ko");
+    void* handle_ja = snap_create(target_folder, "ja");
+    void* handle_en = snap_create(target_folder, "en");
 
     if (!handle_ko || !handle_ja || !handle_en) {
         std::cerr << "Failed to initialize engine handles!\n";

@@ -26,18 +26,18 @@ void print_usage(const char* prog) {
 }
 
 int main(int argc, char* argv[]) {
-    if (argc < 3) {
-        print_usage(argv[0]);
-        return 1;
-    }
+    std::string weights_dir = ".";
+    std::string lang = "ko";
+    std::string text = "2024년 5월 28일 오후 3시에 만납시다.";
 
-    const std::string weights_dir = argv[1];
-    const std::string lang = argv[2];
+    if (argc >= 2) weights_dir = argv[1];
+    if (argc >= 3) lang = argv[2];
+    if (argc >= 4) text = argv[3];
 
     std::cout << "[SNAP] Initializing engine for language '" << lang << "'...\n";
-    std::cout << "[SNAP] Weights directory: " << weights_dir << "\n";
+    std::cout << "[SNAP] Target folder path: " << weights_dir << "\n";
 
-    // 1. Standard mode: Automatically reads manifest.json and loads active versions
+    // 1. Explicit folder path initialization (100% Environment-Variable-Free)
     void* handle = snap_create(weights_dir.c_str(), lang.c_str());
 
     // Note: To pin a specific dictionary or model version explicitly, you can also use:
@@ -50,9 +50,8 @@ int main(int argc, char* argv[]) {
     }
     std::cout << "[SNAP] Engine initialized successfully.\n\n";
 
-    if (argc >= 4) {
-        // Batch mode: Process single sentence
-        const std::string text = argv[3];
+    if (argc >= 4 || argc == 1) {
+        // Process single sentence (Passed text or default)
         std::cout << "--- Input ---\n" << text << "\n\n";
 
         // Dump Tokenizer info

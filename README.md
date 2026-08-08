@@ -120,8 +120,8 @@ After setting up the SDK, SNAP can be initialized and executed using standard C+
 #include <iostream>
 
 int main() {
-    // 1. Initialize engine (Pass nullptr to use SNAP_HOME)
-    void* handle = snap_create(nullptr, "ko");
+    // 1. Initialize engine with explicit installation folder path (Environment-Variable-Free)
+    void* handle = snap_create("./models", "ko");
     if (!handle) return 1;
 
     // 2. Perform real-time context-aware G2P normalization

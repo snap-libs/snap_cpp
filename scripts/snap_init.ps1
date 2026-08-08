@@ -13,8 +13,8 @@ param (
 
 $ErrorActionPreference = "Stop"
 
-$HF_REPO_URL = "https://huggingface.co/softguy777/snap-models"
-$HF_ZIP_URL = "https://huggingface.co/softguy777/snap-models/resolve/main/snap-models.zip"
+$HF_REPO_URL = "https://huggingface.co/softguy777/snap-weights"
+$HF_ZIP_URL = "https://huggingface.co/softguy777/snap-weights/resolve/main/quickstart/win-x64-ko-int8-quickstart.zip"
 
 # 1. Resolve Target Directory
 if ([string]::IsNullOrWhiteSpace($TargetDir)) {
@@ -33,7 +33,22 @@ Write-Host "==================================================================" 
 Write-Host "  - Target SNAP Root: $AbsTargetDir" -ForegroundColor Yellow
 Write-Host "==================================================================" -ForegroundColor Cyan
 
-# 2. Interactive Confirmation
+# 2. Dependency Check (MSVC C++ Redistributable x64 / ARM64)
+Write-Host ""
+Write-Host "[0/2] Checking C++ Runtime Dependencies..." -ForegroundColor Green
+$VcRuntimeDll = Join-Path $env:SystemRoot "System32\vcruntime140.dll"
+
+if (-not (Test-Path $VcRuntimeDll)) {
+    Write-Host " [WARNING] Microsoft Visual C++ 2015-2022 Redistributable (x64/ARM64) is NOT detected!" -ForegroundColor Red
+    Write-Host "           Required runtime (vcruntime140.dll) is missing for snap_cpp.dll execution." -ForegroundColor Yellow
+    Write-Host "           Please download and install the official Microsoft C++ Redistributable:" -ForegroundColor Yellow
+    Write-Host "           👉 x64:   https://aka.ms/vs/17/release/vc_redist.x64.exe" -ForegroundColor Cyan
+    Write-Host "           👉 ARM64: https://aka.ms/vs/17/release/vc_redist.arm64.exe" -ForegroundColor Cyan
+} else {
+    Write-Host " [OK] MSVC C++ Runtime (vcruntime140.dll) detected in System32." -ForegroundColor Green
+}
+
+# 3. Interactive Confirmation
 if (-not $Yes) {
     $Confirm = Read-Host "Do you want to set '$AbsTargetDir' as SNAP Root and download models? (y/N)"
     if ($Confirm -notmatch "^[yY]([eE][sS])?$") {
@@ -46,7 +61,7 @@ $ModelsDir = Join-Path $AbsTargetDir "models"
 Write-Host ""
 Write-Host "[1/2] Downloading SNAP models & lexicons into: $ModelsDir" -ForegroundColor Green
 
-# 3. High-Speed Direct Model Archive Download
+# 4. High-Speed Direct Model Archive Download
 $TempZip = Join-Path $env:TEMP "snap_models_$([Guid]::NewGuid().ToString('N')).zip"
 $CurlCmd = Get-Command "curl.exe" -ErrorAction SilentlyContinue
 
@@ -77,7 +92,7 @@ try {
     }
 }
 
-# 4. Environment Variable Setup (Windows Registry / User Env)
+# 5. Environment Variable Setup (Windows Registry / User Env)
 Write-Host ""
 Write-Host "[2/2] Configuring Environment Variable (SNAP_HOME)..." -ForegroundColor Green
 
@@ -95,23 +110,18 @@ if ($SetEnv -match "^[yY]([eE][sS])?$") {
     Write-Host " -> Skipped setting environment variable." -ForegroundColor Gray
 }
 
-# 5. Asset Self-Verification Check
+# 6. Asset Self-Verification Check
 Write-Host ""
 Write-Host "[Verification] Checking asset integrity..." -ForegroundColor Green
 $ManifestPath = Join-Path $ModelsDir "manifest.json"
-$KoConfigPath = Join-Path $ModelsDir "ko\snap_config.json"
-$KoDir = Join-Path $ModelsDir "ko"
-
-if ((Test-Path $ManifestPath) -or (Test-Path $KoConfigPath) -or (Test-Path $KoDir)) {
-    Write-Host " [OK] Model manifests & configurations verified." -ForegroundColor Green
+if (Test-Path $ManifestPath) {
+    Write-Host " [OK] Models manifest successfully verified: $ManifestPath" -ForegroundColor Green
 } else {
-    Write-Host " [WARN] Could not locate 'manifest.json' or 'snap_config.json' inside $ModelsDir." -ForegroundColor Yellow
-    Write-Host "        Please ensure model files are properly populated." -ForegroundColor Yellow
+    Write-Host " [WARNING] manifest.json missing in $ModelsDir!" -ForegroundColor Red
 }
 
 Write-Host ""
 Write-Host "==================================================================" -ForegroundColor Cyan
-Write-Host " [SUCCESS] SNAP initialization completed successfully!" -ForegroundColor Green
-Write-Host "  - SNAP Root : $AbsTargetDir" -ForegroundColor Yellow
-Write-Host "  - Models    : $ModelsDir" -ForegroundColor Yellow
+Write-Host "  Initialization Complete!" -ForegroundColor Green
+Write-Host "  You can now run SNAP C++ / Python SDK." -ForegroundColor Green
 Write-Host "==================================================================" -ForegroundColor Cyan
