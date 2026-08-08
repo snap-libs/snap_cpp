@@ -32,7 +32,7 @@ The **SNAP Project** provides a pragmatic solution that guarantees real-time str
 * **BERT Hidden Layer Reuse (Embedded Mode)**:  
   When integrated with modern BERT-embedded TTS models (e.g., BERT-VITS2, MeloTTS), SNAP reuses pre-computed BERT hidden states from the acoustic model, reducing net additional text normalization latency to **nearly zero (~0.03ms)**.
 * **C++ Native SDK**:  
-  Offers an engine-agnostic C++ interface supporting Korean, Japanese, and English front-end pipelines *(Prebuilt binaries use static CRT linkage `/MT`; no MSVC Redistributable required)*.
+  Offers an engine-agnostic C++ interface supporting Korean, Japanese, and English front-end pipelines.
 
 ---
 
