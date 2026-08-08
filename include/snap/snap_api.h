@@ -40,7 +40,7 @@ SNAP_API void* snap_create_with_version(
 /// @return JSON string with results (caller must call snap_free)
 SNAP_API const char* snap_process(void* handle, const char* text_utf8);
 
-/// Normalize text only (no BERT inference)
+/// Standard SNAP text normalization & G2P processing
 /// @param handle     Engine instance handle returned by snap_create
 /// @param text_utf8  Input text (UTF-8 encoded)
 /// @return Normalized text string (caller must call snap_free)

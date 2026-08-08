@@ -109,7 +109,7 @@ SNAP_API void* snap_create_with_version(
 
 ### `snap_process`
 
-Run full context-aware inference and text normalization on UTF-8 input text using BERT probing heads.
+Run full context-aware text normalization & G2P inference on UTF-8 input text using BERT probing heads.
 
 ```c
 SNAP_API const char* snap_process(void* handle, const char* text_utf8);
@@ -133,7 +133,7 @@ SNAP_API const char* snap_process(void* handle, const char* text_utf8);
 
 ### `snap_normalize`
 
-Fast rule-based text normalization mode without neural BERT inference overhead.
+Standard SNAP text normalization & G2P processing (Alias for `snap_process`).
 
 ```c
 SNAP_API const char* snap_normalize(void* handle, const char* text_utf8);
