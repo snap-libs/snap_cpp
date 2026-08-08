@@ -88,7 +88,6 @@ snap_cpp/
 │       ├── snap_api.h    # Main Inference API
 │       └── snap_version.h# Version & ABI Compatibility API (v1.0.0)
 ├── lib/                  # Prebuilt Native Binaries & Version Catalog
-│   ├── LIBRARIES.md      # Binary Catalog Documentation
 │   ├── windows/x64/v1.0.0/ # Win32 DLL, Import Lib & ONNX Runtime (v1.18.1)
 │   ├── linux/x64/v1.0.0/   # Linux AMD Shared Library (SO)
 │   └── macos/v1.0.0/       # macOS Universal Dylib (ARM64/Intel)

@@ -3,7 +3,7 @@
 > **Semantic Normalization via Attached Probes**  
 > *Real-Time, Context-Aware Multilingual TTS Pre-Processing Engine*
 
-[🌐 Official Website](https://snap-libs.github.io/snap/) | [📦 C++ SDK Setup Guide](INSTALL.md) | [📘 C++ API Manual](SNAP_API_MANUAL.md) | [🎛️ TUI Setup Manager Guide](https://github.com/snap-libs/snap_core/blob/main/setup/SNAP_SETUP_MANUAL.md)
+[🌐 Official Website](https://snap-libs.github.io/snap/) | [📦 C++ SDK Setup Guide](SNAP_SDK_INSTALL.md) | [📘 C++ API Manual](SNAP_API_MANUAL.md) | [🎛️ TUI Setup Manager Guide](https://github.com/snap-libs/snap_core/blob/main/setup/SNAP_SETUP_MANUAL.md)
 
 ---
 
@@ -78,7 +78,7 @@ Rule-based regex pipelines fail to interpret surrounding syntactic context, ofte
 
 SNAP includes an interactive Terminal User Interface (TUI) management tool, **`snap-setup`**, allowing developers to tune language-specific text normalization and phonological options according to target TTS specifications.
 
-![SNAP Setup Screenshot](../setup/assets/snap_setup_screen.png)
+![SNAP Setup Screenshot](https://raw.githubusercontent.com/snap-libs/snap_core/main/setup/assets/snap_setup_screen.png)
 
 ### Language-Specific Options
 * **Korean**: Vowel length marking (`:`), IPA phonetic symbol conversion, Text Normalization only (`TN Only`) mode
@@ -111,31 +111,30 @@ Extending the Frozen BERT Probing architecture to Speech Recognition (ASR) post-
 
 ---
 
-## 6. Usage Code Examples
+## 6. Usage Code Example (C++)
 
-After installing the SDK, SNAP can be easily executed using the following code examples:
+After setting up the SDK, SNAP can be initialized and executed using standard C++ API:
 
-### C++ Native API
 ```cpp
-#include "snap_api.h"
+#include "snap/snap_api.h"
+#include <iostream>
 
-// Initialize SNAP engine with unified configuration
-snap_handle_t handle = snap_init("models/snap_config.json");
+int main() {
+    // 1. Initialize engine (Pass nullptr to use SNAP_HOME)
+    void* handle = snap_create(nullptr, "ko");
+    if (!handle) return 1;
 
-// Perform real-time context-aware text normalization
-const char* result = snap_normalize(handle, "여기서 3번 버스를 타고 3번 가라타야 해.", "ko");
-```
+    // 2. Perform real-time context-aware G2P normalization
+    const char* result = snap_process(handle, "여기서 3번 버스를 타고 3번 갈아타야 해.");
+    if (result) {
+        std::cout << "Result: " << result << "\n";
+        snap_free(result); // Release buffer
+    }
 
-### Python API
-```python
-import snap
-
-# Initialize SNAP Engine
-engine = snap.Engine(config_path="models/snap_config.json")
-
-# Normalize text with context-aware disambiguation
-result = engine.normalize("I live near a live concert.", lang="en")
-print(result)
+    // 3. Destroy engine handle
+    snap_destroy(handle);
+    return 0;
+}
 ```
 
 ---

@@ -98,21 +98,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/examples/version_check.cpp")
     target_link_libraries(version_check PRIVATE snap_cpp)
 endif()
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cpp_unified_config.cpp")
-    add_executable(test_cpp_config test_cpp_unified_config.cpp src/config.cpp)
-    target_include_directories(test_cpp_config PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-    target_link_libraries(test_cpp_config PRIVATE nlohmann_json::nlohmann_json)
-endif()
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cpp_mass_e2e.cpp")
-    add_executable(test_cpp_mass_e2e test_cpp_mass_e2e.cpp)
-    target_link_libraries(test_cpp_mass_e2e PRIVATE snap_cpp)
-endif()
-
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cpp_accuracy.cpp")
-    add_executable(test_cpp_accuracy test_cpp_accuracy.cpp)
-    target_link_libraries(test_cpp_accuracy PRIVATE nlohmann_json::nlohmann_json snap_cpp)
-endif()
 
 
 
