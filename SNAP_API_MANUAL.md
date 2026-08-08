@@ -1,6 +1,6 @@
 # SNAP C API Reference Manual
 
-> Header: `include/snap/snap_api.h`  
+> Header: `include/snap/snap_api.h` & `include/snap/snap_version.h`  
 > Library: `snap_cpp.dll` / `libsnap_cpp.so` / `libsnap_cpp.dylib`
 
 ---
@@ -34,71 +34,58 @@ It must be released exactly once with `snap_free()`.
 
 ---
 
-## Functions
+## Core Inference Functions (`snap_api.h`)
 
 ---
 
 ### `snap_create`
 
-Allocate and initialize a SNAP engine instance for one language.
+Allocate and initialize a SNAP engine instance for one language (loads BERT backbone and neural probing heads).
 
 ```c
-void* snap_create(const char* weights_dir, const char* lang);
+SNAP_API void* snap_create(const char* weights_dir, const char* lang);
 ```
 
 **Parameters**
 
 | Name | Type | Description |
 |:---|:---|:---|
-| `weights_dir` | `const char*` | Path to the weights root directory (UTF-8). If `NULL` or `""`, the engine falls back to reading the `SNAP_HOME` environment variable. If an explicit path is provided, it **overrides** `SNAP_HOME`. |
-| `lang` | `const char*` | Language code. Accepted values: `"ko"`, `"ja"`, `"en"` (case-insensitive). |
+| `weights_dir` | `const char*` | Path to weights root or language directory (UTF-8). If `NULL` or `""`, falls back to reading the `SNAP_HOME` environment variable. If an explicit path is provided, it **overrides** `SNAP_HOME`. |
+| `lang` | `const char*` | Language code (`"ko"`, `"ja"`, `"en"`, case-insensitive). |
 
 **Return value**
 
 | Value | Meaning |
 |:---|:---|
 | non-null `void*` | Success — opaque handle to the engine instance |
-| `NULL` | Failure — invalid path, missing model files (`snap_config.json`), or internal exception |
+| `NULL` | Failure — invalid path, missing model files (`snap_config.json`), or initialization exception |
 
 **Notes**
-- **Recommended Usage (`SNAP_HOME`)**: Since `snap_init` configures the `SNAP_HOME` environment variable automatically, passing `NULL` or `std::getenv("SNAP_HOME")` is recommended for single-instance applications:
+- **Recommended Usage (`SNAP_HOME`)**:
   ```cpp
-  void* handle = snap_create(NULL, "ko"); // Recommended: Uses SNAP_HOME
-  ```
-- **Custom Absolute Path Override**: You can bypass `SNAP_HOME` and pass any explicit absolute or relative path:
-  ```cpp
-  void* handle = snap_create("C:/apps/snap_models_v1", "ko"); // Overrides SNAP_HOME
+  void* handle = snap_create(NULL, "ko"); // Recommended: Uses SNAP_HOME environment variable
   ```
 - **Multilingual Concurrent Setup**:
-  From a single `SNAP_HOME` root initialized via `snap_init`, you can concurrently instantiate handles for Korean (`"ko"`), Japanese (`"ja"`), and English (`"en"`):
   ```cpp
-  // Concurrent Multilingual handles using SNAP_HOME
   void* handle_ko = snap_create(NULL, "ko");
   void* handle_ja = snap_create(NULL, "ja");
   void* handle_en = snap_create(NULL, "en");
-
-  const char* res_ko = snap_process(handle_ko, "오후 3시에 만납시다.");
-  const char* res_ja = snap_process(handle_ja, "午後3時に会いましょう。");
-  const char* res_en = snap_process(handle_en, "Let's meet at 3 PM.");
-
-  snap_free((void*)res_ko);
-  snap_free((void*)res_ja);
-  snap_free((void*)res_en);
-
-  snap_destroy(handle_ko);
-  snap_destroy(handle_ja);
-  snap_destroy(handle_en);
   ```
-- The returned handle must be released with `snap_destroy()` when no longer needed.
 
 ---
 
 ### `snap_create_with_version`
 
-Allocate and initialize a SNAP engine instance with explicit model variant and version pinning.
+Allocate and initialize a SNAP engine instance with explicit model variant and manifest version pinning.
 
 ```c
-void* snap_create_with_version(const char* weights_dir, const char* lang, const char* variant, const char* version);
+SNAP_API void* snap_create_with_version(
+    const char* weights_dir,
+    const char* lang,
+    const char* variant,
+    const char* dict_version,
+    const char* model_version
+);
 ```
 
 **Parameters**
@@ -107,71 +94,79 @@ void* snap_create_with_version(const char* weights_dir, const char* lang, const 
 |:---|:---|:---|
 | `weights_dir` | `const char*` | Weights root directory path. Falls back to `SNAP_HOME` if `NULL` or `""`. |
 | `lang` | `const char*` | Language code (`"ko"`, `"ja"`, `"en"`). |
-| `variant` | `const char*` | Model variant specifier (e.g. `"standard"`, `"lite"`, `"base"`). If `NULL` or `""`, defaults to `"standard"`. |
-| `version` | `const char*` | Model version tag (e.g. `"1.0.0"`, `"v1"`). If `NULL` or `""`, defaults to `"latest"`. |
+| `variant` | `const char*` | Model variant (e.g., `"kcbert-base-int8"`, or `NULL` for default). |
+| `dict_version` | `const char*` | Dictionary lexicon version tag (e.g., `"v1.0.0"`, or `NULL` for active version). |
+| `model_version` | `const char*` | Neural backbone model version tag (e.g., `"v1.0.0"`, or `NULL` for active version). |
 
 **Return value**
 
 | Value | Meaning |
 |:---|:---|
-| non-null `void*` | Success — engine handle pinned to requested variant/version |
-| `NULL` | Failure — requested variant/version files not found |
+| non-null `void*` | Success — engine handle pinned to explicit model/dict versions |
+| `NULL` | Failure — requested version/variant manifest or files not found |
 
 ---
 
 ### `snap_process`
 
-Run full pre-processing on UTF-8 input text for the language specified when `handle` was created.
+Run full context-aware inference and text normalization on UTF-8 input text using BERT probing heads.
 
 ```c
-const char* snap_process(void* handle, const char* text);
+SNAP_API const char* snap_process(void* handle, const char* text_utf8);
 ```
 
 **Parameters**
 
 | Name | Type | Description |
 |:---|:---|:---|
-| `handle` | `void*` | Engine instance handle returned by `snap_create()` or `snap_create_with_version()`. |
-| `text` | `const char*` | Null-terminated UTF-8 input string. Must not be `NULL`. |
+| `handle` | `void*` | Engine instance handle returned by `snap_create()`. |
+| `text_utf8` | `const char*` | Null-terminated UTF-8 encoded input string. Must not be `NULL`. |
 
 **Return value**
 
 | Value | Meaning |
 |:---|:---|
 | non-null `const char*` | Success — heap-allocated, null-terminated UTF-8 output string. **Caller must release with `snap_free()`.** |
-| `NULL` | Failure — `handle` is `NULL`, `text` is `NULL`, or pipeline execution error |
-
-**Memory Notice**
-
-The return pointer is allocated via internal C allocator (`malloc` / `strdup`). **Do not use C++ `delete` or standard C `free()` directly across DLL boundaries on Windows.** Always pass it to `snap_free()`.
+| `NULL` | Failure — `handle` is `NULL`, `text_utf8` is `NULL`, or processing exception |
 
 ---
 
 ### `snap_normalize`
 
-Alias for `snap_process()`. Provided for API consistency.
+Fast rule-based text normalization mode without neural BERT inference overhead.
 
 ```c
-const char* snap_normalize(void* handle, const char* text);
-```
-
-**Behavior**: Identical to `snap_process()`.
-
----
-
-### `snap_free`
-
-Release a string buffer returned by `snap_process()` or `snap_normalize()`.
-
-```c
-void snap_free(void* ptr);
+SNAP_API const char* snap_normalize(void* handle, const char* text_utf8);
 ```
 
 **Parameters**
 
 | Name | Type | Description |
 |:---|:---|:---|
-| `ptr` | `void*` | Pointer previously returned by `snap_process()` or `snap_normalize()`. Safe to pass `NULL` (no-op). |
+| `handle` | `void*` | Engine instance handle returned by `snap_create()`. |
+| `text_utf8` | `const char*` | Input UTF-8 string to normalize. |
+
+**Return value**
+
+| Value | Meaning |
+|:---|:---|
+| non-null `const char*` | Success — heap-allocated normalized text string. **Caller must release with `snap_free()`.** |
+
+---
+
+### `snap_free`
+
+Release a heap-allocated result string buffer returned by `snap_process()` or `snap_normalize()`.
+
+```c
+SNAP_API void snap_free(const void* result);
+```
+
+**Parameters**
+
+| Name | Type | Description |
+|:---|:---|:---|
+| `result` | `const void*` | Pointer previously returned by `snap_process()` or `snap_normalize()`. Safe to pass `NULL` (no-op). |
 
 ---
 
@@ -180,69 +175,112 @@ void snap_free(void* ptr);
 Destroy an engine instance and release all associated ONNX Runtime sessions, memory, and model weights.
 
 ```c
-void snap_destroy(void* handle);
+SNAP_API void snap_destroy(void* handle);
 ```
 
-**Parameters**
+---
 
-| Name | Type | Description |
-|:---|:---|:---|
-| `handle` | `void*` | Engine instance handle to destroy. Safe to pass `NULL` (no-op). |
+## Versioning & ABI Compatibility Functions (`snap_version.h`)
+
+---
+
+### `SNAP_VERSION_*` Compile-time Macros
+
+```c
+#define SNAP_VERSION_MAJOR    1
+#define SNAP_VERSION_MINOR    0
+#define SNAP_VERSION_PATCH    0
+#define SNAP_VERSION_STRING   "1.0.0"
+#define SNAP_VERSION_NUMBER   10000 // (MAJOR * 10000 + MINOR * 100 + PATCH)
+```
 
 ---
 
 ### `snap_version`
 
-Retrieve the engine runtime version string.
+Get the runtime shared library version string.
 
 ```c
-const char* snap_version(void);
+SNAP_API const char* snap_version(void);
 ```
-
-**Return value**: Pointer to a static, null-terminated version string (e.g. `"1.0.0"`). **Do not pass this pointer to `snap_free()`.**
+**Return value**: Static null-terminated version string (e.g. `"1.0.0"`). Do **not** pass to `snap_free()`.
 
 ---
 
-### `snap_last_error`
+### `snap_version_number`
 
-Retrieve the thread-local error message for the last failed operation.
+Get runtime numeric version value for version comparison.
 
 ```c
-const char* snap_last_error(void);
+SNAP_API int snap_version_number(void);
 ```
-
-**Return value**: Pointer to a thread-local static string describing the last error. **Do not pass to `snap_free()`.**
+**Return value**: Integer version (e.g., `10000` for `1.0.0`).
 
 ---
 
-## Complete C++ Usage Example
+### `snap_version_info`
+
+Get detailed major, minor, and patch version numbers.
+
+```c
+SNAP_API void snap_version_info(int* major, int* minor, int* patch);
+```
+
+---
+
+### `snap_version_check`
+
+Check ABI compatibility against target major and minor version numbers.
+
+```c
+SNAP_API int snap_version_check(int major, int minor);
+```
+**Return value**: `1` if compatible, `0` otherwise.
+
+---
+
+### `snap_version_verbose`
+
+Get verbose runtime version information (includes compiler, build date, and target platform).
+
+```c
+SNAP_API const char* snap_version_verbose(void);
+```
+
+---
+
+## Complete C++ Integration Example
 
 ```cpp
 #include <iostream>
-#include <cstdlib>
 #include "snap/snap_api.h"
+#include "snap/snap_version.h"
 
 int main() {
-    // 1. Initialize SNAP engine for Korean using SNAP_HOME
-    void* handle = snap_create(NULL, "ko");
-    if (!handle) {
-        std::cerr << "Failed to initialize SNAP engine: " 
-                  << (snap_last_error() ? snap_last_error() : "Unknown error") << std::endl;
+    // 0. Verify SDK Version
+    std::cout << "SNAP SDK Version: " << snap_version() << std::endl;
+    if (!snap_version_check(SNAP_VERSION_MAJOR, SNAP_VERSION_MINOR)) {
+        std::cerr << "ABI incompatibility detected!\n";
         return 1;
     }
 
-    // 2. Perform text normalization
-    const char* input = "여기서 3번 버스를 타고 3번 갈아타야 해.";
+    // 1. Initialize SNAP engine for Korean using SNAP_HOME
+    void* handle = snap_create(NULL, "ko");
+    if (!handle) {
+        std::cerr << "Failed to initialize SNAP engine handle.\n";
+        return 1;
+    }
+
+    // 2. Perform context-aware text normalization & G2P processing
+    const char* input = "여기서 3번 버스를 타고 3번 가라타야 해.";
     const char* result = snap_process(handle, input);
 
     if (result) {
         std::cout << "Input:  " << input << std::endl;
         std::cout << "Output: " << result << std::endl;
 
-        // 3. Free output string
-        snap_free((void*)result);
-    } else {
-        std::cerr << "Processing error: " << snap_last_error() << std::endl;
+        // 3. Release output string buffer
+        snap_free(result);
     }
 
     // 4. Destroy engine handle
