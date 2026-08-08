@@ -3,7 +3,7 @@
 > **Semantic Normalization via Attached Probes**  
 > *Real-Time, Context-Aware Multilingual TTS Pre-Processing Engine*
 
-[🌐 Official Website](https://snap-libs.github.io/snap/) | [📦 C++ SDK Setup Guide](INSTALL.md) | [🎛️ TUI Setup Manager Guide](https://github.com/snap-libs/snap_core/blob/main/setup/SNAP_SETUP_MANUAL.md)
+[🌐 Official Website](https://snap-libs.github.io/snap/) | [📦 C++ SDK Setup Guide](INSTALL.md) | [📘 C++ API Manual](SNAP_API_MANUAL.md) | [🎛️ TUI Setup Manager Guide](https://github.com/snap-libs/snap_core/blob/main/setup/SNAP_SETUP_MANUAL.md)
 
 ---
 
@@ -146,4 +146,5 @@ For detailed installation, setup, and interactive demos, please refer to the off
 
 * 🌐 **Official Website & Interactive Demo**: [https://snap-libs.github.io/snap/](https://snap-libs.github.io/snap/)
 * 📦 **C++ SDK Installation Guide**: [INSTALL.md](INSTALL.md) — Comprehensive CMake build and platform setup instructions.
+* 📘 **C++ API Reference Manual**: [SNAP_API_MANUAL.md](SNAP_API_MANUAL.md) — Opaque handle lifecycle, function specifications, and memory ownership rules.
 * 🎛️ **TUI Setup Manager Guide**: [https://github.com/snap-libs/snap_core/blob/main/setup/SNAP_SETUP_MANUAL.md](https://github.com/snap-libs/snap_core/blob/main/setup/SNAP_SETUP_MANUAL.md) — Interactive TUI option configuration and asset management.
