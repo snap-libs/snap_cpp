@@ -73,6 +73,7 @@ snap_cpp/
 ├── examples/             # Quickstart Examples (test_e2e.cpp, version_check.cpp)
 ├── README.md             # Overview & Quickstart Guide
 ├── INSTALL.md            # Integration & Installation Guide
+├── SNAP_API_MANUAL.md   # C API Reference Manual
 └── LICENSE
 ```
 
