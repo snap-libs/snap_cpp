@@ -15,7 +15,7 @@ extern "C" {
 #endif
 
 /// Create SNAP engine instance: load BERT + all head ONNX models
-/// @param weights_dir  가중치 루트 디렉터리 또는 언어 폴더 직접 경로 (UTF-8).
+/// @param weights_dir  Path to weights root or language directory (UTF-8).
 /// @param lang         Language code ("ko", "ja", "en")
 /// @return Engine instance handle (void*) on success, nullptr on failure
 SNAP_API void* snap_create(const char* weights_dir, const char* lang);
