@@ -94,7 +94,7 @@ snap_cpp/
 │   └── macos/v1.0.0/       # macOS Universal Dylib (ARM64/Intel)
 ├── examples/             # Quickstart Examples (test_e2e.cpp, version_check.cpp)
 ├── README.md             # Overview & Quickstart Guide
-├── INSTALL.md            # Integration & Installation Guide
+├── SNAP_SDK_INSTALL.md   # Integration & Installation Guide
 ├── SNAP_API_MANUAL.md   # C API Reference Manual
 └── LICENSE
 ```
