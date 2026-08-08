@@ -4,6 +4,16 @@ project(snap_cpp CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Configure Static Runtime Linking (No External Runtime Dependencies)
+if(MSVC)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+elseif(UNIX AND NOT APPLE)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc")
+elseif(APPLE)
+    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64" CACHE STRING "Build architectures for macOS")
+    set(CMAKE_OSX_DEPLOYMENT_TARGET "11.0" CACHE STRING "Minimum macOS deployment version")
+endif()
+
 # 1. Fetch nlohmann/json
 include(FetchContent)
 FetchContent_Declare(
@@ -78,8 +88,8 @@ else()
 endif()
 
 # 4. Build Examples if present
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_e2e.cpp")
-    add_executable(test_e2e test_e2e.cpp)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/examples/test_e2e.cpp")
+    add_executable(test_e2e examples/test_e2e.cpp)
     target_link_libraries(test_e2e PRIVATE snap_cpp)
 endif()
 

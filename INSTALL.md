@@ -8,16 +8,15 @@ High-performance, zero-dependency C/C++ Frontend Inference Engine for Multilingu
 
 Before using or building the SNAP C++ SDK, ensure your environment meets the following requirements:
 
-### 1. Runtime Requirements (Using Prebuilt Binaries)
-If integrating prebuilt shared libraries (`snap_cpp.dll` / `libsnap_cpp.so` / `libsnap_cpp.dylib`):
+### 1. Runtime Requirements (Prebuilt Binaries)
+Prebuilt shared libraries (`snap_cpp.dll` / `libsnap_cpp.so` / `libsnap_cpp.dylib`) use static C++ runtime linkage (`/MT` on MSVC, `-static-libstdc++` on GCC).
 
-* **🪟 Windows (x64)**:  
-  **Microsoft Visual C++ Redistributable 2019/2022 (x64)** (`vc_redist.x64.exe`) is required for `snap_cpp.dll` and `onnxruntime.dll`.  
-  *(Most Windows systems have this installed, but clean OS installs require [vc_redist.x64.exe](https://aka.ms/vs/17/release/vc_redist.x64.exe)).*
+* **🪟 Windows (x64 / ARM64)**:  
+  No MSVC Redistributable installation required. Static CRT linkage is built into `snap_cpp.dll`.
 * **🐧 Linux (x64)**:  
-  GLIBC 2.27 or higher, `libstdc++6` (Standard on Ubuntu 18.04+, RHEL 8+, Debian 10+).
+  GLIBC 2.27+ (Standard on Ubuntu 18.04+, RHEL 8+, Debian 10+). C++ standard library (`libstdc++`) is statically linked.
 * **🍏 macOS (Universal)**:  
-  macOS 11.0 (Big Sur) or higher (Native support for Apple Silicon M1/M2/M3 ARM64 & Intel x86_64).
+  macOS 11.0 (Big Sur)+ native support for Apple Silicon ARM64 & Intel x86_64 via OS `libc++`.
 
 ### 2. Build Requirements (Building from Source)
 If compiling `snap_cpp` from source code using CMake:

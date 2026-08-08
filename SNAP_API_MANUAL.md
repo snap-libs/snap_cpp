@@ -28,9 +28,8 @@ snap_destroy()
 2. `SNAP_HOME` environment variable (if `weights_dir` is `NULL` or `""`)
 3. Current working directory (`.`)
 
-**Memory ownership rule**: every non-null pointer returned by `snap_process()`
-or `snap_normalize()` is a heap-allocated buffer owned by the caller.
-It must be released exactly once with `snap_free()`.
+**Memory ownership rule**: Every non-null pointer returned by `snap_process()` or `snap_normalize()` is a heap-allocated buffer owned by the caller. It **must** be released exactly once using `snap_free()`.  
+*(Note: Prebuilt binaries use static CRT linkage `/MT`. Returning pointers are managed within the DLL's internal heap. Always release buffers via `snap_free()` to prevent cross-boundary heap corruption).*
 
 ---
 

@@ -5,7 +5,8 @@
 ### Windows x64 (`snap_cpp.dll`)
 - **Location**: `lib/windows/x64/v1.0.0/`
 - **Compiler**: MSVC 2019 / 2022 (x64)
-- **Dependencies**: `onnxruntime.dll` (v1.18.1)
+- **Runtime Linkage**: Static CRT (`/MT` on MSVC, `-static-libstdc++` on GCC)
+- **Dependencies**: `onnxruntime.dll` (v1.18.1) *(No MSVC Redistributable required)*
 - **Build Version**: `1.0.0.0`
 
 ### Linux AMD x64 (`libsnap_cpp.so`)
