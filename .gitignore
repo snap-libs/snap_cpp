@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+.venv_wsl/
+
+# Backup & Temporary Files
+*.bak
+*.bak_*
+*backup*
+tmp/
+scratch/
+test_local/
+
+# Heavy Model Weights & Binary Blobs
+*.onnx
+*.onnx.data
+*.pth
+*.pkl
+*.bin
+weights/
+
+# C++ Build & Executables
+snap_cpp/build/
+snap_cpp/build_linux/
+snap_cpp/build_macos/
+*.exp
+*.lib
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Allow prebuilt libraries in lib/
+!lib/**/*.dll
+!lib/**/*.lib
+!lib/**/*.so
+!lib/**/*.so.*
+!lib/**/*.dylib
+!lib/**/VERSION_INFO.json
+run_log.txt
+*.pdf
+
+# Large Validation Logs & Reports
+validation/reports/
+temp_cpp_verify/
+*.jsonl
+
