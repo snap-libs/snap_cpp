@@ -35,7 +35,22 @@ BERT를 내장하지 않은 TTS와의 연동 예제입니다. 기존에 사용�
 
 ### 빠른 시작 (Quick Start)
 
-**Linux / macOS / WSL (cURL)**
+**Python**
+```python
+import requests
+
+url = "https://snap-api-673324870645.asia-northeast3.run.app/v1/normalize"
+payload = {
+    "text": "2026년 8월 25일 오후 3시 30분에 2호선 3번 출구 앞 ABC Technology 본사에서 만나요.",
+    "custom_dict": {"ABC Technology": "에이비씨 테크놀로지"}
+}
+res = requests.post(url, json=payload).json()
+print("정규화:", res["data"]["normalized_text"])
+print("발음  :", res["data"]["phonemes"])
+# 출력: 이처니심늉년 파뤌 이시보일 오후 세시 삼십뿌네 이호선 삼번 출구 압 에이비씨 테크놀로지 본사에서 만나요.
+```
+
+**cURL (Terminal)**
 ```bash
 curl -X POST "https://snap-api-673324870645.asia-northeast3.run.app/v1/normalize" \
      -H "Content-Type: application/json" \
@@ -43,11 +58,6 @@ curl -X POST "https://snap-api-673324870645.asia-northeast3.run.app/v1/normalize
        "text": "2026년 8월 25일 오후 3시 30분에 2호선 3번 출구 앞 ABC Technology 본사에서 만나요.",
        "custom_dict": {"ABC Technology": "에이비씨 테크놀로지"}
      }'
-```
-
-**Windows (PowerShell)**
-```powershell
-Invoke-RestMethod -Uri "https://snap-api-673324870645.asia-northeast3.run.app/v1/normalize" -Method Post -ContentType "application/json; charset=utf-8" -Body '{"text": "2026년 8월 25일 오후 3시 30분에 2호선 3번 출구 앞 ABC Technology 본사에서 만나요.", "custom_dict": {"ABC Technology": "에이비씨 테크놀로지"}}'
 ```
 
 ### 상세 연동 문서
