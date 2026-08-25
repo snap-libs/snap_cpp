@@ -60,8 +60,9 @@ curl -X POST "https://snap-api-673324870645.asia-northeast3.run.app/v1/normalize
      }'
 ```
 
-### 상세 연동 문서
-* [REST API 연동 상세 매뉴얼](SNAP_REST_API_MANUAL.md) — 파라미터 규격, 응답 스키마, Python/JavaScript 호출 예제
+### 상세 연동 문서 및 실전 예제
+* [REST API 연동 상세 매뉴얼](SNAP_REST_API_MANUAL.md) — 파라미터 규격, 응답 스키마 및 상세 레시피
+* [실전 예제 모음 (examples/)](examples/) — 단일 문장/사전 치환(`01`), 대용량 배치(`02`), 산업 도메인별 레시피(`03`), cURL 모음
 
 ## Enterprise & On-Premise SDK (Docker)
 
