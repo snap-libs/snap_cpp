@@ -80,4 +80,9 @@ curl -X POST "https://snap-api-673324870645.asia-northeast3.run.app/v1/normalize
 * **네트워크 독립성**: 외부 통신 없는 오프라인/사내 폐쇄망 환경 지원
 * **초저지연 온프레미스 연동**: REST API 및 C++ Direct Linkage 지원
 * **제공 방식**: 사전 협약(Agreement) 기반 배포
-* **Contact**: [snap.leejh@gmail.com](mailto:snap.leejh@gmail.com)
+* **도입 문의**: [snap.leejh@gmail.com](mailto:snap.leejh@gmail.com)
+
+## 라이선스 (License)
+
+본 저장소의 클라이언트 코드, 예제 및 연동 문서는 [MIT 라이선스](LICENSE)에 따라 자유롭게 사용하실 수 있습니다.  
+SNAP 코어 엔진, 모델 가중치 및 온프레미스(On-Premise) 엔터프라이즈 SDK는 별도 서비스 계약에 의해 제공되는 독점 자산입니다.

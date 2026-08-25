@@ -81,3 +81,8 @@ For air-gapped, security-critical, or high-throughput enterprise environments, *
 * **Ultra-Low Latency**: Direct C++ linkage and local REST microservice
 * **Distribution**: Available via prior Service Agreement
 * **Contact**: [snap.leejh@gmail.com](mailto:snap.leejh@gmail.com)
+
+## License
+
+This repository's client examples, recipes, and documentation are licensed under the [MIT License](LICENSE).  
+The underlying SNAP Core Engine, model weights, and On-Premise SDKs are proprietary assets governed by separate Service Agreements.
