@@ -2,27 +2,30 @@
 
 SNAP은 한국어·일본어·영어를 지원하는 실시간 음성 전처리(TTS Frontend & ITN) 엔진입니다. 문장의 문맥과 의미를 분석하여 발음 정규화와 운율 생성을 실시간으로 수행합니다.
 
-[공식 웹사이트](https://snap-libs.github.io/snap/) | [TN 데모](https://huggingface.co/spaces/softguy777/snap-demo) | [MeloTTS 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo) | [Piper 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo2) | [F5-TTS 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo3)
+[공식 웹사이트](https://snap-libs.github.io/snap/) | [텍스트 전처리 데모](https://huggingface.co/spaces/softguy777/snap-demo) | [MeloTTS 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo) | [Piper 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo2) | [F5-TTS 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo3)
 
 * [SNAP 프로젝트 상세 소개서](docs/Snap%20Project%20Introduction.md)
+* [SNAP 다국어 텍스트 전처리 데모 (TN / G2P / Prosody)](https://huggingface.co/spaces/softguy777/snap-demo) — 문맥 기반 정규화(TN), 음운 변환(G2P), 운율 쉼표 예측 실시간 테스트
 
-## Snap Live Demo
+## SNAP + TTS 연동 Live Demo
 
-### 다국어 텍스트 전처리 (TN / G2P / Prosody)
-한국어, 일본어, 영어 3개 국어의 문맥 기반 텍스트 정규화(TN), 음운 변환(G2P), 운율 쉼표(Prosodic Pause) 예측을 테스트할 수 있는 실시간 데모입니다.
-* [SNAP Frontend 다국어(한·일·영) 데모 바로가기](https://huggingface.co/spaces/softguy777/snap-demo)
+많은 글로벌 오픈소스 및 상용 TTS 엔진들은 다국어 전처리기로 `espeak-ng`나 단순 규칙 기반 변환기를 사용합니다. 그러나 한국어와 일본어 같은 언어는 복잡한 음운 변동(비음화·유음화·경음화), 문맥에 따른 수사 및 한자 읽기 변별, 동철이음이의어 등으로 인해 기존 전처리기로는 발음 왜곡과 부자연스러운 끊어 읽기가 빈번하게 발생했습니다.
+
+실제로 상용 서비스 현업에서도 이러한 발음 오류를 줄이기 위해 LLM을 거쳐 발음 기호를 생성하고 사람이 이를 재검수하는 과정을 거치기도 합니다.
+
+아래 3가지 오픈소스 TTS(MeloTTS, Piper, F5-TTS)는 글로벌 환경에서 널리 사용되지만 전처리기 문제로 한국어 지원이 미흡했던 대표적인 모델들입니다. SNAP 엔진과의 결합을 통해 각 모델의 아키텍처 특성에 맞추어 올바른 발음과 운율을 생성하도록 구성한 데모입니다.
 
 ### MeloTTS 음성 합성 (BERT 공유형)
 MeloTTS가 사용하는 BERT 모델을 전처리 단계에서 공유하여 결과를 음향 모델에 전달하므로 BERT를 중복 계산하지 않습니다. 기존에 사용하던 g2pk를 SNAP으로 대체합니다.
 * [SNAP + MeloTTS 음성 합성 데모 바로가기](https://huggingface.co/spaces/softguy777/snap_voice_demo)
 
 ### Piper VITS 음성 합성 (경량 온디바이스형)
-BERT를 내장하지 않은 TTS와의 연동 예제입니다. 기존에 사용하던 espeak-ng를 SNAP으로 대체하여 22개 화자 스타일의 한국어 음성을 지원합니다.
+BERT를 내장하지 않은 경량 TTS와의 연동 예제입니다. 기존에 사용하던 espeak-ng를 SNAP으로 대체하여 22개 화자 스타일의 한국어 음성을 지원합니다.
 * [SNAP + Piper VITS 22개 화자 데모 바로가기](https://huggingface.co/spaces/softguy777/snap_voice_demo2)
 
-### F5-TTS 음성 합성 (확산 모델 연동형)
-확산(Diffusion) 기반 최신 모델인 F5-TTS와의 연동 데모입니다. NFD 자모 분해 방식을 사용하는 F5-TTS에 맞추어 SNAP G2P 결과를 자모 분해하여 전달하며, 16개 프리셋 화자 음성을 지원합니다.
-* [SNAP + F5-TTS 16개 화자 데모 바로가기](https://huggingface.co/spaces/softguy777/snap_voice_demo3)
+### F5-TTS 음성 합성 및 보이스 클로닝 (확산 모델 연동형)
+Flow Matching 확산(Diffusion) 기반 최신 모델인 F5-TTS와의 연동 데모입니다. NFD 자모 분해 방식을 사용하는 F5-TTS에 맞추어 SNAP G2P 결과를 자모 분해하여 전달함으로써, 16개 프리셋 화자뿐만 아니라 사용자 참조 오디오를 활용한 한국어 Zero-Shot 보이스 클로닝(Voice Cloning)을 지원합니다.
+* [SNAP + F5-TTS 보이스 클로닝 데모 바로가기](https://huggingface.co/spaces/softguy777/snap_voice_demo3)
 
 ## SNAP Cloud API (Free)
 
