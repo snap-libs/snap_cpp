@@ -2,7 +2,7 @@
 
 SNAP은 한국어·일본어·영어를 지원하는 실시간 음성 전처리(TTS Frontend & ITN) 엔진입니다. 문장의 문맥과 의미를 분석하여 발음 정규화와 운율 생성을 실시간으로 수행합니다.
 
-[공식 웹사이트](https://snap-libs.github.io/snap/) | [프로젝트 소개서](docs/Snap%20Project%20Introduction.md) | [TN 데모](https://huggingface.co/spaces/softguy777/snap-demo) | [MeloTTS 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo) | [Piper 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo2) | [F5-TTS 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo3)
+[공식 웹사이트](https://snap-libs.github.io/snap/) | [TN 데모](https://huggingface.co/spaces/softguy777/snap-demo) | [MeloTTS 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo) | [Piper 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo2) | [F5-TTS 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo3)
 
 * [SNAP 프로젝트 상세 소개서](docs/Snap%20Project%20Introduction.md)
 
