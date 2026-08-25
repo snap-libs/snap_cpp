@@ -3,6 +3,9 @@
 > **Real-Time Context-Aware Multilingual Speech Pre-Processing Engine (TTS Frontend & ITN)**  
 > *A Hybrid Architecture Combining Lightweight ONNX BERT Probing Heads with Deterministic Linguistic Rules*
 
+**Author**: Jaihyuk Lee ([snap.leejh@gmail.com](mailto:snap.leejh@gmail.com))  
+**Published**: August 2026 | **Version**: 1.0.0
+
 [English](SNAP_White_Paper.md) | [한국어](SNAP_White_Paper_KO.md)  
 [Official Website](https://snap-libs.github.io/snap/) | [Text Frontend Demo](https://huggingface.co/spaces/softguy777/snap-demo) | [MeloTTS Demo](https://huggingface.co/spaces/softguy777/snap_voice_demo) | [Piper Demo](https://huggingface.co/spaces/softguy777/snap_voice_demo2) | [F5-TTS Demo](https://huggingface.co/spaces/softguy777/snap_voice_demo3)
 

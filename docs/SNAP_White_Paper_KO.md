@@ -3,6 +3,9 @@
 > **실시간 스트리밍 환경을 위한 문맥 인지형 다국어 TTS 전처리 엔진**  
 > *경량 ONNX BERT Probing Head와 결정론적 언어학 규칙을 결합한 하이브리드 프론트엔드*
 
+**저자**: 이재혁 (Jaihyuk Lee, [snap.leejh@gmail.com](mailto:snap.leejh@gmail.com))  
+**발행일**: 2026년 8월 | **버전**: 1.0.0
+
 [English](SNAP_White_Paper.md) | [한국어](SNAP_White_Paper_KO.md)  
 [공식 웹사이트](https://snap-libs.github.io/snap/) | [텍스트 전처리 데모](https://huggingface.co/spaces/softguy777/snap-demo) | [MeloTTS 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo) | [Piper 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo2) | [F5-TTS 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo3)
 
