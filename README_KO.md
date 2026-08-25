@@ -5,7 +5,7 @@ SNAP은 한국어·일본어·영어를 지원하는 실시간 음성 전처리(
 [English](README.md) | [한국어](README_KO.md)  
 [공식 웹사이트](https://snap-libs.github.io/snap/) | [텍스트 전처리 데모](https://huggingface.co/spaces/softguy777/snap-demo) | [MeloTTS 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo) | [Piper 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo2) | [F5-TTS 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo3)
 
-* [SNAP 기술 백서 (Technical White Paper)](docs/SNAP_White_Paper.md)
+* [SNAP 기술 백서 (Technical White Paper)](docs/SNAP_White_Paper_KO.md)
 * [SNAP 다국어 텍스트 전처리 데모 (TN / G2P / Prosody)](https://huggingface.co/spaces/softguy777/snap-demo) — 문맥 기반 정규화(TN), 음운 변환(G2P), 운율 쉼표 예측 실시간 테스트
 
 ## SNAP + TTS 연동 Live Demo
