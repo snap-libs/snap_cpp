@@ -82,7 +82,7 @@ snap_cpp/
 ├── examples/             # Quickstart Examples (test_e2e.cpp, version_check.cpp)
 ├── README.md             # Overview & Quickstart Guide
 ├── SNAP_SDK_INSTALL.md   # Integration & Installation Guide
-├── SNAP_API_MANUAL.md   # C API Reference Manual
+├── SNAP_SDK_API_MANUAL.md   # C API Reference Manual
 ├── SNAP_OPTION_TUNER.md  # Optional TUI Option Tuner Guide
 └── LICENSE
 ```
