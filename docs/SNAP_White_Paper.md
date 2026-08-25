@@ -1,4 +1,4 @@
-# SNAP (Semantic Normalization via Attached Probes) 소개서
+﻿# SNAP (Semantic Normalization via Attached Probes) Technical White Paper
 
 > **실시간 스트리밍 환경을 위한 문맥 인지형 다국어 TTS 전처리 엔진**  
 > *경량 ONNX BERT Probing Head와 결정론적 언어학 규칙을 결합한 하이브리드 프론트엔드*
@@ -230,3 +230,4 @@ SNAP의 처리 속도는 **"타깃 TTS 모델의 BERT 내장 여부"**와 **"입
   * **표준 표기 모드 (Default)**: 일반적인 문서 및 자막에 최적화된 표준 서식 변환 (`23,500원`, `2026. 8. 24.`)
   * **단위 표기 제어 옵션**: 한글 단위 유지(`3.5킬로그램`) vs 영문/기호 변환(`3.5kg`) 선택 지원
   * **보수적 변환 제어**: 문맥에 따라 변환 여부를 안전하게 통제할 수 있는 도메인별 옵션 제공
+

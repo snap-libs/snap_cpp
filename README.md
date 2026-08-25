@@ -5,7 +5,7 @@ SNAP is a real-time, context-aware multilingual speech pre-processing (TTS Front
 [English](README.md) | [한국어](README_KO.md)  
 [Official Website](https://snap-libs.github.io/snap/) | [Text Frontend Demo](https://huggingface.co/spaces/softguy777/snap-demo) | [MeloTTS Demo](https://huggingface.co/spaces/softguy777/snap_voice_demo) | [Piper Demo](https://huggingface.co/spaces/softguy777/snap_voice_demo2) | [F5-TTS Demo](https://huggingface.co/spaces/softguy777/snap_voice_demo3)
 
-* [SNAP Project Detailed Whitepaper (KO)](docs/Snap%20Project%20Introduction.md)
+* [SNAP Technical White Paper](docs/SNAP_White_Paper.md)
 * [SNAP Multilingual Text Frontend Demo (TN / G2P / Prosody)](https://huggingface.co/spaces/softguy777/snap-demo) — Real-time evaluation of context normalization (TN), phonetic conversion (G2P), and prosodic pauses
 
 ## SNAP + Open-Source TTS Live Demos
