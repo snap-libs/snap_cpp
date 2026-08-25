@@ -27,6 +27,10 @@ BERT를 내장하지 않은 경량 TTS와의 연동 예제입니다. 기존에 �
 Flow Matching 확산(Diffusion) 기반 최신 모델인 F5-TTS와의 연동 데모입니다. NFD 자모 분해 방식을 사용하는 F5-TTS에 맞추어 SNAP G2P 결과를 자모 분해하여 전달함으로써, 16개 프리셋 화자뿐만 아니라 사용자 참조 오디오를 활용한 한국어 Zero-Shot 보이스 클로닝(Voice Cloning)을 지원합니다.
 * [SNAP + F5-TTS 보이스 클로닝 데모 바로가기](https://huggingface.co/spaces/softguy777/snap_voice_demo3)
 
+> **데모 실행 환경 안내**:
+> * **MeloTTS / Piper**: 경량 모델로 저사양 2 vCPU 환경에서도 지연 없이 실시간 음성 생성이 가능합니다.
+> * **F5-TTS**: 확산(Diffusion) 모델 특성상 Hugging Face GPU 동적 할당을 사용하므로, 실행 시마다 GPU 할당 대기 시간이 발생할 수 있으며 허깅페이스 월간 GPU 쿼터 초과 시 동작이 제한될 수 있습니다.
+
 ## SNAP Cloud API (Free)
 
 현재 SNAP의 다국어(한국어·일본어·영어) 전처리 기능 테스트를 위해 별도의 가입이나 조건 없이 자유롭게 호출할 수 있도록 오픈되어 있습니다.
