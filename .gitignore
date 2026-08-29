@@ -52,4 +52,6 @@ build_temp/
 *.exe~
 test_options_all.py
 *.jsonl
+*.db
+.env
 

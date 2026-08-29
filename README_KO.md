@@ -70,7 +70,9 @@ curl -X POST "https://snap-api-673324870645.asia-northeast3.run.app/v1/normalize
 ```
 
 ### 상세 연동 문서 및 실전 예제
-* [REST API 연동 상세 매뉴얼](SNAP_REST_API_MANUAL.md) — 파라미터 규격, 응답 스키마 및 상세 레시피
+* [REST API 연동 상세 매뉴얼](docs/SNAP_REST_API_MANUAL_KO.md) ([English](docs/SNAP_REST_API_MANUAL.md)) — 파라미터 규격, 응답 스키마 및 상세 레시피
+* [C/C++ Native SDK 매뉴얼](docs/SNAP_SDK_API_MANUAL_KO.md) ([English](docs/SNAP_SDK_API_MANUAL.md)) — C-API 바인딩, 라이프사이클, 동적 옵션 및 ABI 규격서
+* [SNAP 기술 백서](docs/SNAP_White_Paper_KO.md) ([English](docs/SNAP_White_Paper.md)) — Pure Context Probing 아키텍처 및 벤치마크 평가 결과
 * [실전 예제 모음 (examples/)](examples/) — 단일 문장/사전 치환(`01`), 대용량 배치(`02`), 산업 도메인별 레시피(`03`), 다국어(`04`), cURL 모음
 
 ## Enterprise & On-Premise SDK (Docker)

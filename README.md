@@ -70,7 +70,9 @@ curl -X POST "https://snap-api-673324870645.asia-northeast3.run.app/v1/normalize
 ```
 
 ### Documentation & Recipes
-* [REST API Specification Manual](SNAP_REST_API_MANUAL.md) — Parameters, response schemas, and code recipes
+* [REST API Specification Manual](docs/SNAP_REST_API_MANUAL.md) ([한국어](docs/SNAP_REST_API_MANUAL_KO.md)) — Parameters, response schemas, and code recipes
+* [C/C++ Native SDK Manual](docs/SNAP_SDK_API_MANUAL.md) ([한국어](docs/SNAP_SDK_API_MANUAL_KO.md)) — C-API bindings, lifecycle, dynamic options, and ABI specs
+* [Technical White Paper](docs/SNAP_White_Paper.md) ([한국어](docs/SNAP_White_Paper_KO.md)) — Pure Context Probing architecture and evaluation benchmarks
 * [Example Recipes (examples/)](examples/) — Single sentence (`01`), batch processing (`02`), domain recipes (`03`), and multilingual test (`04`)
 
 ## Enterprise & On-Premise SDK (Docker)
