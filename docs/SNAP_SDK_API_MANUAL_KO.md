@@ -1,8 +1,9 @@
 # SNAP C/C++ Native SDK API Reference Manual
 
 > **📌 문서 구분 안내**  
-> * **본 문서 ([`SNAP_SDK_API_MANUAL.md`](file:///c:/work/snap/SNAP_SDK_API_MANUAL.md)):** C/C++ 네이티브 임베디드 라이브러리(헤더, DLL/SO, 메모리 관리) 연동 규격서입니다.  
-> * **웹/클라우드 HTTP REST API 연동:** JSON 엔드포인트 웹 API 규격은 [`SNAP_REST_API_MANUAL.md`](file:///c:/work/snap/SNAP_REST_API_MANUAL.md)를 참조하세요.
+> * **본 문서 (`SNAP_SDK_API_MANUAL_KO.md`):** C/C++ 네이티브 임베디드 라이브러리(헤더, DLL/SO, 메모리 관리) 한국어 연동 규격서입니다.  
+> * **영문 SDK 규격서:** [`SNAP_SDK_API_MANUAL.md`](SNAP_SDK_API_MANUAL.md)를 참조하세요.  
+> * **웹/클라우드 HTTP REST API 연동:** JSON 엔드포인트 웹 API 규격은 [`SNAP_REST_API_MANUAL_KO.md`](SNAP_REST_API_MANUAL_KO.md) ([English](SNAP_REST_API_MANUAL.md))를 참조하세요.
 
 > Header: `include/snap/snap_api.h` & `include/snap/snap_version.h`  
 > Library: `snap_cpp.dll` / `libsnap_cpp.so` / `libsnap_cpp.dylib`

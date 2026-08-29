@@ -1,9 +1,9 @@
 # SNAP C/C++ Native SDK API Reference Manual
 
 > **📌 Document Guidance**  
-> * **This Document ([`SNAP_SDK_API_MANUAL.md`](file:///c:/work/snap/SNAP_SDK_API_MANUAL.md)):** C/C++ Native Embedded Library (Headers, DLL/SO, Memory Management) Reference Specification.  
-> * **Korean Version (한국어 매뉴얼):** Please refer to [`SNAP_SDK_API_MANUAL_KO.md`](file:///c:/work/snap/SNAP_SDK_API_MANUAL_KO.md).  
-> * **Web / Cloud HTTP REST API:** For cloud JSON endpoints, please refer to [`SNAP_REST_API_MANUAL.md`](file:///c:/work/snap/SNAP_REST_API_MANUAL.md).
+> * **This Document (`SNAP_SDK_API_MANUAL.md`):** C/C++ Native Embedded Library (Headers, DLL/SO, Memory Management) Reference Specification.  
+> * **Korean Version (한국어 매뉴얼):** Please refer to [`SNAP_SDK_API_MANUAL_KO.md`](SNAP_SDK_API_MANUAL_KO.md).  
+> * **Web / Cloud HTTP REST API:** For cloud JSON endpoints, please refer to [`SNAP_REST_API_MANUAL.md`](SNAP_REST_API_MANUAL.md) ([한국어](SNAP_REST_API_MANUAL_KO.md)).
 
 > Header: `include/snap/snap_api.h` & `include/snap/snap_version.h`  
 > Library: `snap_cpp.dll` / `libsnap_cpp.so` / `libsnap_cpp.dylib`

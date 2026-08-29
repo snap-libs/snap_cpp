@@ -1,9 +1,9 @@
 # 🌐 SNAP HTTP REST API Reference Manual
 
 > **📌 Document Guidance**  
-> * **This Document ([`SNAP_REST_API_MANUAL.md`](file:///c:/work/snap/SNAP_REST_API_MANUAL.md)):** Cloud-based **Web / Server HTTP REST API (FastAPI, JSON Endpoints)** Reference Specification.  
-> * **Korean Version (한국어 매뉴얼):** Please refer to [`SNAP_REST_API_MANUAL_KO.md`](file:///c:/work/snap/SNAP_REST_API_MANUAL_KO.md).  
-> * **C/C++ Native SDK:** For embedded C-API headers, DLL/SO, and memory management, please refer to [`SNAP_SDK_API_MANUAL.md`](file:///c:/work/snap/SNAP_SDK_API_MANUAL.md).
+> * **This Document (`SNAP_REST_API_MANUAL.md`):** Cloud-based **Web / Server HTTP REST API (FastAPI, JSON Endpoints)** Reference Specification.  
+> * **Korean Version (한국어 매뉴얼):** Please refer to [`SNAP_REST_API_MANUAL_KO.md`](SNAP_REST_API_MANUAL_KO.md).  
+> * **C/C++ Native SDK:** For embedded C-API headers, DLL/SO, and memory management, please refer to [`SNAP_SDK_API_MANUAL.md`](SNAP_SDK_API_MANUAL.md) ([한국어](SNAP_SDK_API_MANUAL_KO.md)).
 
 ---
 

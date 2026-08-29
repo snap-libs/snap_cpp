@@ -1,8 +1,9 @@
 # 🌐 SNAP HTTP REST API Reference Manual
 
 > **📌 문서 구분 안내**  
-> * **본 문서 ([`SNAP_REST_API_MANUAL.md`](file:///c:/work/snap/SNAP_REST_API_MANUAL.md)):** 클라우드 기반 **웹/서버 HTTP REST API (FastAPI, JSON 엔드포인트)** 연동 규격서입니다.  
-> * **C/C++ 네이티브 라이브러리 연동:** C-API 임베디드 DLL/SO 헤더 연동은 [`SNAP_SDK_API_MANUAL.md`](file:///c:/work/snap/SNAP_SDK_API_MANUAL.md)를 참조하세요.
+> * **본 문서 (`SNAP_REST_API_MANUAL_KO.md`):** 클라우드 기반 **웹/서버 HTTP REST API (FastAPI, JSON 엔드포인트)** 한국어 연동 규격서입니다.  
+> * **영문 REST API 규격서:** [`SNAP_REST_API_MANUAL.md`](SNAP_REST_API_MANUAL.md)를 참조하세요.  
+> * **C/C++ 네이티브 라이브러리 연동:** C-API 임베디드 DLL/SO 헤더 연동은 [`SNAP_SDK_API_MANUAL_KO.md`](SNAP_SDK_API_MANUAL_KO.md) ([English](SNAP_SDK_API_MANUAL.md))를 참조하세요.
 
 ---
 
