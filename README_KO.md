@@ -17,8 +17,8 @@ SNAP은 한국어·일본어·영어를 지원하는 실시간 음성 전처리(
 
 아래 3가지 오픈소스 TTS(MeloTTS, Piper, F5-TTS)는 글로벌 환경에서 널리 사용되지만 전처리기 문제로 한국어 지원이 미흡했던 대표적인 모델들입니다. SNAP 엔진과의 결합을 통해 각 모델의 아키텍처 특성에 맞추어 올바른 발음과 운율을 생성하도록 구성한 데모입니다.
 
-### MeloTTS 음성 합성 (BERT 공유형)
-MeloTTS가 사용하는 BERT 모델을 전처리 단계에서 공유하여 결과를 음향 모델에 전달하므로 BERT를 중복 계산하지 않습니다. 기존에 사용하던 g2pk를 SNAP으로 대체합니다.
+### MeloTTS 음성 합성 (형태소 태그 및 운율 연동형)
+MeloTTS의 한국어 음향 모델이 요구하는 형태소 태그 및 운율 분절 쉼표를 SNAP v2.0 프론트엔드가 실시간으로 정밀 생성하여 전달합니다. 기존 오류가 많던 g2pk를 SNAP으로 전면 대체하여 끊어 읽기와 발음 정확도를 극대화합니다.
 * [SNAP + MeloTTS 음성 합성 데모 바로가기](https://huggingface.co/spaces/softguy777/snap_voice_demo)
 
 ### Piper VITS 음성 합성 (경량 온디바이스형)
@@ -78,11 +78,12 @@ curl -X POST "https://snap-api-673324870645.asia-northeast3.run.app/v1/normalize
 * [실전 예제 모음 (examples/)](examples/) — 단일 문장/사전 치환(`01`), 대용량 배치(`02`), 산업 도메인별 레시피(`03`), 다국어(`04`), cURL 모음
 
 ## Enterprise & On-Premise SDK (Docker)
-
+ 
 보안, 망분리 환경 또는 대규모 트래픽 처리를 위해 로컬 배포가 필요한 환경을 대상으로 **독립 실행형 SDK Docker 컨테이너** 및 Native C++ SDK를 제공합니다.
-
-* **네트워크 독립성**: 외부 통신 없는 오프라인/사내 폐쇄망 환경 지원
-* **초저지연 온프레미스 연동**: REST API 및 C++ Direct Linkage 지원
+ 
+* **초경량 메모리 풋프린트**: 54~61MB 크기의 Distilled Mini BERT 백본 탑재로 프로세스 런타임 메모리 80MB 내외 최소화
+* **초저지연 온프레미스 연동**: 단일 CPU 코어에서도 문장당 1.8~2.5ms 초고속 처리 (REST API 및 C++ Direct Linkage 지원)
+* **네트워크 독립성**: 외부 통신 없는 오프라인/사내 폐쇄망 환경 완벽 지원
 * **제공 방식**: 사전 협약(Agreement) 기반 배포
 * **도입 문의**: [snap.leejh@gmail.com](mailto:snap.leejh@gmail.com)
 

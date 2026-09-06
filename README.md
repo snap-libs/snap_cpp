@@ -17,8 +17,8 @@ In production environments, engineering teams frequently resort to manual pipeli
 
 The three open-source TTS models below (MeloTTS, Piper, F5-TTS) are widely recognized globally but previously lacked robust Korean support due to frontend limitations. Combined with the SNAP engine, each model now produces accurate pronunciation and natural prosody tailored to its architecture.
 
-### MeloTTS Integration (Shared BERT Pipeline)
-Shares the underlying RoBERTa backbone between the SNAP frontend and MeloTTS acoustic model in a single forward pass, eliminating redundant BERT compute and minimizing latency. Replaces the legacy g2pk pre-processor.
+### MeloTTS Integration (Morpheme Tagging & Prosodic Phrasing)
+Generates precise morpheme segmentations and prosodic break annotations (`[P1]~[P3]`) required by MeloTTS's Korean acoustic model in real time. Completely replaces the legacy g2pk pre-processor to maximize phrase pacing and phonetic accuracy.
 * [Launch SNAP + MeloTTS Demo](https://huggingface.co/spaces/softguy777/snap_voice_demo)
 
 ### Piper VITS Integration (Lightweight On-Device)
@@ -81,8 +81,9 @@ curl -X POST "https://snap-api-673324870645.asia-northeast3.run.app/v1/normalize
 
 For air-gapped, security-critical, or high-throughput enterprise environments, **Standalone SDK Docker Containers** and Native C++ SDKs are available.
 
-* **Air-Gapped & Offline**: Complete network isolation support
-* **Ultra-Low Latency**: Direct C++ linkage and local REST microservice
+* **Ultra-Compact Footprint**: 54–61MB Distilled Mini BERT backbone minimizing runtime memory footprint to <80MB RAM
+* **Ultra-Low Latency**: 1.8–2.5ms per sentence inference on a single CPU core (C++ Direct Linkage & local REST API)
+* **Air-Gapped & Offline**: Complete network isolation support without external telemetry
 * **Distribution**: Available via prior Service Agreement
 * **Contact**: [snap.leejh@gmail.com](mailto:snap.leejh@gmail.com)
 

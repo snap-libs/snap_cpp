@@ -291,7 +291,7 @@ For typical conversational utterances (10–20 words), the engine achieves **1.8
 
 Resource consumption and accuracy across backbone layer configurations evaluated over 10,000 golden baseline sentences:
 
-| Evaluation Metric | 12-Layer Base | 4-Layer (KD 12to4) | 3-Layer (KD 12to3) |
+| Evaluation Metric | 12-Layer Base (Teacher) | 4-Layer (Production Default) | 3-Layer (Edge Profile) |
 | :--- | :---: | :---: | :---: |
 | **Model Binary Size** | 115.0 MB | 61.2 MB | **54.1 MB** |
 | **Single Sentence Latency (46 chars)** | 6.20 ms | 2.15 ms | **1.99 ms** |
@@ -301,7 +301,10 @@ Resource consumption and accuracy across backbone layer configurations evaluated
 | **Final Pronunciation (G2P) Match Rate**| 100.00% (Baseline) | **98.54%** | **98.44%** |
 | **Morpheme Corruption / Ill-Formed Errors**| 0.00% | **0.00%** | **0.00%** |
 
-The 3-Layer and 4-Layer distilled backbones achieve a 3x speedup over the 12-Layer baseline while keeping phonetic discrepancy within 1.5%.
+The 3-Layer and 4-Layer distilled backbones achieve a 3x speedup over the 12-Layer teacher baseline while keeping phonetic discrepancy within 1.5%.
+
+* **Production Sweet Spot (Production Default: 4-Layer)**: By expending only 7.1MB of additional memory over the 3-Layer model, the 4-Layer model achieves a higher G2P pronunciation match rate (98.54%) with a negligible latency difference of just 0.16ms (2.15ms vs. 1.99ms). Consequently, it serves as the **standard recommended default for enterprise-scale cloud APIs and AICC production services**.
+* **Ultra-Lightweight Edge Profile (3-Layer)**: The 3-Layer model delivers an ultra-compact 54.1MB binary size and top-tier 1.99ms speed, serving as an optimal edge profile for memory-constrained on-device, mobile embedded, and low-power IoT environments.
 
 ---
 
