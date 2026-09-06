@@ -301,7 +301,7 @@ Setting `return_ipa: true` returns the normalized and phonologically transformed
 
 ## Appendix: Exhaustive Mapping Table of 30 NIKL Standard Pronunciation Articles
 
-Mapping of SNAP Korean v2.0 coverage against all 30 articles of the National Institute of Korean Language (NIKL) Standard Pronunciation Rules, directly implemented in [`snap_cpp/src/phonology_ko.cpp`](../snap_cpp/src/phonology_ko.cpp).
+Mapping of SNAP Korean v2.0 coverage against all 30 articles of the National Institute of Korean Language (NIKL) Standard Pronunciation Rules, directly implemented in the native C++ engine (`snap_cpp/src/phonology_ko.cpp`).
 
 | Chapter | Article | Regulatory Specification | Representative Examples | SNAP v2.0 Status |
 |:---|:---:|:---|:---|:---|
