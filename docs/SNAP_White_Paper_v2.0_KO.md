@@ -7,7 +7,7 @@
 **발행일**: 2026년 9월 | **버전**: 2.0.0  
 
 [English](SNAP_White_Paper_v2.0.md) | [한국어](SNAP_White_Paper_v2.0_KO.md)  
-[공식 웹사이트](https://snap-libs.github.io/snap/) | [실시간 TTS 연동 데모 (Demo 4)](https://huggingface.co/spaces/softguy777/snap_voice_demo4) | [기능 명세서](SNAP_KO_v2.0_FUNCTIONAL_SPEC.md) | [API 매뉴얼](SNAP_REST_API_MANUAL_KO.md) | [v1.0 백서](SNAP_White_Paper_v1.0_KO.md)
+[공식 웹사이트](https://snap-libs.github.io/snap/) | [실시간 TTS 연동 데모 (Demo 4)](https://huggingface.co/spaces/softguy777/snap_voice_demo4) | [기능 명세서](SNAP_KO_v2.0_FUNCTIONAL_SPEC.md) | [API 매뉴얼](SNAP_REST_API_MANUAL_KO.md)
 
 ---
 
@@ -465,5 +465,4 @@ SNAP은 다음과 같은 아키텍처적 특징을 중심으로 구성되었습�
 * 📖 **[SNAP 한국어 v2.0 세부 기능 명세서](SNAP_KO_v2.0_FUNCTIONAL_SPEC.md)**: 표준 발음법 30개 전 조항 상세 매핑 및 규칙집
 * 📋 **[SNAP v2.0 REST API 매뉴얼](SNAP_REST_API_MANUAL_KO.md)**: 엔드포인트 파라미터 규격 및 연동 예제
 * 💻 **[C/C++ Native SDK 개발자 가이드](SNAP_SDK_API_MANUAL_KO.md)**: C-API 헤더 및 라이브러리 연동 가이드
-* 🏛️ **[SNAP v1.0 원천 연구 백서](SNAP_White_Paper_v1.0_KO.md)**: Pure Context Probing 원천 개념 보고서
 * 🎮 **[SNAP v2.0 실시간 데모 (Hugging Face)](https://huggingface.co/spaces/softguy777/snap_voice_demo4)**: 한국어 v2.0 라이브 웹 데모

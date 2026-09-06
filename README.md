@@ -73,7 +73,7 @@ curl -X POST "https://snap-api-673324870645.asia-northeast3.run.app/v1/normalize
 ### Documentation & Recipes
 * [REST API Specification Manual](docs/SNAP_REST_API_MANUAL.md) ([한국어](docs/SNAP_REST_API_MANUAL_KO.md)) — Parameters, response schemas, and code recipes
 * [C/C++ Native SDK Manual](docs/SNAP_SDK_API_MANUAL.md) ([한국어](docs/SNAP_SDK_API_MANUAL_KO.md)) — C-API bindings, lifecycle, dynamic options, and ABI specs
-* [SNAP v2.0 Technical White Paper](docs/SNAP_White_Paper_v2.0.md) ([한국어](docs/SNAP_White_Paper_v2.0_KO.md) | [v1.0 Foundation Paper](docs/SNAP_White_Paper_v1.0.md)) — Pure Context Probing architecture and evaluation benchmarks
+* [SNAP v2.0 Technical White Paper](docs/SNAP_White_Paper_v2.0.md) ([한국어](docs/SNAP_White_Paper_v2.0_KO.md)) — Pure Context Probing architecture and evaluation benchmarks
 * [SNAP Korean v2.0 Functional Specification](docs/SNAP_KO_v2.0_FUNCTIONAL_SPEC_EN.md) ([한국어](docs/SNAP_KO_v2.0_FUNCTIONAL_SPEC.md)) — 17 standard Korean phonological change rules & numeral context specs
 * [Example Recipes (examples/)](examples/) — Single sentence (`01`), batch processing (`02`), domain recipes (`03`), and multilingual test (`04`)
 

@@ -1,4 +1,4 @@
-﻿# SNAP Korean v2.0 Technical White Paper
+# SNAP Korean v2.0 Technical White Paper
 
 > **Production-Grade Korean Speech Pre-Processing via High-Performance C++ Engine and Distilled Mini BERT**  
 > *Ultra-Low-Latency Hybrid Speech Frontend Combining Zero-Allocation Stack Architecture with Lightweight Neural Probing Heads*
@@ -7,7 +7,7 @@
 **Published**: September 2026 | **Version**: 2.0.0  
 
 [English](SNAP_White_Paper_v2.0.md) | [한국어](SNAP_White_Paper_v2.0_KO.md)  
-[Official Website](https://snap-libs.github.io/snap/) | [Live TTS Demo (Demo 4)](https://huggingface.co/spaces/softguy777/snap_voice_demo4) | [Functional Spec](SNAP_KO_v2.0_FUNCTIONAL_SPEC_EN.md) | [API Manual](SNAP_REST_API_MANUAL.md) | [v1.0 White Paper](SNAP_White_Paper_v1.0.md)
+[Official Website](https://snap-libs.github.io/snap/) | [Live TTS Demo (Demo 4)](https://huggingface.co/spaces/softguy777/snap_voice_demo4) | [Functional Spec](SNAP_KO_v2.0_FUNCTIONAL_SPEC_EN.md) | [API Manual](SNAP_REST_API_MANUAL.md)
 
 ---
 
@@ -95,5 +95,4 @@ SNAP Korean v2.0 implements systematic handling across Articles 1 through 30 of 
 * 📖 **[SNAP Korean v2.0 Functional Specification](SNAP_KO_v2.0_FUNCTIONAL_SPEC_EN.md)**: Exhaustive 30-article rule breakdown and unit normalization catalog
 * 📋 **[SNAP v2.0 REST API Manual](SNAP_REST_API_MANUAL.md)**: Request/response schemas, cascading parameters, and code recipes
 * 💻 **[SNAP Native C/C++ SDK Manual](SNAP_SDK_API_MANUAL.md)**: C-API lifecycle, ABI definitions, and direct linkage guidelines
-* 🏛️ **[SNAP v1.0 Original Research Paper](SNAP_White_Paper_v1.0.md)**: Original foundation paper covering Korean, Japanese, and English hybrid probing
 * 🎮 **[SNAP v2.0 Live Interactive Demo](https://huggingface.co/spaces/softguy777/snap_voice_demo4)**: Web evaluation sandbox for Korean v2.0
