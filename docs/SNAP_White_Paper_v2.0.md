@@ -252,14 +252,17 @@ The engine integrates a multi-layered linguistic pre-processing system designed 
 
 #### 📊 Empirical Benchmark Accuracy across Core Probing Heads
 
-Heteronyms distinguishable by part-of-speech alone are processed via Morph Head's 76 BIO-POS tags without invoking specialized heads. Difficult homographs sharing identical POS categories alongside complex numerals and semiotic delimiters are handled by dedicated heads. Empirical accuracies against held-out golden datasets are summarized below:
+Heteronyms distinguishable by part-of-speech alone are processed via Morph Head's 158 detailed/compound BIO-POS tags without invoking specialized heads. Difficult homographs sharing identical POS categories alongside complex numerals and semiotic delimiters are handled by dedicated heads. Empirical accuracies against held-out golden datasets are summarized below:
 
 | Head Category | Target Challenge & Scope | Evaluation Dataset Size | Measured Accuracy | Analysis & Findings |
 | :--- | :--- | :---: | :---: | :--- |
 | **Counter Head** | Sino vs. Native classification for 8 major counters (대, 번, 장, 기, etc.) | 6,959 instances | **`99.76%`** | Matches 12L Teacher accuracy (`99.65%`) |
 | **Semiotic Head** | Contextual colloquialization for 8 symbol formats (`:`, `/`, `~`, etc.) | 2,151 instances | **`99.40%`** | Disambiguates time, dates, ratios, scores |
 | **Heteronym Head** | 9 major homographs sharing identical POS tags (*대가, 시가, 잠자리*, etc.) | 1,943 instances | **`93.40%`** | Decoupled sub-heads eliminate cross-class interference |
-| **Morph Head** | Contextual 76 BIO-POS tagging & morpheme boundary detection | 12,000 sentences | **`93.70%`** | Distinguishes syntactic homographs & inflections |
+| **Morph Head** | Contextual 158 detailed BIO-POS tagging & boundary detection | 12,432 sentences (243K chars) | **`93.98%`** | Evaluated on NIKL 2025 refined Jamo-DP holdout |
+
+> **💡 Morph Head Error Breakdown & Practical Phonological Impact**:  
+> Of the observed 6.02% error rate, **the vast majority (~4.5%) consists of phonologically neutral ambiguities (e.g., proper vs. common noun confusion) or terms deterministically resolved by loanword/proper-noun dictionaries**. Genuine verb-noun confusions (`VV↔NNG`) that could alter liaison or tensification represent only **~0.48%** of characters, and are highly likely to be corrected downstream by the native C++ 1D Flat DP phonological rule engine.
 
 ---
 

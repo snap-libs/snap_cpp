@@ -17,9 +17,13 @@ test_local/
 *.onnx
 *.onnx.data
 *.pth
+*.pt
 *.pkl
 *.bin
+*.zip
 weights/
+distillation/output/
+distillation/data/
 
 # C++ Build & Executables
 snap_cpp/build/
@@ -55,3 +59,23 @@ test_options_all.py
 *.db
 .env
 
+# Temporary scratch, bot scripts & debug reports
+*.log
+*_report.json
+*report.json
+norm_analysis.txt
+run_out.txt
+unit_categories.txt
+unit_list.txt
+scratch_*.txt
+scratch_*.json
+three_heads_errors.json
+experiments/
+inspector/
+inspector.html
+run_inspector.ps1
+archive_and_reset.py
+bot_diff_monitor.py
+reset_bot.ps1
+run_bot.ps1
+a.html

@@ -1,93 +1,124 @@
-# SNAP (Semantic Normalization via Attached Probes)
+﻿# SNAP (Semantic Normalization via Attached Probes)
 
-SNAP is a real-time, context-aware multilingual speech pre-processing (TTS Frontend & ITN) engine supporting Korean, Japanese, and English. It analyzes sentence semantics and context to perform phonetic normalization and prosodic pause prediction in real time.
+SNAP is a real-time, context-aware speech pre-processing (TTS Frontend & ITN) engine.  
+Building upon the multilingual (Korean, Japanese, English) v1.0 research foundation, we introduce **Korean TTS Frontend Engine v2.0**, engineered for production environments with enhanced C++ performance optimizations and colloquial speech style transformation options. Japanese and English v2.0 will be released in subsequent updates.
 
-[English](README.md) | [한국어](README_KO.md)  
-[Official Website](https://snap-libs.github.io/snap/) | [Text Frontend Demo](https://huggingface.co/spaces/softguy777/snap-demo) | [MeloTTS Demo](https://huggingface.co/spaces/softguy777/snap_voice_demo) | [Piper Demo](https://huggingface.co/spaces/softguy777/snap_voice_demo2) | [F5-TTS Demo](https://huggingface.co/spaces/softguy777/snap_voice_demo3)
+[English](README.md) | [한국어](README_KO.md) | [Official Website](https://snap-libs.github.io/snap/)
 
-* [SNAP v2.0 Technical White Paper](docs/SNAP_White_Paper_v2.0.md) ([한국어](docs/SNAP_White_Paper_v2.0_KO.md))
-* [SNAP Korean v2.0 Functional Specification](docs/SNAP_KO_v2.0_FUNCTIONAL_SPEC_EN.md) ([한국어](docs/SNAP_KO_v2.0_FUNCTIONAL_SPEC.md)) — 17 standard Korean phonological change rules & numeral context specs
-* [SNAP Multilingual Text Frontend Demo (TN / G2P / Prosody)](https://huggingface.co/spaces/softguy777/snap-demo) — Real-time evaluation of context normalization (TN), phonetic conversion (G2P), and prosodic pauses
+---
 
-## SNAP + Open-Source TTS Live Demos
+## 🔗 Key Documentation & Live Demos
 
-Many global TTS engines rely on generic pre-processors like `espeak-ng` or simplistic rule-based converters. However, East Asian languages such as Korean and Japanese present complex phonetic variations (nasalization, tensification, liaison), contextual numeral/kanji readings, and homographs, often resulting in distorted pronunciations and awkward phrasing.
+### 🚀 SNAP v2.0 (Korean)
+* 🎮 **[SNAP v2.0 Real-Time TTS Demo](https://huggingface.co/spaces/softguy777/snap_voice_demo4)**: Live interactive evaluation of Korean v2.0 text pre-processing and voice synthesis
+* 📑 **[SNAP v2.0 Korean Technical White Paper](docs/SNAP_White_Paper_v2.0.md)**: Distilled Mini BERT backbone, high-performance C++ native optimizations, and latency benchmarks
+* 📖 **[SNAP v2.0 Korean Functional Specification](docs/SNAP_KO_v2.0_FUNCTIONAL_SPEC_EN.md)**: Complete coverage of 30 NIKL standard pronunciation articles, contextual disambiguation, and unit normalization
+* 📋 **[SNAP v2.0 API Manual](docs/SNAP_REST_API_MANUAL.md)**: Public REST API parameters and integration specifications
 
-In production environments, engineering teams frequently resort to manual pipelines that prompt LLMs to generate phonetic transcripts and employ human reviewers to fix errors.
+### 🏛️ SNAP v1.0 (Multilingual Research Foundation)
+* 📑 **[SNAP v1.0 Technical White Paper](docs/SNAP_White_Paper_v1.0.md)**: Original research white paper on Korean-Japanese-English hybrid Probing Heads
+* 🎮 **[SNAP v1.0 Multilingual Frontend Demo](https://huggingface.co/spaces/softguy777/snap-demo)**: Real-time multilingual text normalization and G2P
+* 🎙️ **Open-Source TTS Demos**: [MeloTTS](https://huggingface.co/spaces/softguy777/snap_voice_demo) | [Piper](https://huggingface.co/spaces/softguy777/snap_voice_demo2) | [F5-TTS](https://huggingface.co/spaces/softguy777/snap_voice_demo3)
 
-The three open-source TTS models below (MeloTTS, Piper, F5-TTS) are widely recognized globally but previously lacked robust Korean support due to frontend limitations. Combined with the SNAP engine, each model now produces accurate pronunciation and natural prosody tailored to its architecture.
+---
 
-### MeloTTS Integration (Morpheme Tagging & Prosodic Phrasing)
-Generates precise morpheme segmentations and prosodic break annotations (`[P1]~[P3]`) required by MeloTTS's Korean acoustic model in real time. Completely replaces the legacy g2pk pre-processor to maximize phrase pacing and phonetic accuracy.
-* [Launch SNAP + MeloTTS Demo](https://huggingface.co/spaces/softguy777/snap_voice_demo)
+## 📌 Korean v2.0 Key Features
 
-### Piper VITS Integration (Lightweight On-Device)
-Replaces `espeak-ng` with SNAP's precise phonetic conversion, enabling natural Korean speech synthesis across 22 distinct voice styles on lightweight on-device VITS models.
-* [Launch SNAP + Piper VITS Demo](https://huggingface.co/spaces/softguy777/snap_voice_demo2)
+* **Real-Time Processing Throughput**: Distilled Mini 4-Layer BERT backbone combined with C++ native optimization achieves an average latency of 1.86 ms per sentence (~530 sentences per second on a single CPU thread, 32 characters baseline).
+* **Pronunciation & Normalization Accuracy**: 
+  - Exhaustive verification against the National Institute of Korean Language (NIKL) Standard Pronunciation Rules
+  - Restructured Probing Heads for refined semantic analysis and superior disambiguation accuracy
+  - Natural loanword pronunciation as spoken by native Korean speakers
+* **Versatile User Configuration Options**: 
+  - **Automatic Prosodic Phrasing**: Algorithmic generation of punctuation and 3-tier pause tags (`[P1]~[P3]`, SSML `<break>`)
+  - **Speech Style Selection (`speech_style`)**: Formal (`formal` / Hasipsio-che), Polite (`polite` / Haeyo-che), Plain (`plain` / Haera-che)
+  - **Vowel Length Notation (`vowel_length`)**: Standard Korean phonological vowel length marking
+  - **Unit Reading Styles (`unit_style`)**: Flexible reading conversions (e.g., `km/h` → `kiro`, `kiromiteo`, or `kiromiteopeoawa`)
+* **Public REST API**: Openly accessible endpoint for instantaneous evaluation without requiring authentication keys.
 
-### F5-TTS Integration & Voice Cloning (Diffusion-Based)
-Couples SNAP G2P with NFD jamo decomposition for the state-of-the-art Flow Matching diffusion model F5-TTS. Supports 16 preset speakers and enables accurate **Korean Zero-Shot Voice Cloning** using user reference audio.
-* [Launch SNAP + F5-TTS Voice Cloning Demo](https://huggingface.co/spaces/softguy777/snap_voice_demo3)
+---
 
-> **Demo Execution Environment Notice**:
-> * **MeloTTS / Piper**: Lightweight models running on 2 vCPU environments with instantaneous real-time generation.
-> * **F5-TTS**: Utilizes Hugging Face dynamic GPU allocation for diffusion compute. Queuing delays may occur per generation, and operations may be throttled if monthly GPU quotas are reached.
+## 🎙️ SNAP + TTS Integration
 
-## SNAP Cloud API (Free)
+TTS engines have varied requirements for text input representations—ranging from raw text to phoneme IDs and graphemes. SNAP flexibly exports normalized text, G2P phoneme sequences, prosodic break tags, and decomposed NFD jamo, making it seamlessly compatible with virtually any TTS architecture.
 
-Public evaluation access for SNAP multilingual (Korean, Japanese, English) text pre-processing is currently open without authentication.
+In SNAP v2.0, REST API communication is the standard integration paradigm, supporting three deployment modes:
+1. **Cloud REST API Integration**: Immediate invocation via the public API endpoint without local installation.
+2. **Local REST API Server Integration**: On-premise deployment via standalone SNAP Docker containers.
+3. **SNAP SDK Direct Linkage**: Ultra-low-latency direct linking via SNAP C++ Shared Libraries (`.so`, `.dll`).
 
-### Key Capabilities
-* **Context-Aware Text Normalization**: Contextual numeral disambiguation, dates, time, units, and currency
-* **G2P & 3-Tier Prosodic Tagging**: Standard phonetic conversion and 3-tier pause tags (`[P1]~[P3]`, SSML breaks)
-* **Dynamic Custom Dictionary (`custom_dict`)**: Instant per-request brand and terminology pronunciation overrides
+The following are real-world integration examples connecting SNAP with major TTS architectures:
+* **Cloud TTS (Edge-TTS)**: While Edge-TTS handles raw Korean text reasonably well, integrating SNAP as a frontend provides precision contextual numeral readings, heteronym disambiguation, and dynamic custom dictionaries (`custom_dict`), substantially elevating overall pronunciation quality.
+* **Piper TTS**: Piper's default pre-processor `espeak-ng` provides broad multilingual support but lacks comprehensive handling of complex Korean phonological mutations. Directly mapping SNAP phoneme IDs into Piper's encoder resolves these pronunciation artifacts.
+* **F5-TTS**: Tailored to F5-TTS's character/jamo-level flow matching pipeline, SNAP pre-applies phonological variations and decomposes results into Unicode NFD (Leading Consonant, Vowel, Trailing Consonant) prior to synthesis.
 
-### Quick Start
+### Best Practices for Acoustic Model Training
+While hooking SNAP into the inference pipeline of pre-trained models immediately resolves major pronunciation errors, **we strongly recommend standardizing training dataset text labels with SNAP G2P representations during the acoustic model training phase.**
 
-**Python**
+Acoustic models learn duration and pitch contours directly from the transcript conventions of the dataset. Training on consistent, phonologically accurate SNAP G2P transcripts ensures tighter phoneme alignment boundaries and more natural prosodic cadence.
+
+---
+
+## 🚀 SNAP Cloud API
+
+SNAP Cloud API is the standard integration interface for SNAP.  
+A public Open SNAP API server is currently operational, allowing anyone to test text normalization in real time without authentication keys.  
+*Note: The API endpoint is subject to change, and initial requests may experience brief cold-start latency if the instance is waking from an idle state.*  
+For interactive evaluation, using the [SNAP v2.0 Live Demo](https://huggingface.co/spaces/softguy777/snap_voice_demo4) is recommended. Alternatively, test the API via script or terminal as shown below:
+
+* **URL**: `https://snap-api-673324870645.asia-northeast3.run.app/v1/normalize`
+* **Method**: `POST`
+* **Header**: `Content-Type: application/json`
+
+### Python Example
 ```python
 import requests
 
 url = "https://snap-api-673324870645.asia-northeast3.run.app/v1/normalize"
 payload = {
-    "text": "2026년 8월 25일 오후 3시 30분에 2호선 3번 출구 앞 ABC Technology 본사에서 만나요.",
-    "custom_dict": {"ABC Technology": "에이비씨 테크놀로지"},
-    "config": {"lang": "ko", "prosody_format": "tags"}
+    "text": "2026년 8월 25일 오후 3시 30분에 2호선 3번 출구 앞 ABCTechnology 본사에서 만나요.",
+    "custom_dict": {
+        "ABCTechnology": "에이비씨 테크놀로지"
+    },
+    "config": {
+        "lang": "ko",
+        "prosody_format": "tags"
+    }
 }
+
 res = requests.post(url, json=payload).json()
 print("Normalized:", res["data"]["normalized_text"])
 print("Phonemes  :", res["data"]["phonemes"])
-# Output: 이처니심늉년 파뤌 이시보일 오후 세시 삼십뿌네 이호선 삼번 출구 압 에이비씨 테크놀로지 본사에서 만나요.
+# Normalized: 이천이십육년 팔월 이십오일 오후 세시 삼십분에 이호선 삼번 출구 앞 에이비씨 테크놀로지 본사에서 만나요.
+# Phonemes  : 이처니심늉년 파뤌 이시보일 오후 세시 삼십뿌네 이호선 삼번 출구 압 에이비씨 테크놀로지 본사에서 만나요.
 ```
 
-**cURL (Terminal)**
+### cURL Example
 ```bash
 curl -X POST "https://snap-api-673324870645.asia-northeast3.run.app/v1/normalize" \
      -H "Content-Type: application/json" \
      -d '{
-       "text": "2026년 8월 25일 오후 3시 30분에 2호선 3번 출구 앞 ABC Technology 본사에서 만나요.",
-       "custom_dict": {"ABC Technology": "에이비씨 테크놀로지"}
+       "text": "2026년 8월 25일 오후 3시 30분에 2호선 3번 출구 앞 ABCTechnology 본사에서 만나요.",
+       "custom_dict": {"ABCTechnology": "에이비씨 테크놀로지"}
      }'
 ```
 
-### Documentation & Recipes
-* [REST API Specification Manual](docs/SNAP_REST_API_MANUAL.md) ([한국어](docs/SNAP_REST_API_MANUAL_KO.md)) — Parameters, response schemas, and code recipes
-* [C/C++ Native SDK Manual](docs/SNAP_SDK_API_MANUAL.md) ([한국어](docs/SNAP_SDK_API_MANUAL_KO.md)) — C-API bindings, lifecycle, dynamic options, and ABI specs
-* [SNAP v2.0 Technical White Paper](docs/SNAP_White_Paper_v2.0.md) ([한국어](docs/SNAP_White_Paper_v2.0_KO.md)) — Pure Context Probing architecture and evaluation benchmarks
-* [SNAP Korean v2.0 Functional Specification](docs/SNAP_KO_v2.0_FUNCTIONAL_SPEC_EN.md) ([한국어](docs/SNAP_KO_v2.0_FUNCTIONAL_SPEC.md)) — 17 standard Korean phonological change rules & numeral context specs
-* [Example Recipes (examples/)](examples/) — Single sentence (`01`), batch processing (`02`), domain recipes (`03`), and multilingual test (`04`)
+For complete parameter specifications and advanced configurations, please consult the [SNAP v2.0 API Manual](docs/SNAP_REST_API_MANUAL.md).
 
-## Enterprise & On-Premise SDK (Docker)
+---
 
-For air-gapped, security-critical, or high-throughput enterprise environments, **Standalone SDK Docker Containers** and Native C++ SDKs are available.
+## 🏢 Enterprise & On-Premise SDK
 
-* **Ultra-Compact Footprint**: 54–61MB Distilled Mini BERT backbone minimizing runtime memory footprint to <80MB RAM
-* **Ultra-Low Latency**: 1.8–2.5ms per sentence inference on a single CPU core (C++ Direct Linkage & local REST API)
-* **Air-Gapped & Offline**: Complete network isolation support without external telemetry
-* **Distribution**: Available via prior Service Agreement
-* **Contact**: [snap.leejh@gmail.com](mailto:snap.leejh@gmail.com)
+For air-gapped environments, strict data privacy, and ultra-high-throughput enterprise workloads, SNAP provides standalone Docker containers and native C++ SDK binaries.
 
-## License
+* **Air-Gapped Operation**: Full offline deployment without external network egress
+* **Flexible Interfaces**: Direct C ABI linking (`.dll`, `.so`) and local REST microservices
+* **Batch Processing**: Zero-overhead batch tensor inference (`snap_process_batch`)
+* **Inquiries**: [snap.leejh@gmail.com](mailto:snap.leejh@gmail.com)
 
-This repository's client examples, recipes, and documentation are licensed under the [MIT License](LICENSE).  
-The underlying SNAP Core Engine, model weights, and On-Premise SDKs are proprietary assets governed by separate Service Agreements.
+---
+
+## 📜 License
+
+* Client examples, scripts, and documentation in this repository are licensed under the [MIT License](LICENSE).
+* The SNAP Core Engine, model weights, and On-Premise SDKs are proprietary assets governed by separate commercial agreements.

@@ -1,9 +1,11 @@
 # 🌐 SNAP HTTP REST API Reference Manual
 
+[English](SNAP_REST_API_MANUAL.md) | [한국어](SNAP_REST_API_MANUAL_KO.md)
+
 > **📌 Document Guidance**  
 > * **This Document (`SNAP_REST_API_MANUAL.md`):** Cloud-based **Web / Server HTTP REST API (FastAPI, JSON Endpoints)** Reference Specification.  
 > * **Korean Version (한국어 매뉴얼):** Please refer to [`SNAP_REST_API_MANUAL_KO.md`](SNAP_REST_API_MANUAL_KO.md).  
-> * **C/C++ Native SDK:** For embedded C-API headers, DLL/SO, and memory management, please refer to [`SNAP_SDK_API_MANUAL.md`](SNAP_SDK_API_MANUAL.md) ([한국어](SNAP_SDK_API_MANUAL_KO.md)).
+> * **C/C++ Native SDK:** For embedded C-API headers, DLL/SO, and memory management, please refer to [`SNAP_SDK_API_MANUAL.md`](SNAP_SDK_API_MANUAL.md).
 
 ---
 
@@ -101,6 +103,8 @@ Perform neural context analysis, numeral expansion, loanword preservation, heter
 | `config.prosody_format` | `string` | `"tags"` | Prosody pause format: `"tags"` (`[P1]/[P2]/[P3]`), `"ssml"` (`<break .../>`), `"none"` |
 | `config.return_ipa` | `boolean` | `false` | Generate and return International Phonetic Alphabet (IPA) |
 | `config.vowel_length` | `boolean` | `true` | (Korean) Enable vowel length colon notation (`:`) |
+| `config.unit_style` | `string` | `"standard"` | (Korean) Unit normalization style: `"standard"` (default e.g. 120km/h -> 백이십킬로미터), `"full"` (e.g. 백이십킬로미터퍼아워), `"short"` (colloquial e.g. 백이십키로, 70kg -> 칠십키로, 100% -> 백프로) |
+| `config.speech_style` | `string` | `"original"` | (Korean) Conversational speech style for endings and pronouns: `"original"` (default), `"haeyo"` (polite informal), `"banmal"` (casual), `"hapsio"` (formal polite) |
 | `config.pitch_accent` | `boolean` | `true` | (Japanese) Enable pitch accent kernel notation |
 | `config.script` | `string` | `"katakana"` | (Japanese) Orthography type: `"katakana"`, `"hiragana"`, `"romaji"` |
 
@@ -207,7 +211,30 @@ Process multiple sentences in a single batched HTTP transaction using SIMD-vecto
 
 ---
 
-## 4. Error Handling & Unified Error Envelope
+## 4. Advanced Configuration Options
+
+### 4.1. Unit Reading Style (`unit_style`)
+Select numerical unit expansion format based on target domain (Navigation, News, Conversational Assistant):
+
+| Mode | Option Value | `120km/h` | `70kg` | `180cm` | `100%` | `16GB` | Target Domain |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Standard** | `"standard"` (default) | 백이십킬로미터 | 칠십킬로그램 | 백팔십센티미터 | 백퍼센트 | 십육기가바이트 | News, In-car navigation |
+| **Full Name** | `"full"` | 백이십킬로미터퍼아워 | 칠십킬로그램 | 백팔십센티미터 | 백퍼센트 | 십육기가바이트 | Technical, Academic papers |
+| **Colloquial Short** | `"short"` | 백이십키로 | 칠십키로 | 백팔십센티 | 백프로 | 십육기가 | Voice AI assistant, Casual Chat |
+
+### 4.2. Conversational Speech Style (`speech_style`)
+Convert formal news-tone declarative sentence endings into friendly polite (`haeyo`), casual (`banmal`), or formal polite (`hapsio`) conversational speech styles with automatic G2P liaison and contraction:
+
+| Style | Option Value | Ending Transformation Example | Pronoun Contraction & Agreement |
+| :--- | :--- | :--- | :--- |
+| **Original** | `"original"` (default) | `도착했다`, `학생이다`, `어디 가십니까?`, `앉으십시오!` | `그것은`, `무엇을`, `저는` (Preserves original) |
+| **Haeyo (Polite)** | `"haeyo"` | `도착했어요`, `학생이에요` / `의사예요`, `어디 가요?`, `앉으세요!` | `그건`, `뭘`, `저는` (Polite friendly conversational) |
+| **Banmal (Casual)** | `"banmal"` | `도착했어`, `학생이야` / `의사야`, `어디 가?`, `앉아!` | `그건`, `뭘`, `나는`, `내가`, `우리` (Informal friendly flat style) |
+| **Hapsio (Formal)** | `"hapsio"` | `도착했습니다`, `학생입니다`, `어디 가십니까?`, `앉으십시오!` | `그건`, `뭘`, `저는` (Polite formal style) |
+
+---
+
+## 5. Error Handling & Unified Error Envelope
 
 When an error occurs, SNAP returns a standard RFC 7807 compliant error envelope:
 
@@ -237,7 +264,7 @@ When an error occurs, SNAP returns a standard RFC 7807 compliant error envelope:
 
 ---
 
-## 5. Client Integration Examples
+## 6. Client Integration Examples
 
 ### cURL
 ```bash

@@ -1,93 +1,126 @@
 # SNAP (Semantic Normalization via Attached Probes)
 
-SNAP은 한국어·일본어·영어를 지원하는 실시간 음성 전처리(TTS Frontend & ITN) 엔진입니다. 문장의 문맥과 의미를 분석하여 발음 정규화와 운율 생성을 실시간으로 수행합니다.
+SNAP은 문맥 인지형 실시간 음성 전처리(TTS Frontend & ITN) 엔진입니다.  
+다국어(한국어·일본어·영어) v1.0 연구 기반에 이어, 성능 최적화와 대화체 어미 변환 옵션을 적용한 **한국어 전용 TTS 전처리 엔진 v2.0**을 제공합니다. 일본어/영어 v2.0은 추후 공개할 예정입니다.
 
-[English](README.md) | [한국어](README_KO.md)  
-[공식 웹사이트](https://snap-libs.github.io/snap/) | [텍스트 전처리 데모](https://huggingface.co/spaces/softguy777/snap-demo) | [MeloTTS 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo) | [Piper 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo2) | [F5-TTS 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo3)
+[English](README.md) | [한국어](README_KO.md) | [공식 웹사이트](https://snap-libs.github.io/snap/)
 
-* [SNAP v2.0 기술 백서 (Technical White Paper)](docs/SNAP_White_Paper_v2.0_KO.md)
-* [SNAP 한국어 v2.0 기능 명세서](docs/SNAP_KO_v2.0_FUNCTIONAL_SPEC.md) — 17대 한국어 표준 음운 변동 및 단위/수사 문맥 규칙 상세 규격
-* [SNAP 다국어 텍스트 전처리 데모 (TN / G2P / Prosody)](https://huggingface.co/spaces/softguy777/snap-demo) — 문맥 기반 정규화(TN), 음운 변환(G2P), 운율 쉼표 예측 실시간 테스트
+---
 
-## SNAP + TTS 연동 Live Demo
+## 🔗 주요 문서 및 데모 링크
 
-많은 글로벌 오픈소스 및 상용 TTS 엔진들은 다국어 전처리기로 `espeak-ng`나 단순 규칙 기반 변환기를 사용합니다. 그러나 한국어와 일본어 같은 언어는 복잡한 음운 변동(비음화·유음화·경음화), 문맥에 따른 수사 및 한자 읽기 변별, 동철이음이의어 등으로 인해 기존 전처리기로는 발음 왜곡과 부자연스러운 끊어 읽기가 빈번하게 발생했습니다.
+### 🚀 SNAP v2.0 (한국어)
+* 🎮 **[SNAP v2.0 실시간 TTS 연동 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo4)**: 한국어 v2.0 전처리 및 음성 합성 라이브 테스트
+* 📑 **[SNAP v2.0 한국어 기술문서](docs/SNAP_White_Paper_v2.0_KO.md)**: Distilled Mini BERT 백본, 고성능 C++ 네이티브 최적화 및 벤치마크
+* 📖 **[SNAP v2.0 한국어 기능 명세서](docs/SNAP_KO_v2.0_FUNCTIONAL_SPEC.md)**: 표준 발음법 30개 조항 전수 지원, 문맥 변별 및 단위 정규화 세부 기능 명세
+* 📋 **[SNAP v2.0 API 문서](docs/SNAP_REST_API_MANUAL_KO.md)**: 공개 REST API 파라미터 및 연동 규격
 
-실제로 상용 서비스 현업에서도 이러한 발음 오류를 줄이기 위해 LLM을 거쳐 발음 기호를 생성하고 사람이 이를 재검수하는 과정을 거치기도 합니다.
+### 🏛️ SNAP v1.0 (다국어 연구 기반)
+* 📑 **[SNAP v1.0 기술문서](docs/SNAP_White_Paper_v1.0_KO.md)**: 한·일·영 하이브리드 Probing Head 원천 연구 백서
+* 🎮 **[SNAP v1.0 다국어 프론트엔드 데모](https://huggingface.co/spaces/softguy777/snap-demo)**: 한·일·영 텍스트 정규화 및 G2P
+* 🎙️ **오픈소스 TTS 연동 데모**: [MeloTTS](https://huggingface.co/spaces/softguy777/snap_voice_demo) | [Piper](https://huggingface.co/spaces/softguy777/snap_voice_demo2) | [F5-TTS](https://huggingface.co/spaces/softguy777/snap_voice_demo3)
 
-아래 3가지 오픈소스 TTS(MeloTTS, Piper, F5-TTS)는 글로벌 환경에서 널리 사용되지만 전처리기 문제로 한국어 지원이 미흡했던 대표적인 모델들입니다. SNAP 엔진과의 결합을 통해 각 모델의 아키텍처 특성에 맞추어 올바른 발음과 운율을 생성하도록 구성한 데모입니다.
+---
 
-### MeloTTS 음성 합성 (형태소 태그 및 운율 연동형)
-MeloTTS의 한국어 음향 모델이 요구하는 형태소 태그 및 운율 분절 쉼표를 SNAP v2.0 프론트엔드가 실시간으로 정밀 생성하여 전달합니다. 기존 오류가 많던 g2pk를 SNAP으로 전면 대체하여 끊어 읽기와 발음 정확도를 극대화합니다.
-* [SNAP + MeloTTS 음성 합성 데모 바로가기](https://huggingface.co/spaces/softguy777/snap_voice_demo)
+## 📌 한국어 v2.0 주요 특징
 
-### Piper VITS 음성 합성 (경량 온디바이스형)
-BERT를 내장하지 않은 경량 TTS와의 연동 예제입니다. 기존에 사용하던 espeak-ng를 SNAP으로 대체하여 22개 화자 스타일의 한국어 음성을 지원합니다.
-* [SNAP + Piper VITS 22개 화자 데모 바로가기](https://huggingface.co/spaces/softguy777/snap_voice_demo2)
+* **실시간 처리 성능**: Distilled Mini 4-Layer BERT 백본과 C++ 네이티브 최적화를 적용하여 문장당 평균 1.86ms (평균 32자 기준, CPU 단일 스레드 초당 약 530문장) 처리
+* **발음 및 정규화 정확도**: 
+  - 국립국어원 표준 발음법 전수 검증
+  - Head 구조 개편을 통한 정밀한 의미 분석으로 높은 정확도 달성
+  - 한국인이 발음하는 자연스러운 영어 단어 발음
+* **다양한 사용자 옵션**: 
+  - **자동 끊어읽기**: 텍스트 분석 기반 자동 마침표, 쉼표 및 운율 쉼표(`[P1]~[P3]`, SSML `<break>`) 생성
+  - **대화체 선택 (`speech_style`)**: 정중(`formal` / 하십시오체), 친절(`polite` / 해요체), 반말(`plain` / 해라체)
+  - **장단음 표기 (`vowel_length`)**: 한국어 표준 모음 장단음 변별 표기 지원
+  - **심볼 읽기 형식 (`unit_style`)**: `km/h` → `키로`, `키로미터`, `키로미터퍼아워` 등 상황에 맞는 단위 표기 선택
+* **공개 REST API**: 별도 인증 키 없이 누구나 즉시 테스트 가능한 엔드포인트 제공
 
-### F5-TTS 음성 합성 및 보이스 클로닝 (확산 모델 연동형)
-Flow Matching 확산(Diffusion) 기반 최신 모델인 F5-TTS와의 연동 데모입니다. NFD 자모 분해 방식을 사용하는 F5-TTS에 맞추어 SNAP G2P 결과를 자모 분해하여 전달함으로써, 16개 프리셋 화자뿐만 아니라 사용자 참조 오디오를 활용한 한국어 Zero-Shot 보이스 클로닝(Voice Cloning)을 지원합니다.
-* [SNAP + F5-TTS 보이스 클로닝 데모 바로가기](https://huggingface.co/spaces/softguy777/snap_voice_demo3)
+---
 
-> **데모 실행 환경 안내**:
-> * **MeloTTS / Piper**: 경량 모델로 저사양 2 vCPU 환경에서도 지연 없이 실시간 음성 생성이 가능합니다.
-> * **F5-TTS**: 확산(Diffusion) 모델 특성상 Hugging Face GPU 동적 할당을 사용하므로, 실행 시마다 GPU 할당 대기 시간이 발생할 수 있으며 허깅페이스 월간 GPU 쿼터 초과 시 동작이 제한될 수 있습니다.
+## 🎙️ SNAP + TTS 연동
 
-## SNAP Cloud API (Free)
+TTS 엔진마다 요구하는 텍스트 입력 규격(일반 텍스트, 음소 ID, 자모 단위 등)은 제각각입니다. SNAP은 텍스트 정규화(TN), 음운 변동(G2P), 운율 태그를 표준 발음 텍스트, 음소 시퀀스, NFD 자모 등 다양한 형태로 출력하므로 대부분의 TTS 아키텍처와 쉽게 연동됩니다.
 
-현재 SNAP의 다국어(한국어·일본어·영어) 전처리 기능 테스트를 위해 별도의 가입이나 조건 없이 자유롭게 호출할 수 있도록 오픈되어 있습니다.
+SNAP v2.0에서는 REST API를 사용하여 연동하는 것이 표준이며, 다음과 같은 연동 방식을 지원합니다:
+1. **클라우드 REST API를 통한 연동**: 별도 설치 없이 공개 API 엔드포인트를 호출하여 연동
+2. **로컬 REST API 서버를 통한 연동**: SNAP Docker 컨테이너를 로컬 서버에 설치 후 연동
+3. **SNAP SDK를 이용한 연동**: SNAP C++ Shared Library를 통한 직접 링크 연동 (온프레미스 환경용)
 
-### 주요 제공 기능
-* **문맥 기반 텍스트 정규화**: 수사, 날짜, 시간, 단위, 기호 등의 문맥별 발음 정규화
-* **G2P 및 운율 태깅**: 표준 발음 변환 및 3단계 운율 쉼표(`[P1]~[P3]`, SSML) 태그 출력
-* **동적 커스텀 사전 (`custom_dict`)**: 브랜드명, 신조어, 고유명사를 요청 단위로 즉시 등록 및 발음 치환
+다음은 SNAP API 서버와 주요 TTS 모델들과의 연동 사례입니다.
+* **클라우드 TTS (Edge-TTS)**: Edge-TTS는 일반 텍스트 원문만으로도 어느 정도 수준의 발음을 합성하지만, SNAP을 전처리기로 연동하면 문맥에 따른 수사·단위 변별, 동철이음어 구분, 사용자 정의 사전(`custom_dict`) 등 SNAP의 정밀한 의미 분석 기능이 더해져 훨씬 더 정확하고 완성도 높은 발음을 구현합니다.
+* **Piper TTS**: Piper의 기본 전처리기인 `espeak-ng`는 다국어 지원으로 널리 쓰이지만 한국어·일본어의 복잡한 음운 변동을 처리하기에는 다소 아쉬운 점이 있습니다. SNAP의 음소(Phoneme) ID를 모델 인코더에 직접 매핑하여 이를 보완할 수 있습니다.
+* **F5-TTS**: 텍스트를 자모 단위로 처리하는 F5-TTS 특성에 맞춰, SNAP G2P로 음운 변동을 먼저 반영한 뒤 유니코드 NFD(초성·중성·종성)로 분해하여 모델에 전달합니다.
 
-### 빠른 시작 (Quick Start)
+### 모델 학습 시 권장 사항
+기존 사전학습 모델의 추론(Inference) 단계에 SNAP을 연결하는 것만으로도 발음을 상당 부분 개선할 수 있습니다. 
 
-**Python**
+다만, **가장 자연스러운 음질과 운율을 얻으려면 음향 모델 학습 단계부터 데이터셋 텍스트 라벨을 SNAP G2P 결과로 통일하여 학습시키는 것이 좋습니다.**
+
+음향 모델은 학습 데이터셋의 전처리 표기 방식에 맞춰 소리의 길이와 억양을 학습합니다. 처음부터 정밀한 한국어 음운 규칙이 반영된 SNAP G2P로 학습 데이터를 구축하면, 모델이 음소 경계와 운율을 더 일관되게 학습할 수 있습니다.
+
+---
+
+## 🚀 SNAP Cloud API
+
+SNAP Cloud API는 SNAP의 표준 연동 API입니다.  
+현재 Open SNAP API 서버를 운영하고 있으며, 별도 인증 키 없이 누구나 즉시 호출하여 테스트해 볼 수 있습니다.  
+API 주소는 경우에 따라 변경될 수 있으며, 맨 처음 요청(Request) 시에는 Idle 상태에서 깨어나는 시간(Cold Start) 때문에 잠시 딜레이가 생길 수도 있습니다.  
+기본 기능은 [SNAP v2.0 실시간 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo4)를 사용하여 확인하는 것이 편리하며, 프로그램 또는 터미널에서 직접 테스트하는 방법은 다음과 같습니다.
+
+* **URL**: `https://snap-api-673324870645.asia-northeast3.run.app/v1/normalize`
+* **Method**: `POST`
+* **Header**: `Content-Type: application/json`
+
+### Python 예제
 ```python
 import requests
 
 url = "https://snap-api-673324870645.asia-northeast3.run.app/v1/normalize"
 payload = {
-    "text": "2026년 8월 25일 오후 3시 30분에 2호선 3번 출구 앞 ABC Technology 본사에서 만나요.",
-    "custom_dict": {"ABC Technology": "에이비씨 테크놀로지"},
-    "config": {"lang": "ko", "prosody_format": "tags"}
+    "text": "2026년 8월 25일 오후 3시 30분에 2호선 3번 출구 앞 ABCTechnology 본사에서 만나요.",
+    "custom_dict": {
+        "ABCTechnology": "에이비씨 테크놀로지"
+    },
+    "config": {
+        "lang": "ko",
+        "prosody_format": "tags"
+    }
 }
+
 res = requests.post(url, json=payload).json()
 print("정규화:", res["data"]["normalized_text"])
 print("발음  :", res["data"]["phonemes"])
-# 출력: 이처니심늉년 파뤌 이시보일 오후 세시 삼십뿌네 이호선 삼번 출구 압 에이비씨 테크놀로지 본사에서 만나요.
+# 정규화: 이천이십육년 팔월 이십오일 오후 세시 삼십분에 이호선 삼번 출구 앞 에이비씨 테크놀로지 본사에서 만나요.
+# 발음  : 이처니심늉년 파뤌 이시보일 오후 세시 삼십뿌네 이호선 삼번 출구 압 에이비씨 테크놀로지 본사에서 만나요.
 ```
 
-**cURL (Terminal)**
+### cURL 예제
 ```bash
 curl -X POST "https://snap-api-673324870645.asia-northeast3.run.app/v1/normalize" \
      -H "Content-Type: application/json" \
      -d '{
-       "text": "2026년 8월 25일 오후 3시 30분에 2호선 3번 출구 앞 ABC Technology 본사에서 만나요.",
-       "custom_dict": {"ABC Technology": "에이비씨 테크놀로지"}
+       "text": "2026년 8월 25일 오후 3시 30분에 2호선 3번 출구 앞 ABCTechnology 본사에서 만나요.",
+       "custom_dict": {"ABCTechnology": "에이비씨 테크놀로지"}
      }'
 ```
 
-### 상세 연동 문서 및 실전 예제
-* [REST API 연동 상세 매뉴얼](docs/SNAP_REST_API_MANUAL_KO.md) ([English](docs/SNAP_REST_API_MANUAL.md)) — 파라미터 규격, 응답 스키마 및 상세 레시피
-* [C/C++ Native SDK 매뉴얼](docs/SNAP_SDK_API_MANUAL_KO.md) ([English](docs/SNAP_SDK_API_MANUAL.md)) — C-API 바인딩, 라이프사이클, 동적 옵션 및 ABI 규격서
-* [SNAP v2.0 기술 백서](docs/SNAP_White_Paper_v2.0_KO.md) ([English](docs/SNAP_White_Paper_v2.0.md)) — Pure Context Probing 아키텍처 및 벤치마크 평가 결과
-* [SNAP 한국어 v2.0 기능 명세서](docs/SNAP_KO_v2.0_FUNCTIONAL_SPEC.md) — 17대 한국어 표준 음운 변동 및 단위/수사 문맥 규칙 상세 규격
-* [실전 예제 모음 (examples/)](examples/) — 단일 문장/사전 치환(`01`), 대용량 배치(`02`), 산업 도메인별 레시피(`03`), 다국어(`04`), cURL 모음
+더 자세한 설정 및 파라미터는 [SNAP v2.0 API 문서](docs/SNAP_REST_API_MANUAL_KO.md)를 참고하세요.
 
-## Enterprise & On-Premise SDK (Docker)
- 
-보안, 망분리 환경 또는 대규모 트래픽 처리를 위해 로컬 배포가 필요한 환경을 대상으로 **독립 실행형 SDK Docker 컨테이너** 및 Native C++ SDK를 제공합니다.
- 
-* **초경량 메모리 풋프린트**: 54~61MB 크기의 Distilled Mini BERT 백본 탑재로 프로세스 런타임 메모리 80MB 내외 최소화
-* **초저지연 온프레미스 연동**: 단일 CPU 코어에서도 문장당 1.8~2.5ms 초고속 처리 (REST API 및 C++ Direct Linkage 지원)
-* **네트워크 독립성**: 외부 통신 없는 오프라인/사내 폐쇄망 환경 완벽 지원
-* **제공 방식**: 사전 협약(Agreement) 기반 배포
-* **도입 문의**: [snap.leejh@gmail.com](mailto:snap.leejh@gmail.com)
+---
 
-## 라이선스 (License)
+## 🏢 Enterprise & On-Premise SDK
 
-본 저장소의 클라이언트 코드, 예제 및 연동 문서는 [MIT 라이선스](LICENSE)에 따라 자유롭게 사용하실 수 있습니다.  
-SNAP 코어 엔진, 모델 가중치 및 온프레미스(On-Premise) 엔터프라이즈 SDK는 별도 서비스 계약에 의해 제공되는 독점 자산입니다.
+폐쇄망 환경 및 대규모 처리를 위한 독립 실행형 Docker 컨테이너 및 C++ Native SDK를 제공합니다.
+
+* **오프라인 환경**: 외부 네트워크 통신 없는 로컬 폐쇄망 구동 지원
+* **인터페이스**: C ABI 직접 링크(DLL / so) 및 로컬 REST 마이크로서비스 지원
+* **배치 처리 API**: 텐서 일괄 처리(`snap_process_batch`) 지원
+* **문의**: [snap.leejh@gmail.com](mailto:snap.leejh@gmail.com)
+
+---
+
+## 📜 라이선스
+
+* 본 저장소의 예제 코드 및 문서는 [MIT 라이선스](LICENSE)가 적용됩니다.
+* SNAP 코어 엔진, 모델 가중치 및 온프레미스 SDK는 별도 계약 자산입니다.
