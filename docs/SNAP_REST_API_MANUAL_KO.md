@@ -1,9 +1,11 @@
-# 🌐 SNAP HTTP REST API Reference Manual
+# 🌐 SNAP HTTP REST API 연동 매뉴얼 (Reference Manual)
+
+[English](SNAP_REST_API_MANUAL.md) | [한국어](SNAP_REST_API_MANUAL_KO.md)
 
 > **📌 문서 구분 안내**  
 > * **본 문서 (`SNAP_REST_API_MANUAL_KO.md`):** 클라우드 기반 **웹/서버 HTTP REST API (FastAPI, JSON 엔드포인트)** 한국어 연동 규격서입니다.  
-> * **영문 REST API 규격서:** [`SNAP_REST_API_MANUAL.md`](SNAP_REST_API_MANUAL.md)를 참조하세요.  
-> * **C/C++ 네이티브 라이브러리 연동:** C-API 임베디드 DLL/SO 헤더 연동은 [`SNAP_SDK_API_MANUAL_KO.md`](SNAP_SDK_API_MANUAL_KO.md) ([English](SNAP_SDK_API_MANUAL.md))를 참조하세요.
+> * **영문 매뉴얼 (English):** [`SNAP_REST_API_MANUAL.md`](SNAP_REST_API_MANUAL.md)를 참조하세요.  
+> * **C/C++ 네이티브 라이브러리 연동:** C-API 임베디드 DLL/SO 헤더 연동은 [`SNAP_SDK_API_MANUAL_KO.md`](SNAP_SDK_API_MANUAL_KO.md)를 참조하세요.
 
 ---
 
@@ -101,6 +103,9 @@ API 서버의 동작 상태 및 C++ 모델 엔진의 적재 여부를 확인합�
 | `config.prosody_format` | `string` | `"tags"` | 운율 쉼 표기 방식: `"tags"` (`[P1]/[P2]/[P3]`), `"ssml"` (`<break .../>`), `"none"` |
 | `config.return_ipa` | `boolean` | `false` | 국제 음성 기호(IPA) 생성 및 반환 여부 |
 | `config.vowel_length` | `boolean` | `true` | (한국어 전용) 모음 장단음 표기 여부 (`true`: '밤:' / `false`: '밤') |
+| `config.unit_style` | `string` | `"standard"` | (한국어 전용) 단위 정규화 표기 스타일: `"standard"` (표준 표기), `"full"` (외래어 풀네임), `"short"` (구어체 축약 표기) |
+| `config.speech_style` | `string` | `"original"` | (한국어 전용) 대화체 문체 및 어미 변환: `"original"` (원문 유지), `"haeyo"` (해요체), `"banmal"` (반말체), `"hapsio"` (하십시오체) |
+| `config.pronunciation_style` | `string` | `"modern_standard"` | (한국어 전용) 발음 스타일 모드: `"modern_standard"` (현대 표준음), `"strict_standard"` (엄격 규범음), `"colloquial"` (일상 구어체). 상세는 [발음 스타일 가이드](ko/PRONUNCIATION_STYLES_GUIDE.md) 참조 |
 | `config.pitch_accent` | `boolean` | `true` | (일본어 전용) 악센트 핵 표기 여부 |
 | `config.script` | `string` | `"katakana"` | (일본어 전용) 출력 문자 체계: `"katakana"`, `"hiragana"`, `"romaji"` |
 
@@ -220,6 +225,36 @@ API 서버의 동작 상태 및 C++ 모델 엔진의 적재 여부를 확인합�
 * **원리:** SNAP 기본 외래어/고유명사 사전보다 **절대 1순위로 우선 적용**됩니다.
 * **최장 일치 원칙:** `{"LG": "엘지", "LG CNS": "엘지씨엔에스"}` 등록 시, `"LG CNS"`를 긴 단어로 먼저 매칭하여 완벽 치환합니다.
 * **보안 격리:** 요청 1건을 처리하는 순간(인메모리)에만 적용되며, 다른 사용자에게 절대 공유되지 않습니다.
+
+### 4.3. 단위 읽기 스타일 (`unit_style`)
+수치와 결합된 단위명사의 읽기 방식을 서비스 목적(내비게이션, 뉴스, 대화형 AI)에 맞게 설정합니다.
+
+| 모드 | 설정값 | `120km/h` | `70kg` | `180cm` | `100%` | `16GB` | 용도 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **표준 표기** | `"standard"` (기본값) | 백이십킬로미터 | 칠십킬로그램 | 백팔십센티미터 | 백퍼센트 | 십육기가바이트 | 뉴스, 공식 안내, 내비게이션 표준 |
+| **풀네임 표기** | `"full"` | 백이십킬로미터퍼아워 | 칠십킬로그램 | 백팔십센티미터 | 백퍼센트 | 십육기가바이트 | 학술, 영문 풀네임 원문 표기 |
+| **구어체 축약** | `"short"` | 백이십키로 | 칠십키로 | 백팔십센티 | 백프로 | 십육기가 | 대화형 챗봇, AI 스피커, 일상 회화 |
+
+### 4.4. 대화체 어미 및 대명사 축약 (`speech_style`)
+뉴스톤/문어체 서술어를 챗봇이나 캐릭터 발화에 어울리는 친근한 대화체로 실시간 변환하며, G2P 발음 연음과 운율 쉼까지 자동으로 동기화합니다.
+
+| 모드 | 설정값 | 서술어/어미 변환 예시 | 대명사 축약 및 인칭 일치 예시 |
+| :--- | :--- | :--- | :--- |
+| **원문 유지** | `"original"` (기본값) | `도착했다`, `학생이다`, `어디 가십니까?`, `앉으십시오!` | `그것은`, `무엇을`, `저는` (원문 유지) |
+| **해요체** | `"haeyo"` | `도착했어요`, `학생이에요` / `의사예요`, `어디 가요?`, `앉으세요!` | `그건`, `뭘`, `저는` (부드러운 존댓말) |
+| **반말체** | `"banmal"` | `도착했어`, `학생이야` / `의사야`, `어디 가?`, `앉아!` | `그건`, `뭘`, `나는`, `내가`, `우리` (격식 하향 인칭 일치) |
+| **하십시오체** | `"hapsio"` | `도착했습니다`, `학생입니다`, `어디 가십니까?`, `앉으십시오!` | `그건`, `뭘`, `저는` (정중한 격식체) |
+
+### 4.5. 한국어 3대 발음 스타일 (`pronunciation_style`)
+뉴스, 대화형 챗봇, 역사물 등 발화 시나리오에 맞추어 음운 변동(사잇소리, 외래어 관용음, 'ㅎ' 연음, 단모음화)의 적용 수준을 3단계로 제어합니다.
+
+| 모드 | 설정값 | 효과 | 버스 | 지혜 | 말했다 | 일하다 | 용도 |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
+| **현대 표준음** | `"modern_standard"` (기본값) | `효꽈` | `뻐스` | `지혜` | `말핻따` | `일하다` | 뉴스 브리핑, 오디오북, AI 비서 표준 |
+| **엄격 규범음** | `"strict_standard"` | `효과` | `버스` | `지혜` | `말핻따` | `일하다` | 역사극, 고문서 낭독, 법률 조문 |
+| **일상 구어체** | `"colloquial"` | `효꽈` | `뻐스` | `지헤` | `마랟따` | `이라다` | 캐릭터 챗봇, 일상 회화, 드라마 |
+
+> 📖 **상세 가이드 문서**: 국립국어원 표준 발음법 근거 및 31개 대표 단어 대조표는 [docs/ko/PRONUNCIATION_STYLES_GUIDE.md](ko/PRONUNCIATION_STYLES_GUIDE.md)를 참조하십시오.
 
 ---
 

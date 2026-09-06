@@ -1,5 +1,7 @@
 # SNAP C/C++ Native SDK API Reference Manual
 
+[English](SNAP_SDK_API_MANUAL.md) | [한국어](SNAP_SDK_API_MANUAL_KO.md)
+
 > **📌 문서 구분 안내**  
 > * **본 문서 (`SNAP_SDK_API_MANUAL_KO.md`):** C/C++ 네이티브 임베디드 라이브러리(헤더, DLL/SO, 메모리 관리) 한국어 연동 규격서입니다.  
 > * **영문 SDK 규격서:** [`SNAP_SDK_API_MANUAL.md`](SNAP_SDK_API_MANUAL.md)를 참조하세요.  

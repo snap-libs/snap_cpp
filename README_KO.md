@@ -5,7 +5,8 @@ SNAP은 한국어·일본어·영어를 지원하는 실시간 음성 전처리(
 [English](README.md) | [한국어](README_KO.md)  
 [공식 웹사이트](https://snap-libs.github.io/snap/) | [텍스트 전처리 데모](https://huggingface.co/spaces/softguy777/snap-demo) | [MeloTTS 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo) | [Piper 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo2) | [F5-TTS 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo3)
 
-* [SNAP 기술 백서 (Technical White Paper)](docs/SNAP_White_Paper_KO.md)
+* [SNAP v2.0 기술 백서 (Technical White Paper)](docs/SNAP_White_Paper_v2.0_KO.md)
+* [SNAP 한국어 v2.0 기능 명세서](docs/SNAP_KO_v2.0_FUNCTIONAL_SPEC.md) — 17대 한국어 표준 음운 변동 및 단위/수사 문맥 규칙 상세 규격
 * [SNAP 다국어 텍스트 전처리 데모 (TN / G2P / Prosody)](https://huggingface.co/spaces/softguy777/snap-demo) — 문맥 기반 정규화(TN), 음운 변환(G2P), 운율 쉼표 예측 실시간 테스트
 
 ## SNAP + TTS 연동 Live Demo
@@ -72,7 +73,8 @@ curl -X POST "https://snap-api-673324870645.asia-northeast3.run.app/v1/normalize
 ### 상세 연동 문서 및 실전 예제
 * [REST API 연동 상세 매뉴얼](docs/SNAP_REST_API_MANUAL_KO.md) ([English](docs/SNAP_REST_API_MANUAL.md)) — 파라미터 규격, 응답 스키마 및 상세 레시피
 * [C/C++ Native SDK 매뉴얼](docs/SNAP_SDK_API_MANUAL_KO.md) ([English](docs/SNAP_SDK_API_MANUAL.md)) — C-API 바인딩, 라이프사이클, 동적 옵션 및 ABI 규격서
-* [SNAP 기술 백서](docs/SNAP_White_Paper_KO.md) ([English](docs/SNAP_White_Paper.md)) — Pure Context Probing 아키텍처 및 벤치마크 평가 결과
+* [SNAP v2.0 기술 백서](docs/SNAP_White_Paper_v2.0_KO.md) ([English](docs/SNAP_White_Paper_v2.0.md) | [v1.0 원천 연구 백서](docs/SNAP_White_Paper_v1.0_KO.md)) — Pure Context Probing 아키텍처 및 벤치마크 평가 결과
+* [SNAP 한국어 v2.0 기능 명세서](docs/SNAP_KO_v2.0_FUNCTIONAL_SPEC.md) — 17대 한국어 표준 음운 변동 및 단위/수사 문맥 규칙 상세 규격
 * [실전 예제 모음 (examples/)](examples/) — 단일 문장/사전 치환(`01`), 대용량 배치(`02`), 산업 도메인별 레시피(`03`), 다국어(`04`), cURL 모음
 
 ## Enterprise & On-Premise SDK (Docker)
