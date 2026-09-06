@@ -9,6 +9,8 @@
 [English](SNAP_White_Paper_v1.0.md) | [한국어](SNAP_White_Paper_v1.0_KO.md)  
 [공식 웹사이트](https://snap-libs.github.io/snap/) | [텍스트 전처리 데모](https://huggingface.co/spaces/softguy777/snap-demo) | [MeloTTS 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo) | [Piper 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo2) | [F5-TTS 데모](https://huggingface.co/spaces/softguy777/snap_voice_demo3)
 
+> 🚀 **최신 버전 안내**: 최신 대규모 벤치마크 및 상용 엔진 사양은 **[SNAP 한국어 v2.0 기술 백서](SNAP_White_Paper_v2.0_KO.md)** ([English](SNAP_White_Paper_v2.0.md))에서 확인하실 수 있습니다. 본 문서는 Pure Context Probing 원천 기술 연구 백서(v1.0)입니다.
+
 ---
 
 ## 1. 개요 : 왜 SNAP이 필요한가?
@@ -233,3 +235,12 @@ SNAP의 처리 속도는 **"타깃 TTS 모델의 BERT 내장 여부"**와 **"입
   * **표준 표기 모드 (Default)**: 일반적인 문서 및 자막에 최적화된 표준 서식 변환 (`23,500원`, `2026. 8. 24.`)
   * **단위 표기 제어 옵션**: 한글 단위 유지(`3.5킬로그램`) vs 영문/기호 변환(`3.5kg`) 선택 지원
   * **보수적 변환 제어**: 문맥에 따라 변환 여부를 안전하게 통제할 수 있는 도메인별 옵션 제공
+
+---
+
+### 📚 관련 문서 및 리소스
+* 🚀 **[SNAP 한국어 v2.0 기술 백서](SNAP_White_Paper_v2.0_KO.md)** ([English](SNAP_White_Paper_v2.0.md)): 최신 아키텍처 및 대규모 벤치마크
+* 📖 **[SNAP 한국어 v2.0 세부 기능 명세서](SNAP_KO_v2.0_FUNCTIONAL_SPEC.md)**: 표준 발음법 30개 전 조항 상세 매핑 및 규칙집
+* 📋 **[SNAP v2.0 REST API 매뉴얼](SNAP_REST_API_MANUAL_KO.md)**: 엔드포인트 파라미터 규격 및 연동 예제
+* 💻 **[C/C++ Native SDK 개발자 가이드](SNAP_SDK_API_MANUAL_KO.md)**: C-API 헤더 및 라이브러리 연동 가이드
+* 🎮 **[SNAP v2.0 실시간 데모 (Hugging Face)](https://huggingface.co/spaces/softguy777/snap_voice_demo4)**: 한국어 v2.0 라이브 웹 데모

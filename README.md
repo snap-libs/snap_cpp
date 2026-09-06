@@ -6,7 +6,7 @@ SNAP is a real-time, context-aware multilingual speech pre-processing (TTS Front
 [Official Website](https://snap-libs.github.io/snap/) | [Text Frontend Demo](https://huggingface.co/spaces/softguy777/snap-demo) | [MeloTTS Demo](https://huggingface.co/spaces/softguy777/snap_voice_demo) | [Piper Demo](https://huggingface.co/spaces/softguy777/snap_voice_demo2) | [F5-TTS Demo](https://huggingface.co/spaces/softguy777/snap_voice_demo3)
 
 * [SNAP v2.0 Technical White Paper](docs/SNAP_White_Paper_v2.0.md) ([한국어](docs/SNAP_White_Paper_v2.0_KO.md))
-* [SNAP Korean v2.0 Functional Specification](docs/SNAP_KO_v2.0_FUNCTIONAL_SPEC.md) — 17 standard Korean phonological change rules & numeral context specs
+* [SNAP Korean v2.0 Functional Specification](docs/SNAP_KO_v2.0_FUNCTIONAL_SPEC_EN.md) ([한국어](docs/SNAP_KO_v2.0_FUNCTIONAL_SPEC.md)) — 17 standard Korean phonological change rules & numeral context specs
 * [SNAP Multilingual Text Frontend Demo (TN / G2P / Prosody)](https://huggingface.co/spaces/softguy777/snap-demo) — Real-time evaluation of context normalization (TN), phonetic conversion (G2P), and prosodic pauses
 
 ## SNAP + Open-Source TTS Live Demos
@@ -73,8 +73,8 @@ curl -X POST "https://snap-api-673324870645.asia-northeast3.run.app/v1/normalize
 ### Documentation & Recipes
 * [REST API Specification Manual](docs/SNAP_REST_API_MANUAL.md) ([한국어](docs/SNAP_REST_API_MANUAL_KO.md)) — Parameters, response schemas, and code recipes
 * [C/C++ Native SDK Manual](docs/SNAP_SDK_API_MANUAL.md) ([한국어](docs/SNAP_SDK_API_MANUAL_KO.md)) — C-API bindings, lifecycle, dynamic options, and ABI specs
-* [SNAP v2.0 Technical White Paper](docs/SNAP_White_Paper_v2.0.md) ([한국어](docs/SNAP_White_Paper_v2.0_KO.md) | [v1.0 Foundation Paper](docs/SNAP_White_Paper_v1.0_KO.md)) — Pure Context Probing architecture and evaluation benchmarks
-* [SNAP Korean v2.0 Functional Specification](docs/SNAP_KO_v2.0_FUNCTIONAL_SPEC.md) — 17 standard Korean phonological change rules & numeral context specs
+* [SNAP v2.0 Technical White Paper](docs/SNAP_White_Paper_v2.0.md) ([한국어](docs/SNAP_White_Paper_v2.0_KO.md) | [v1.0 Foundation Paper](docs/SNAP_White_Paper_v1.0.md)) — Pure Context Probing architecture and evaluation benchmarks
+* [SNAP Korean v2.0 Functional Specification](docs/SNAP_KO_v2.0_FUNCTIONAL_SPEC_EN.md) ([한국어](docs/SNAP_KO_v2.0_FUNCTIONAL_SPEC.md)) — 17 standard Korean phonological change rules & numeral context specs
 * [Example Recipes (examples/)](examples/) — Single sentence (`01`), batch processing (`02`), domain recipes (`03`), and multilingual test (`04`)
 
 ## Enterprise & On-Premise SDK (Docker)
